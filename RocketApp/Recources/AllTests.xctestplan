@@ -1,0 +1,80 @@
+{
+  "configurations" : [
+    {
+      "id" : "783DD449-CAEA-41F7-96EA-2FABA4938C47",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:Features",
+        "identifier" : "RocketDetailTests",
+        "name" : "RocketDetailTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Features",
+        "identifier" : "RocketLaunchTests",
+        "name" : "RocketLaunchTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Features",
+        "identifier" : "RocketListTests",
+        "name" : "RocketListTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Features",
+        "identifier" : "RootTests",
+        "name" : "RootTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Infrastructure",
+        "identifier" : "CoreToolkitTests",
+        "name" : "CoreToolkitTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Infrastructure",
+        "identifier" : "NetworkingTests",
+        "name" : "NetworkingTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Infrastructure",
+        "identifier" : "ObjectModelTests",
+        "name" : "ObjectModelTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Infrastructure",
+        "identifier" : "TCAExtensionsTests",
+        "name" : "TCAExtensionsTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Infrastructure",
+        "identifier" : "UIToolkitTests",
+        "name" : "UIToolkitTests"
+      }
+    }
+  ],
+  "version" : 1
+}
