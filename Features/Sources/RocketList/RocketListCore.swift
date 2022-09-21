@@ -6,30 +6,41 @@
 //
 
 import RocketDetail
+import RocketModels
 import TCAExtensions
 import ComposableArchitecture
 
-public struct AppState: Equatable {
-    var rockets: IdentifiedArrayOf<RocketState> = []
+public struct RocketListState: Equatable {
+    var rockets: IdentifiedArrayOf<RocketDetailState> = []
 
-    public init(rockets: IdentifiedArrayOf<RocketState> = []) {
+    public init(rockets: IdentifiedArrayOf<RocketDetailState> = []) {
         self.rockets = rockets
     }
 }
 
-public enum AppAction: Equatable {
-    case rocketAction(id: RocketState.ID, action: RocketAction)
+public enum RocketListAction: Equatable {
+    case rocketAction(id: RocketDetailState.ID, action: RocketDetailAction)
 }
 
-public struct AppEnvironment {
-    public init() {}
+public struct RocketListEnvironment {
+    var rocketClient: RocketClient
+    var rocketListModel: RocketListModel
+
+    public init(rocketClient: RocketClient, rocketListModel: RocketListModel) {
+        self.rocketClient = rocketClient
+        self.rocketListModel = rocketListModel
+    }
 }
 
-public let appReducer = Reducer<AppState, AppAction, SystemEnvironment<AppEnvironment>>.combine(
-    rocketReducer.forEach(
+public let rocketListReducer = Reducer<
+    RocketListState,
+    RocketListAction,
+    RocketListEnvironment
+>.combine(
+    rocketDetailReducer.forEach(
         state: \.rockets,
-        action: /AppAction.rocketAction,
-        environment: { _ in .live(environment: RocketEnvironment(getInfoRequest: getDataEffect)) }
+        action: /RocketListAction.rocketAction,
+        environment: { _ in .init(rocketClient: .live, rocketDetailModel: .mockData) }
     ),
     Reducer { state, action, env in
         switch action {

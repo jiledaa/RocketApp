@@ -19,8 +19,8 @@ let package = Package(
         ),
 
         .library(
-            name: "ObjectModel",
-            targets: ["ObjectModel"]
+            name: "RocketModels",
+            targets: ["RocketModels"]
         ),
 
         .library(
@@ -55,7 +55,9 @@ let package = Package(
 
         .target(
             name: "Networking",
-            dependencies: []
+            dependencies: [
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+            ]
         ),
         .testTarget(
             name: "NetworkingTests",
@@ -63,22 +65,21 @@ let package = Package(
         ),
 
         .target(
-            name: "ObjectModel",
+            name: "RocketModels",
             dependencies: [
                 "Networking",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
         ),
         .testTarget(
-            name: "ObjectModelTests",
-            dependencies: ["ObjectModel"]
+            name: "RocketModelsTests",
+            dependencies: ["RocketModels"]
         ),
 
         .target(
             name: "TCAExtensions",
             dependencies: [
                 "Networking",
-                "ObjectModel",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
         ),

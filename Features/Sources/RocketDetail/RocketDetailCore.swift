@@ -7,21 +7,21 @@
 
 import Foundation
 import Networking
-import ObjectModel
+import RocketModels
 import TCAExtensions
 import ComposableArchitecture
 
-public struct RocketState: Equatable, Identifiable {
+public struct RocketDetailState: Equatable, Identifiable {
     public let id: UUID
-    var rocketInfo: RocketInfo?
+    public var rocketInfo: RocketDetailModel?
 
-    public init(id: UUID = UUID(), rocketInfo: RocketInfo? = nil) {
+    public init(id: UUID = UUID(), rocketInfo: RocketDetailModel? = nil) {
         self.id = id
         self.rocketInfo = rocketInfo
     }
 
     struct RocketData: Equatable {
-        let id: RocketInfo.ID
+        let id: RocketDetailModel.ID
         let type: String
         let overView: String
         let parameters: Parameters
@@ -44,26 +44,33 @@ public struct RocketState: Equatable, Identifiable {
     }
 }
 
-public enum RocketAction: Equatable {
-    case getInfo(RocketInfo.ID, TaskResult<RocketInfo>)
+public enum RocketDetailAction: Equatable {
+    case mock
 }
 
-public struct RocketEnvironment {
-    var getInfoRequest: (JSONDecoder) -> Effect<RocketInfo, APIError>
+public struct RocketDetailEnvironment {
+    var rocketClient: RocketClient
+    var rocketDetailModel: RocketDetailModel
 
-    public init(getInfoRequest: @escaping (JSONDecoder) -> Effect<RocketInfo, APIError>) {
-        self.getInfoRequest = getInfoRequest
+    public init(rocketClient: RocketClient, rocketDetailModel: RocketDetailModel) {
+        self.rocketClient = rocketClient
+        self.rocketDetailModel = rocketDetailModel
     }
+//    var getInfoRequest: (JSONDecoder) -> Effect<RocketDetailModel, APIError>
+//
+//    public init(getInfoRequest: @escaping (JSONDecoder) -> Effect<RocketDetailModel, APIError>) {
+//        self.getInfoRequest = getInfoRequest
+//    }
 }
 
-public let rocketReducer = Reducer<RocketState, RocketAction, SystemEnvironment<RocketEnvironment>> { state, action, env in
+public let rocketDetailReducer = Reducer<
+    RocketDetailState,
+    RocketDetailAction,
+    RocketDetailEnvironment
+> { state, action, env in
     switch action {
-
-    case .getInfo(_, .failure):
-        state.rocketInfo = nil
+    case .mock:
         return .none
 
-    case let .getInfo(id, .success(rocketInfo)):
-        return .none
     }
 }

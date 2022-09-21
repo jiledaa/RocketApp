@@ -52,8 +52,8 @@ let package = Package(
         .target(
             name: "RocketDetail",
             dependencies: [
-                .product(name: "ObjectModel", package: "Infrastructure"),
                 .product(name: "Networking", package: "Infrastructure"),
+                .product(name: "RocketModels", package: "Infrastructure"),
                 .product(name: "TCAExtensions", package: "Infrastructure"),
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
@@ -79,8 +79,8 @@ let package = Package(
             name: "RocketList",
             dependencies: [
                 "RocketDetail",
-                .product(name: "ObjectModel", package: "Infrastructure"),
                 .product(name: "Networking", package: "Infrastructure"),
+                .product(name: "RocketModels", package: "Infrastructure"),
                 .product(name: "TCAExtensions", package: "Infrastructure"),
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
