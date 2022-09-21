@@ -13,10 +13,10 @@ import SwiftUI
 struct RocketApp: App {
     var body: some Scene {
         WindowGroup {
-            AppView(store: Store(
-                initialState: AppState(),
-                reducer: appReducer.debug(),
-                environment: .live(environment: AppEnvironment())
+            RocketListView(store: Store(
+                initialState: RocketListState(),
+                reducer: rocketListReducer.debug(),
+                environment: RocketListEnvironment(rocketClient: .live, rocketListModel: .mockData)
             ))
         }
     }

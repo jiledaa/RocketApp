@@ -1,8 +1,5 @@
-//
-//  File.swift
-//  
-//
-//  Created by David Jilek on 20.09.2022.
-//
+import XCTest
+@testable import Networking
 
-import Foundation
+final class NetworkingTests: XCTestCase {
+}

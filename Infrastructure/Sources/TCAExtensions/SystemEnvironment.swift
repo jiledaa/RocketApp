@@ -19,9 +19,6 @@ public struct SystemEnvironment<Environment> {
         set { self.environment[keyPath: keyPath] = newValue }
     }
 
-    var mainQueue: () -> AnySchedulerOf<DispatchQueue>
-    var decoder: () -> JSONDecoder
-
     private static func decoder() -> JSONDecoder {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
@@ -29,10 +26,10 @@ public struct SystemEnvironment<Environment> {
     }
 
     public static func live(environment: Environment) -> Self {
-        Self(environment: environment, mainQueue: { .main }, decoder: decoder)
+        Self(environment: environment)
     }
 
     public static func debug(environment: Environment) -> Self {
-        Self(environment: environment, mainQueue: { .main }, decoder: decoder)
+        Self(environment: environment)
     }
 }
