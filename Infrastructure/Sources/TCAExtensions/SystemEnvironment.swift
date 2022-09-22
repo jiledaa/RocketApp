@@ -11,7 +11,7 @@ import Foundation
 @dynamicMemberLookup
 public struct SystemEnvironment<Environment> {
     var environment: Environment
-    
+
     subscript<Dependency>(
         dynamicMember keyPath: WritableKeyPath<Environment, Dependency>
     ) -> Dependency {

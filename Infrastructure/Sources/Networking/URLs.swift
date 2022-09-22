@@ -10,6 +10,7 @@ public struct URLs {
     public enum SpaceRockets {
         public static let baseURL = "https://api.spacexdata.com"
         public static let allRockets = baseURL + "/v4/rockets"
+
         public static func oneRocket(id: String) -> String {
             return baseURL + "/v4/rockets/" + id
         }

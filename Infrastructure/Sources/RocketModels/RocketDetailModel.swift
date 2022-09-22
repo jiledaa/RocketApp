@@ -5,9 +5,9 @@
 //  Created by David Jilek on 20.09.2022.
 //
 
+import ComposableArchitecture
 import Foundation
 import Networking
-import ComposableArchitecture
 
 public struct RocketDetailModel: Decodable, Identifiable, Equatable {
     public let id: Int

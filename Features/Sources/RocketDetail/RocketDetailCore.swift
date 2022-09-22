@@ -5,11 +5,11 @@
 //  Created by David Jilek on 14.09.2022.
 //
 
+import ComposableArchitecture
 import Foundation
 import Networking
 import RocketModels
 import TCAExtensions
-import ComposableArchitecture
 
 public struct RocketDetailState: Equatable, Identifiable {
     public let id: UUID
@@ -56,18 +56,13 @@ public struct RocketDetailEnvironment {
         self.rocketClient = rocketClient
         self.rocketDetailModel = rocketDetailModel
     }
-//    var getInfoRequest: (JSONDecoder) -> Effect<RocketDetailModel, APIError>
-//
-//    public init(getInfoRequest: @escaping (JSONDecoder) -> Effect<RocketDetailModel, APIError>) {
-//        self.getInfoRequest = getInfoRequest
-//    }
 }
 
 public let rocketDetailReducer = Reducer<
     RocketDetailState,
     RocketDetailAction,
     RocketDetailEnvironment
-> { state, action, env in
+> { _, action, _ in
     switch action {
     case .mock:
         return .none

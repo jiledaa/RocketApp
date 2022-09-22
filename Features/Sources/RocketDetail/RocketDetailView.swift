@@ -5,10 +5,10 @@
 //  Created by David Jilek on 07.09.2022.
 //
 
-import SwiftUI
-import RocketModels
-import TCAExtensions
 import ComposableArchitecture
+import RocketModels
+import SwiftUI
+import TCAExtensions
 
 struct RocketView: View {
     var store: Store<RocketDetailState, RocketDetailAction>

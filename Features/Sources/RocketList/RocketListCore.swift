@@ -5,10 +5,10 @@
 //  Created by David Jilek on 14.09.2022.
 //
 
+import ComposableArchitecture
 import RocketDetail
 import RocketModels
 import TCAExtensions
-import ComposableArchitecture
 
 public struct RocketListState: Equatable {
     var rockets: IdentifiedArrayOf<RocketDetailState> = []
@@ -42,10 +42,10 @@ public let rocketListReducer = Reducer<
         action: /RocketListAction.rocketAction,
         environment: { _ in .init(rocketClient: .live, rocketDetailModel: .mockData) }
     ),
-    Reducer { state, action, env in
+    Reducer { _, action, _ in
         switch action {
 
-        case .rocketAction(id: let id, action: let action):
+        case let .rocketAction(id: id, action: action):
             return .none
         }
     }

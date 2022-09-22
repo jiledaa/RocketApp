@@ -31,12 +31,12 @@ let package = Package(
         .library(
             name: "UIToolkit",
             targets: ["UIToolkit"]
-        ),
+        )
     ],
 
     // Dependencies declare other packages that this package depends on.
     dependencies: [
-        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", .upToNextMajor(from: "0.0.0")),
+        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", .upToNextMajor(from: "0.0.0"))
     ],
 
     // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -97,6 +97,6 @@ let package = Package(
         .testTarget(
             name: "UIToolkitTests",
             dependencies: ["UIToolkit"]
-        ),
+        )
     ]
 )

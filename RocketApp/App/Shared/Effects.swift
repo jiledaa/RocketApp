@@ -6,8 +6,8 @@
 //
 
 import ComposableArchitecture
-import SwiftUI
 import Networking
+import SwiftUI
 
 func getDataEffect(decoder: JSONDecoder) -> Effect<RocketInfo, APIError> {
   guard let url = URL(string: "https://api.github.com/users/raywenderlich") else {
@@ -47,7 +47,7 @@ func mockDataEffect(decoder: JSONDecoder) -> Effect<[RocketInfo], APIError> {
         firstStage: .init(reusable: "reusable", engines: "9 engines", fuelMass: "350 tons of fuel", burnTime: "162s"),
         secondStage: .init(reusable: "reusable", engines: "9 engines", fuelMass: "350 tons of fuel", burnTime: "162s"),
         photos: Data()
-    ),
+    )
   ]
   return Effect(value: dummyRockets)
 }
@@ -64,5 +64,3 @@ func mockDataEffect(decoder: JSONDecoder) -> Effect<RocketInfo, APIError> {
     )
   return Effect(value: dummyRocket)
 }
-
-
