@@ -14,9 +14,9 @@ struct RocketApp: App {
     var body: some Scene {
         WindowGroup {
             RocketListView(store: Store(
-                initialState: RocketListState(),
+                initialState: RocketListState(rocketsData: []),
                 reducer: rocketListReducer.debug(),
-                environment: RocketListEnvironment(rocketClient: .live, rocketListModel: .mockData)
+                environment: .live
             ))
         }
     }

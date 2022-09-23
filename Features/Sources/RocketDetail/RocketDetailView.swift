@@ -6,7 +6,6 @@
 //
 
 import ComposableArchitecture
-import RocketModels
 import SwiftUI
 import TCAExtensions
 
@@ -29,9 +28,9 @@ struct RocketView: View {
 struct Rocket_Previews: PreviewProvider {
     static var previews: some View {
         RocketView(store: .init(
-            initialState: RocketDetailState(id: UUID()),
+            initialState: RocketDetailState(),
             reducer: rocketDetailReducer.debug(),
-            environment: RocketDetailEnvironment(rocketClient: .live, rocketDetailModel: .mockData)
+            environment: RocketDetailEnvironment.live
         ))
     }
 }

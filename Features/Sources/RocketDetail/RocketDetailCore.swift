@@ -8,53 +8,43 @@
 import ComposableArchitecture
 import Foundation
 import Networking
-import RocketModels
 import TCAExtensions
 
-public struct RocketDetailState: Equatable, Identifiable {
-    public let id: UUID
-    public var rocketInfo: RocketDetailModel?
+public struct RocketDetailState: Equatable {
+    public var rocket: RocketDetail?
 
-    public init(id: UUID = UUID(), rocketInfo: RocketDetailModel? = nil) {
-        self.id = id
-        self.rocketInfo = rocketInfo
-    }
-
-    struct RocketData: Equatable {
-        let id: RocketDetailModel.ID
-        let type: String
-        let overView: String
-        let parameters: Parameters
-        let firstStage: Stage
-        let secondStage: Stage
-        let photos: Data
-
-        struct Parameters: Equatable {
-            let height: String
-            let diameter: String
-            let mass: String
-        }
-
-        struct Stage: Equatable {
-            let reusable: String
-            let engines: String
-            let fuelMass: String
-            let burnTime: String
-        }
+    public init(rocket: RocketDetail? = nil) {
+        self.rocket = rocket
     }
 }
 
 public enum RocketDetailAction: Equatable {
-    case mock
+    case fetchDataResponse(TaskResult<RocketDetail>)
+    case fetchRocketData(RocketDetail)
 }
 
 public struct RocketDetailEnvironment {
-    var rocketClient: RocketClient
-    var rocketDetailModel: RocketDetailModel
+    public var getRocket: @Sendable (Int) async throws -> RocketDetail
 
-    public init(rocketClient: RocketClient, rocketDetailModel: RocketDetailModel) {
-        self.rocketClient = rocketClient
-        self.rocketDetailModel = rocketDetailModel
+    public init(getRocket: @escaping @Sendable (Int) async throws -> RocketDetail) {
+        self.getRocket = getRocket
+    }
+}
+
+public extension RocketDetailEnvironment {
+
+    static let live = RocketDetailEnvironment(getRocket: { id in
+        try await ApiFactory.getData(from: URLs.SpaceRockets.oneRocket(id: id))
+    })
+
+    static func debug(isFailing: Bool) -> RocketDetailEnvironment {
+        RocketDetailEnvironment(getRocket: { _ in
+            if isFailing {
+                throw APIError.badURL
+            } else {
+                return RocketDetail.mock
+            }
+        })
     }
 }
 
@@ -62,10 +52,20 @@ public let rocketDetailReducer = Reducer<
     RocketDetailState,
     RocketDetailAction,
     RocketDetailEnvironment
-> { _, action, _ in
+> { state, action, env in
     switch action {
-    case .mock:
+    case .fetchDataResponse(.failure):
+        state.rocket = nil
         return .none
 
+    case let .fetchDataResponse(.success(response)):
+        state.rocket = response
+        return .none
+
+    case let .fetchRocketData(rocket):
+        enum RocketDetailID {}
+
+        return .task { await .fetchDataResponse(TaskResult { try await env.getRocket(rocket.id) }) }
+            .cancellable(id: RocketDetailID.self)
     }
 }

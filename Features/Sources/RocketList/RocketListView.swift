@@ -19,21 +19,25 @@ public struct RocketListView: View {
     }
 
     public var body: some View {
-        NavigationView {
-            List {
-
+        Text("\(viewStore.rockets.count)")
+            .onAppear {
+                viewStore.send(.fetchRocketsData)
             }
-            .navigationTitle("Rockets")
-        }
+//        NavigationView {
+//            List {
+//                ForEachStore(store.scope(state: \.rockets), content: )
+//            }
+//            .navigationTitle("Rockets")
+//        }
     }
 }
 
 struct AppView_Previews: PreviewProvider {
     static var previews: some View {
         RocketListView(store: .init(
-            initialState: RocketListState(),
+            initialState: RocketListState(rocketsData: []),
             reducer: rocketListReducer,
-            environment: RocketListEnvironment(rocketClient: .live, rocketListModel: .mockData)
+            environment: .live
         ))
     }
 }

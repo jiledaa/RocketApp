@@ -19,11 +19,6 @@ let package = Package(
         ),
 
         .library(
-            name: "RocketModels",
-            targets: ["RocketModels"]
-        ),
-
-        .library(
             name: "TCAExtensions",
             targets: ["TCAExtensions"]
         ),
@@ -45,7 +40,6 @@ let package = Package(
         .target(
             name: "CoreToolkit",
             dependencies: [
-                "Networking"
             ]
         ),
         .testTarget(
@@ -62,18 +56,6 @@ let package = Package(
         .testTarget(
             name: "NetworkingTests",
             dependencies: ["Networking"]
-        ),
-
-        .target(
-            name: "RocketModels",
-            dependencies: [
-                "Networking",
-                .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
-            ]
-        ),
-        .testTarget(
-            name: "RocketModelsTests",
-            dependencies: ["RocketModels"]
         ),
 
         .target(

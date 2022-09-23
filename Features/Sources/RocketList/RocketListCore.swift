@@ -6,47 +6,62 @@
 //
 
 import ComposableArchitecture
+import Networking
 import RocketDetail
-import RocketModels
 import TCAExtensions
 
 public struct RocketListState: Equatable {
-    var rockets: IdentifiedArrayOf<RocketDetailState> = []
+    var rockets: [RocketDetail]
 
-    public init(rockets: IdentifiedArrayOf<RocketDetailState> = []) {
-        self.rockets = rockets
+    public init(rocketsData: [RocketDetail]) {
+        self.rockets = rocketsData
     }
 }
 
 public enum RocketListAction: Equatable {
-    case rocketAction(id: RocketDetailState.ID, action: RocketDetailAction)
+    case fetchDataResponse(TaskResult<[RocketDetail]>)
+    case fetchRocketsData
 }
 
 public struct RocketListEnvironment {
-    var rocketClient: RocketClient
-    var rocketListModel: RocketListModel
+    public var getRockets: @Sendable () async throws -> [RocketDetail]
 
-    public init(rocketClient: RocketClient, rocketListModel: RocketListModel) {
-        self.rocketClient = rocketClient
-        self.rocketListModel = rocketListModel
+    public init(getRockets: @escaping @Sendable () async throws -> [RocketDetail]) {
+        self.getRockets = getRockets
     }
 }
 
-public let rocketListReducer = Reducer<
-    RocketListState,
-    RocketListAction,
-    RocketListEnvironment
->.combine(
-    rocketDetailReducer.forEach(
-        state: \.rockets,
-        action: /RocketListAction.rocketAction,
-        environment: { _ in .init(rocketClient: .live, rocketDetailModel: .mockData) }
-    ),
-    Reducer { _, action, _ in
-        switch action {
+public extension RocketListEnvironment {
 
-        case let .rocketAction(id: id, action: action):
-            return .none
-        }
+    static let live = RocketListEnvironment(getRockets: {
+        try await ApiFactory.getData(from: URLs.SpaceRockets.allRockets)
+    })
+
+    static func debug(isFailing: Bool) -> RocketListEnvironment {
+        RocketListEnvironment(getRockets: {
+            if isFailing {
+                throw APIError.badURL
+            } else {
+                return [RocketDetail.mock]
+            }
+        })
     }
-)
+}
+
+public let rocketListReducer = Reducer<RocketListState, RocketListAction, RocketListEnvironment> { state, action, env in
+    switch action {
+
+    case .fetchDataResponse(.failure):
+        return .none
+
+    case let .fetchDataResponse(.success(response)):
+        state.rockets = response
+        return .none
+
+    case .fetchRocketsData:
+        enum RocketListID {}
+
+        return .task { await .fetchDataResponse(TaskResult { try await env.getRockets() }) }
+            .cancellable(id: RocketListID.self)
+    }
+}
