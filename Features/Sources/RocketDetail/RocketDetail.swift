@@ -7,24 +7,25 @@
 
 import ComposableArchitecture
 import Foundation
-import Networking
 
-public struct RocketDetailModel: Decodable, Identifiable, Equatable {
+public struct RocketDetail: Decodable, Identifiable, Equatable {
     public let id: Int
     public let type: String
     public let overview: String
     public let parameters: Parameters
     public let firstStage: Stage
     public let secondStage: Stage
+    public let firstFlight: Date
     public let photos: Data
 
     public init(
         id: Int,
         type: String,
         overview: String,
-        parameters: RocketDetailModel.Parameters,
-        firstStage: RocketDetailModel.Stage,
-        secondStage: RocketDetailModel.Stage,
+        parameters: RocketDetail.Parameters,
+        firstStage: RocketDetail.Stage,
+        secondStage: RocketDetail.Stage,
+        firstFlight: Date,
         photos: Data
     ) {
         self.id = id
@@ -33,6 +34,7 @@ public struct RocketDetailModel: Decodable, Identifiable, Equatable {
         self.parameters = parameters
         self.firstStage = firstStage
         self.secondStage = secondStage
+        self.firstFlight = firstFlight
         self.photos = photos
     }
 
@@ -63,24 +65,26 @@ public struct RocketDetailModel: Decodable, Identifiable, Equatable {
     }
 }
 
-public extension RocketDetailModel {
-    static let mockData = Self(
+public extension RocketDetail {
+    static let mock = Self(
         id: 1,
         type: "Apollo 13",
         overview: "Apollo 13 is the timeless rocket, equipped by strong phase shields.",
         parameters: .init(height: "130m", diameter: "20m", mass: "150t"),
         firstStage: .init(reusable: "reusable", engines: "9 engines", fuelMass: "350 tons", burnTime: "162s"),
         secondStage: .init(reusable: "reusable", engines: "9 engines", fuelMass: "350 tons", burnTime: "162s"),
+        firstFlight: .init(),
         photos: Data()
     )
 
     enum CodingKeys: String, CodingKey {
         case id = "id",
-            type = "type",
-            overview = "overview",
-            parameters = "parameters",
-            firstStage = "first_stage",
-            secondStage = "second_stage",
-            photos = "photos"
+             type = "type",
+             overview = "overview",
+             parameters = "parameters",
+             firstStage = "first_stage",
+             secondStage = "second_stage",
+             firstFlight = "first_flight",
+             photos = "photos"
     }
 }
