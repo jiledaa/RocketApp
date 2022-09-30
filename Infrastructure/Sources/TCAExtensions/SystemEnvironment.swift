@@ -19,11 +19,11 @@ public struct SystemEnvironment<Environment> {
         set { self.environment[keyPath: keyPath] = newValue }
     }
 
-    private static func decoder() -> JSONDecoder {
+    private lazy var decoder: JSONDecoder = {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         return decoder
-    }
+    }()
 
     public static func live(environment: Environment) -> Self {
         Self(environment: environment)

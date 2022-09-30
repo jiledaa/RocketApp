@@ -16,8 +16,8 @@ public enum Loadable<Data, Error> {
     var isLoading: Bool {
         if case .loading = self {
             return true
-        } else {
-            return false
         }
+
+        return self.isLoading
     }
 }
