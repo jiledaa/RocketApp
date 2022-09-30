@@ -37,7 +37,7 @@ struct AppView_Previews: PreviewProvider {
         RocketListView(store: .init(
             initialState: RocketListState(rocketsData: []),
             reducer: rocketListReducer,
-            environment: .live
+            environment: .debug(isFailing: false)
         ))
     }
 }
