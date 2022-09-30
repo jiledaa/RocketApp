@@ -41,7 +41,8 @@ let package = Package(
         .target(
             name: "Root",
             dependencies: [
-                "RocketList"
+                "RocketList",
+                .product(name: "Networking", package: "Infrastructure")
             ]
         ),
         .testTarget(

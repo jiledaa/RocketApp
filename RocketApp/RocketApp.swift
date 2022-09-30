@@ -6,6 +6,7 @@
 //
 
 import ComposableArchitecture
+import Networking
 import RocketList
 import SwiftUI
 
@@ -16,7 +17,17 @@ struct RocketApp: App {
             RocketListView(store: Store(
                 initialState: RocketListState(rocketsData: []),
                 reducer: rocketListReducer.debug(),
-                environment: .live
+                environment: .live(
+//                    ApiFactory: ApiFactory(requester: { url in
+//                        switch url {
+//                        case "/rockets":
+//                            return [Rockets].json
+//                        case "/rocket":
+//                            return Rocket(....).json
+//                        }
+//                    })
+                    apiFactory: ApiFactory(requester: { try await URLSession.shared.data(from: $0) })
+                )
             ))
         }
     }

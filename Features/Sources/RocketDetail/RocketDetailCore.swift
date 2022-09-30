@@ -24,26 +24,27 @@ public enum RocketDetailAction: Equatable {
 }
 
 public struct RocketDetailEnvironment {
-    public var getRocket: @Sendable (Int) async throws -> RocketDetail
+    public var getRocket: (String) async throws -> RocketDetail
 
-    public init(getRocket: @escaping @Sendable (Int) async throws -> RocketDetail) {
+    public init(getRocket: @escaping (String) async throws -> RocketDetail) {
         self.getRocket = getRocket
     }
 }
 
 public extension RocketDetailEnvironment {
-
-    static let live = RocketDetailEnvironment(getRocket: { id in
-        try await ApiFactory.getData(from: URLs.SpaceRockets.oneRocket(id: id))
-    })
+    static func live(apiFactory: ApiFactory) -> Self {
+        RocketDetailEnvironment(getRocket: { id in
+            try await apiFactory.getData(from: URLs.SpaceRockets.rocket(id: id))
+        })
+    }
 
     static func debug(isFailing: Bool) -> RocketDetailEnvironment {
         RocketDetailEnvironment(getRocket: { _ in
             if isFailing {
                 throw APIError.badURL
-            } else {
-                return RocketDetail.mock
             }
+
+            return RocketDetail.mock
         })
     }
 }
