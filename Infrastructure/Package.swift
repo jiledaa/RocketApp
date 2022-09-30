@@ -19,11 +19,6 @@ let package = Package(
         ),
 
         .library(
-            name: "ObjectModel",
-            targets: ["ObjectModel"]
-        ),
-
-        .library(
             name: "TCAExtensions",
             targets: ["TCAExtensions"]
         ),
@@ -31,12 +26,12 @@ let package = Package(
         .library(
             name: "UIToolkit",
             targets: ["UIToolkit"]
-        ),
+        )
     ],
 
     // Dependencies declare other packages that this package depends on.
     dependencies: [
-        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", .upToNextMajor(from: "0.0.0")),
+        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", .upToNextMajor(from: "0.0.0"))
     ],
 
     // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -45,7 +40,6 @@ let package = Package(
         .target(
             name: "CoreToolkit",
             dependencies: [
-                "Networking"
             ]
         ),
         .testTarget(
@@ -55,7 +49,9 @@ let package = Package(
 
         .target(
             name: "Networking",
-            dependencies: []
+            dependencies: [
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+            ]
         ),
         .testTarget(
             name: "NetworkingTests",
@@ -63,22 +59,9 @@ let package = Package(
         ),
 
         .target(
-            name: "ObjectModel",
-            dependencies: [
-                "Networking",
-                .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
-            ]
-        ),
-        .testTarget(
-            name: "ObjectModelTests",
-            dependencies: ["ObjectModel"]
-        ),
-
-        .target(
             name: "TCAExtensions",
             dependencies: [
                 "Networking",
-                "ObjectModel",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
         ),
@@ -96,6 +79,6 @@ let package = Package(
         .testTarget(
             name: "UIToolkitTests",
             dependencies: ["UIToolkit"]
-        ),
+        )
     ]
 )

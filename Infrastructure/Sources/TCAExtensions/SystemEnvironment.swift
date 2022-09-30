@@ -11,7 +11,7 @@ import Foundation
 @dynamicMemberLookup
 public struct SystemEnvironment<Environment> {
     var environment: Environment
-    
+
     subscript<Dependency>(
         dynamicMember keyPath: WritableKeyPath<Environment, Dependency>
     ) -> Dependency {
@@ -19,20 +19,17 @@ public struct SystemEnvironment<Environment> {
         set { self.environment[keyPath: keyPath] = newValue }
     }
 
-    var mainQueue: () -> AnySchedulerOf<DispatchQueue>
-    var decoder: () -> JSONDecoder
-
-    private static func decoder() -> JSONDecoder {
+    private lazy var decoder: JSONDecoder = {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         return decoder
-    }
+    }()
 
     public static func live(environment: Environment) -> Self {
-        Self(environment: environment, mainQueue: { .main }, decoder: decoder)
+        Self(environment: environment)
     }
 
     public static func debug(environment: Environment) -> Self {
-        Self(environment: environment, mainQueue: { .main }, decoder: decoder)
+        Self(environment: environment)
     }
 }

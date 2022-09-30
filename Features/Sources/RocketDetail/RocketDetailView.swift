@@ -7,15 +7,13 @@
 
 import ComposableArchitecture
 import SwiftUI
-import ObjectModel
 import TCAExtensions
-import Networking
 
 struct RocketView: View {
-    var store: Store<RocketState, RocketAction>
-    @ObservedObject var viewStore: ViewStore<RocketState, RocketAction>
+    var store: Store<RocketDetailState, RocketDetailAction>
+    @ObservedObject var viewStore: ViewStore<RocketDetailState, RocketDetailAction>
 
-    init(store: Store<RocketState, RocketAction>) {
+    init(store: Store<RocketDetailState, RocketDetailAction>) {
         self.store = store
         viewStore = ViewStore(store)
     }
@@ -30,9 +28,9 @@ struct RocketView: View {
 struct Rocket_Previews: PreviewProvider {
     static var previews: some View {
         RocketView(store: .init(
-            initialState: RocketState(id: UUID()),
-            reducer: rocketReducer.debug(),
-            environment: .debug(environment: RocketEnvironment(getInfoRequest: RocketInfo.mockData))
+            initialState: RocketDetailState(),
+            reducer: rocketDetailReducer,
+            environment: RocketDetailEnvironment.debug(isFailing: false)
         ))
     }
 }

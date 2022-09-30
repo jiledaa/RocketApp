@@ -6,12 +6,13 @@
 //
 import Foundation
 
-public struct Constants {
-    enum Networking {
-        static let baseURL = "https://api.spacexdata.com"
-        static let allRockets = "/v4/rockets"
-        static func oneRocket(id: String) -> String {
-            return "/v4/rockets/" + id
+public struct URLs {
+    public enum SpaceRockets {
+        public static let baseURL = "https://api.spacexdata.com"
+        public static let allRockets = baseURL + "/v3/rockets"
+
+        public static func rocket(id: String) -> String {
+            return baseURL + "/v3/rockets/\(id)"
         }
     }
 }

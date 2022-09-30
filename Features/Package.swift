@@ -26,13 +26,13 @@ let package = Package(
         .library(
             name: "RocketList",
             targets: ["RocketList"]
-        ),
+        )
     ],
 
     // Dependencies declare other packages that this package depends on.
     dependencies: [
         .package(path: "../Infrastructure"),
-        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", .upToNextMajor(from: "0.0.0")),
+        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", .upToNextMajor(from: "0.0.0"))
     ],
 
     // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -41,7 +41,8 @@ let package = Package(
         .target(
             name: "Root",
             dependencies: [
-                "RocketList"
+                "RocketList",
+                .product(name: "Networking", package: "Infrastructure")
             ]
         ),
         .testTarget(
@@ -52,7 +53,7 @@ let package = Package(
         .target(
             name: "RocketDetail",
             dependencies: [
-                .product(name: "ObjectModel", package: "Infrastructure"),
+                .product(name: "CoreToolkit", package: "Infrastructure"),
                 .product(name: "Networking", package: "Infrastructure"),
                 .product(name: "TCAExtensions", package: "Infrastructure"),
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
@@ -79,7 +80,7 @@ let package = Package(
             name: "RocketList",
             dependencies: [
                 "RocketDetail",
-                .product(name: "ObjectModel", package: "Infrastructure"),
+                .product(name: "CoreToolkit", package: "Infrastructure"),
                 .product(name: "Networking", package: "Infrastructure"),
                 .product(name: "TCAExtensions", package: "Infrastructure"),
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
@@ -88,6 +89,6 @@ let package = Package(
         .testTarget(
             name: "RocketListTests",
             dependencies: ["RocketList"]
-        ),
+        )
     ]
 )

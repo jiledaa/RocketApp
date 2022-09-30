@@ -6,8 +6,8 @@
 //
 
 import ComposableArchitecture
-import SwiftUI
 import Networking
+import SwiftUI
 
 struct RocketState: Equatable, Identifiable {
     var id: UUID
@@ -45,7 +45,7 @@ struct RocketEnvironment {
     var getInfoRequest: (JSONDecoder) -> Effect<RocketInfo, APIError>
 }
 
-let rocketReducer = Reducer<RocketState, RocketAction, SystemEnvironment<RocketEnvironment>> { state, action, env in
+let rocketReducer = Reducer<RocketState, RocketAction, SystemEnvironment<RocketEnvironment>> { state, action, _ in
     switch action {
 
     case .getInfo(_, .failure):

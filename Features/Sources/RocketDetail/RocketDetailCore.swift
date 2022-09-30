@@ -5,65 +5,68 @@
 //  Created by David Jilek on 14.09.2022.
 //
 
+import ComposableArchitecture
 import Foundation
 import Networking
-import ObjectModel
 import TCAExtensions
-import ComposableArchitecture
 
-public struct RocketState: Equatable, Identifiable {
-    public let id: UUID
-    var rocketInfo: RocketInfo?
+public struct RocketDetailState: Equatable {
+    public var rocket: RocketDetail?
 
-    public init(id: UUID = UUID(), rocketInfo: RocketInfo? = nil) {
-        self.id = id
-        self.rocketInfo = rocketInfo
-    }
-
-    struct RocketData: Equatable {
-        let id: RocketInfo.ID
-        let type: String
-        let overView: String
-        let parameters: Parameters
-        let firstStage: Stage
-        let secondStage: Stage
-        let photos: Data
-
-        struct Parameters: Equatable {
-            let height: String
-            let diameter: String
-            let mass: String
-        }
-
-        struct Stage: Equatable {
-            let reusable: String
-            let engines: String
-            let fuelMass: String
-            let burnTime: String
-        }
+    public init(rocket: RocketDetail? = nil) {
+        self.rocket = rocket
     }
 }
 
-public enum RocketAction: Equatable {
-    case getInfo(RocketInfo.ID, TaskResult<RocketInfo>)
+public enum RocketDetailAction: Equatable {
+    case fetchDataResponse(TaskResult<RocketDetail>)
+    case fetchRocketData(RocketDetail)
 }
 
-public struct RocketEnvironment {
-    var getInfoRequest: (JSONDecoder) -> Effect<RocketInfo, APIError>
+public struct RocketDetailEnvironment {
+    public var getRocket: (String) async throws -> RocketDetail
 
-    public init(getInfoRequest: @escaping (JSONDecoder) -> Effect<RocketInfo, APIError>) {
-        self.getInfoRequest = getInfoRequest
+    public init(getRocket: @escaping (String) async throws -> RocketDetail) {
+        self.getRocket = getRocket
     }
 }
 
-public let rocketReducer = Reducer<RocketState, RocketAction, SystemEnvironment<RocketEnvironment>> { state, action, env in
+public extension RocketDetailEnvironment {
+    static func live(apiFactory: ApiFactory) -> Self {
+        RocketDetailEnvironment(getRocket: { id in
+            try await apiFactory.getData(from: URLs.SpaceRockets.rocket(id: id))
+        })
+    }
+
+    static func debug(isFailing: Bool) -> RocketDetailEnvironment {
+        RocketDetailEnvironment(getRocket: { _ in
+            if isFailing {
+                throw APIError.badURL
+            }
+
+            return RocketDetail.mock
+        })
+    }
+}
+
+public let rocketDetailReducer = Reducer<
+    RocketDetailState,
+    RocketDetailAction,
+    RocketDetailEnvironment
+> { state, action, env in
     switch action {
-
-    case .getInfo(_, .failure):
-        state.rocketInfo = nil
+    case .fetchDataResponse(.failure):
+        state.rocket = nil
         return .none
 
-    case let .getInfo(id, .success(rocketInfo)):
+    case let .fetchDataResponse(.success(response)):
+        state.rocket = response
         return .none
+
+    case let .fetchRocketData(rocket):
+        enum RocketDetailID {}
+
+        return .task { await .fetchDataResponse(TaskResult { try await env.getRocket(rocket.id) }) }
+            .cancellable(id: RocketDetailID.self)
     }
 }

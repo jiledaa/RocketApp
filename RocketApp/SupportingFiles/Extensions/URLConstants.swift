@@ -9,6 +9,7 @@ struct Constants {
     enum Networking {
         static let baseURL = "https://api.spacexdata.com"
         static let allRockets = "/v4/rockets"
+
         static func oneRocket(id: String) -> String {
             return "/v4/rockets/" + id
         }
