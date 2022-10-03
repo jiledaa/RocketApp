@@ -17,7 +17,7 @@ struct RocketApp: App {
             RocketListView(store: Store(
                 initialState: RocketListState(rocketsData: []),
                 reducer: rocketListReducer.debug(),
-                environment: .live(
+                environment: .live
 //                    ApiFactory: ApiFactory(requester: { url in
 //                        switch url {
 //                        case "/rockets":
@@ -26,8 +26,6 @@ struct RocketApp: App {
 //                            return Rocket(....).json
 //                        }
 //                    })
-                    apiFactory: ApiFactory(requester: { try await URLSession.shared.data(from: $0) })
-                )
             ))
         }
     }

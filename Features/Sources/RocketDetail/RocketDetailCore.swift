@@ -32,20 +32,27 @@ public struct RocketDetailEnvironment {
 }
 
 public extension RocketDetailEnvironment {
-    static func live(apiFactory: ApiFactory) -> Self {
+    static func create(from factory: ApiFactory) -> Self {
         RocketDetailEnvironment(getRocket: { id in
-            try await apiFactory.getData(from: URLs.SpaceRockets.rocket(id: id))
+            try await factory.getData(from: URLs.SpaceRockets.rocket(id: id))
         })
     }
 
+    static var live: Self {
+        let apiFactory = ApiFactory(requester: { try await URLSession.shared.data(from: $0) })
+
+        return RocketDetailEnvironment.create(from: apiFactory)
+    }
+
     static func debug(isFailing: Bool) -> RocketDetailEnvironment {
-        RocketDetailEnvironment(getRocket: { _ in
+        let apiFactory = ApiFactory(requester: { _ in
             if isFailing {
                 throw APIError.badURL
             }
-
-            return RocketDetail.mock
+            return (RocketDetail.rocketData, URLResponse())
         })
+
+        return RocketDetailEnvironment.create(from: apiFactory)
     }
 }
 
