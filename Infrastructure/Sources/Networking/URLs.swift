@@ -1,9 +1,3 @@
-//
-//  URLConstants.swift
-//  RocketApp
-//
-//  Created by David Jilek on 08.09.2022.
-//
 import Foundation
 
 public struct URLs {

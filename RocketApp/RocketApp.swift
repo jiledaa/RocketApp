@@ -1,10 +1,3 @@
-//
-//  RocketApp.swift
-//  RocketApp
-//
-//  Created by David Jilek on 06.09.2022.
-//
-
 import ComposableArchitecture
 import Networking
 import RocketList
