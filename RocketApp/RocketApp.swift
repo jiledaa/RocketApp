@@ -12,21 +12,13 @@ import SwiftUI
 
 @main
 struct RocketApp: App {
-    var body: some Scene {
-        WindowGroup {
-            RocketListView(store: Store(
-                initialState: RocketListState(rocketsData: []),
-                reducer: rocketListReducer.debug(),
-                environment: .live
-//                    ApiFactory: ApiFactory(requester: { url in
-//                        switch url {
-//                        case "/rockets":
-//                            return [Rockets].json
-//                        case "/rocket":
-//                            return Rocket(....).json
-//                        }
-//                    })
-            ))
-        }
+  var body: some Scene {
+    WindowGroup {
+      RocketListView(store: Store(
+        initialState: RocketListState(rocketsData: []),
+        reducer: rocketListReducer.debug(),
+        environment: .live
+      ))
     }
+  }
 }

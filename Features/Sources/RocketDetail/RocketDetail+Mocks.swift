@@ -9,21 +9,21 @@ import Foundation
 
 public extension RocketDetail {
 
-    static let mock = Self(
-        id: "apollo13",
-        name: "Apollo 13",
-        overview: "Apollo 13 is the timeless rocket, equipped by strong phase shields.",
-        height: .init(meters: 130, feets: 426.4),
-        diameter: .init(meters: 20.2, feets: 66.26),
-        mass: .init(kilograms: 150, pounds: 330.7),
-        firstStage: .init(reusable: true, engines: 9, fuelMass: 350, burnTime: 162),
-        secondStage: .init(reusable: true, engines: 9, fuelMass: 350, burnTime: 162),
-        firstFlight: "1991-03-09",
-        photos: ["https://imgur.com/DaCfMsj.jpg", "https://imgur.com/azYafd8.jpg"]
-    )
+  static let mock = Self(
+    id: "apollo13",
+    name: "Apollo 13",
+    overview: "Apollo 13 is the timeless rocket, equipped by strong phase shields.",
+    height: .init(meters: 130, feets: 426.4),
+    diameter: .init(meters: 20.2, feets: 66.26),
+    mass: .init(kilograms: 150, pounds: 330.7),
+    firstStage: .init(reusable: true, engines: 9, fuelMass: 350, burnTime: 162),
+    secondStage: .init(reusable: true, engines: 9, fuelMass: 350, burnTime: 162),
+    firstFlight: "1991-03-09",
+    photos: ["https://imgur.com/DaCfMsj.jpg", "https://imgur.com/azYafd8.jpg"]
+  )
 
-    // swiftlint:disable line_length
-    static let rocketData = """
+  // swiftlint:disable line_length
+  static let rocketData = """
             {
               "id": 2,
               "active": true,
@@ -133,7 +133,7 @@ public extension RocketDetail {
             }
         """.data(using: .utf8) ?? Data()
 
-    static let rocketsData = """
+  static let rocketsData = """
             [{
               "id": 2,
               "active": true,

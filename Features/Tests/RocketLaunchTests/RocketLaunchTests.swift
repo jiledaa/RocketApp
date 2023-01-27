@@ -2,7 +2,7 @@
 import XCTest
 
 final class FeaturesTests: XCTestCase {
-    func testExample() throws {
-        _ = XCTSkip.self
-    }
+  func testExample() throws {
+    _ = XCTSkip.self
+  }
 }
