@@ -21,10 +21,12 @@ public struct RocketListView: View {
 
 struct AppView_Previews: PreviewProvider {
   static var previews: some View {
-    RocketListView(store: .init(
-      initialState: RocketListState(rocketsData: []),
-      reducer: rocketListReducer,
-      environment: .debug(isFailing: false)
-    ))
+    RocketListView(
+      store: .init(
+        initialState: RocketListState(rocketsData: []),
+        reducer: rocketListReducer,
+        environment: .debug(isFailing: false)
+      )
+    )
   }
 }

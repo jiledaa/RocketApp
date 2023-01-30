@@ -41,7 +41,7 @@ public struct RocketDetail: Decodable, Identifiable, Equatable {
     public let meters: Float
     public let feets: Float
 
-    internal init(meters: Float, feets: Float) {
+    init(meters: Float, feets: Float) {
       self.meters = meters
       self.feets = feets
     }
@@ -51,7 +51,7 @@ public struct RocketDetail: Decodable, Identifiable, Equatable {
     public let kilograms: Float
     public let pounds: Float
 
-    internal init(kilograms: Float, pounds: Float) {
+    init(kilograms: Float, pounds: Float) {
       self.kilograms = kilograms
       self.pounds = pounds
     }
@@ -77,7 +77,6 @@ public struct RocketDetail: Decodable, Identifiable, Equatable {
 }
 
 public extension RocketDetail {
-
   enum CodingKeys: String, CodingKey {
     case id = "rocket_id"
     case name = "rocket_name"
@@ -93,7 +92,6 @@ public extension RocketDetail {
 }
 
 public extension RocketDetail.LineMeasure {
-
   enum CodingKeys: String, CodingKey {
     case meters
     case feets = "feet"
@@ -101,7 +99,6 @@ public extension RocketDetail.LineMeasure {
 }
 
 public extension RocketDetail.WeightScale {
-
   enum CodingKeys: String, CodingKey {
     case kilograms = "kg"
     case pounds = "lb"
@@ -109,7 +106,6 @@ public extension RocketDetail.WeightScale {
 }
 
 extension RocketDetail.Stage {
-
   enum CodingKeys: String, CodingKey {
     case reusable
     case engines

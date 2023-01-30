@@ -1,7 +1,6 @@
 import Foundation
 
 public extension RocketDetail {
-
   static let mock = Self(
     id: "apollo13",
     name: "Apollo 13",

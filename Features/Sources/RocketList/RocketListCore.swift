@@ -26,9 +26,11 @@ public struct RocketListEnvironment {
 
 public extension RocketListEnvironment {
   static func create(from factory: ApiFactory) -> Self {
-    RocketListEnvironment(getRockets: {
-      try await factory.getData(from: URLs.SpaceRockets.allRockets)
-    })
+    RocketListEnvironment(
+      getRockets: {
+        try await factory.getData(from: URLs.SpaceRockets.allRockets)
+      }
+    )
   }
 
   static var live: Self {
@@ -38,18 +40,25 @@ public extension RocketListEnvironment {
   }
 
   static func debug(isFailing: Bool) -> RocketListEnvironment {
-    let apiFactory = ApiFactory(requester: { _ in
-      if isFailing {
-        throw APIError.badURL
+    let apiFactory = ApiFactory(
+      requester: { _ in
+        if isFailing {
+          throw APIError.badURL
+        }
+
+        return (RocketDetail.rocketsData, URLResponse())
       }
-      return (RocketDetail.rocketsData, URLResponse())
-    })
+    )
 
     return RocketListEnvironment.create(from: apiFactory)
   }
 }
 
-public let rocketListReducer = Reducer<RocketListState, RocketListAction, RocketListEnvironment> { state, action, env in
+public let rocketListReducer = Reducer<
+  RocketListState,
+  RocketListAction,
+  RocketListEnvironment
+> { state, action, env in
   switch action {
 
   case .fetchDataResponse(.failure):
@@ -62,4 +71,5 @@ public let rocketListReducer = Reducer<RocketListState, RocketListAction, Rocket
   case .fetchRocketsData:
     return .task { await .fetchDataResponse(TaskResult { try await env.getRockets() }) }
   }
-}.debug()
+}
+  .debug()

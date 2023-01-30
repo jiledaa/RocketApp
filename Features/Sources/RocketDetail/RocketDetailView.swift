@@ -20,10 +20,12 @@ struct RocketView: View {
 
 struct Rocket_Previews: PreviewProvider {
   static var previews: some View {
-    RocketView(store: .init(
-      initialState: RocketDetailState(),
-      reducer: rocketDetailReducer,
-      environment: RocketDetailEnvironment.debug(isFailing: false)
-    ))
+    RocketView(
+      store: .init(
+        initialState: RocketDetailState(),
+        reducer: rocketDetailReducer,
+        environment: RocketDetailEnvironment.debug(isFailing: false)
+      )
+    )
   }
 }
