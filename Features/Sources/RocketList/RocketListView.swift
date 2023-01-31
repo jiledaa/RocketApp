@@ -1,40 +1,32 @@
-//
-//  AppView.swift
-//  RocketApp
-//
-//  Created by David Jilek on 11.08.2022.
-//
-
-import Networking
+import ComposableArchitecture
 import SwiftUI
 import TCAExtensions
-import ComposableArchitecture
 
-public struct AppView: View {
-    let store: Store<AppState, AppAction>
-    @ObservedObject var viewStore: ViewStore<AppState, AppAction>
+public struct RocketListView: View {
+  let store: Store<RocketListState, RocketListAction>
+  @ObservedObject var viewStore: ViewStore<RocketListState, RocketListAction>
 
-    public init(store: Store<AppState, AppAction>) {
-        self.store = store
-        self.viewStore = ViewStore(store)
-    }
+  public init(store: Store<RocketListState, RocketListAction>) {
+    self.store = store
+    self.viewStore = ViewStore(store)
+  }
 
-    public var body: some View {
-        NavigationView {
-            List {
-
-            }
-            .navigationTitle("Rockets")
-        }
-    }
+  public var body: some View {
+    Text("\(viewStore.rockets.count)")
+      .onAppear {
+        viewStore.send(.fetchRocketsData)
+      }
+  }
 }
 
 struct AppView_Previews: PreviewProvider {
-    static var previews: some View {
-        AppView(store: .init(
-            initialState: AppState(),
-            reducer: appReducer,
-            environment: SystemEnvironment.debug(environment: AppEnvironment())
-        ))
-    }
+  static var previews: some View {
+    RocketListView(
+      store: .init(
+        initialState: RocketListState(rocketsData: []),
+        reducer: rocketListReducer,
+        environment: .debug(isFailing: false)
+      )
+    )
+  }
 }

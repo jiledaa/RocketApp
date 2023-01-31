@@ -1,69 +1,77 @@
-//
-//  File.swift
-//  
-//
-//  Created by David Jilek on 14.09.2022.
-//
-
+import ComposableArchitecture
 import Foundation
 import Networking
-import ObjectModel
 import TCAExtensions
-import ComposableArchitecture
 
-public struct RocketState: Equatable, Identifiable {
-    public let id: UUID
-    var rocketInfo: RocketInfo?
+public struct RocketDetailState: Equatable {
+  public var rocket: RocketDetail?
 
-    public init(id: UUID = UUID(), rocketInfo: RocketInfo? = nil) {
-        self.id = id
-        self.rocketInfo = rocketInfo
-    }
+  public init(rocket: RocketDetail? = nil) {
+    self.rocket = rocket
+  }
+}
 
-    struct RocketData: Equatable {
-        let id: RocketInfo.ID
-        let type: String
-        let overView: String
-        let parameters: Parameters
-        let firstStage: Stage
-        let secondStage: Stage
-        let photos: Data
+public enum RocketDetailAction: Equatable {
+  case fetchDataResponse(TaskResult<RocketDetail>)
+  case fetchRocketData(RocketDetail)
+}
 
-        struct Parameters: Equatable {
-            let height: String
-            let diameter: String
-            let mass: String
+public struct RocketDetailEnvironment {
+  public var getRocket: (String) async throws -> RocketDetail
+
+  public init(getRocket: @escaping (String) async throws -> RocketDetail) {
+    self.getRocket = getRocket
+  }
+}
+
+public extension RocketDetailEnvironment {
+  static func create(from factory: ApiFactory) -> Self {
+    RocketDetailEnvironment(
+      getRocket: { id in
+        try await factory.getData(from: URLs.SpaceRockets.rocket(id: id))
+      }
+    )
+  }
+
+  static var live: Self {
+    let apiFactory = ApiFactory(requester: { try await URLSession.shared.data(from: $0) })
+
+    return RocketDetailEnvironment.create(from: apiFactory)
+  }
+
+  static func debug(isFailing: Bool) -> RocketDetailEnvironment {
+    let apiFactory = ApiFactory(
+      requester: { _ in
+        if isFailing {
+          throw APIError.badURL
         }
 
-        struct Stage: Equatable {
-            let reusable: String
-            let engines: String
-            let fuelMass: String
-            let burnTime: String
-        }
-    }
+        return (RocketDetail.rocketData, URLResponse())
+      }
+    )
+
+    return RocketDetailEnvironment.create(from: apiFactory)
+  }
 }
 
-public enum RocketAction: Equatable {
-    case getInfo(RocketInfo.ID, TaskResult<RocketInfo>)
-}
+public let rocketDetailReducer = Reducer<
+  RocketDetailState,
+  RocketDetailAction,
+  RocketDetailEnvironment
+> { state, action, env in
+  switch action {
+  case .fetchDataResponse(.failure):
+    state.rocket = nil
+    return .none
 
-public struct RocketEnvironment {
-    var getInfoRequest: (JSONDecoder) -> Effect<RocketInfo, APIError>
+  case let .fetchDataResponse(.success(response)):
+    state.rocket = response
+    return .none
 
-    public init(getInfoRequest: @escaping (JSONDecoder) -> Effect<RocketInfo, APIError>) {
-        self.getInfoRequest = getInfoRequest
-    }
-}
+  case let .fetchRocketData(rocket):
+    enum RocketDetailID {}
 
-public let rocketReducer = Reducer<RocketState, RocketAction, SystemEnvironment<RocketEnvironment>> { state, action, env in
-    switch action {
-
-    case .getInfo(_, .failure):
-        state.rocketInfo = nil
-        return .none
-
-    case let .getInfo(id, .success(rocketInfo)):
-        return .none
-    }
+    return .task { await .fetchDataResponse(TaskResult { try await env.getRocket(rocket.id) }) }
+      .cancellable(id: RocketDetailID.self)
+  }
 }

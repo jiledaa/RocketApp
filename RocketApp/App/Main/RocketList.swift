@@ -5,9 +5,9 @@
 //  Created by David Jilek on 11.08.2022.
 //
 
-import SwiftUI
 import ComposableArchitecture
 import CoreToolkit
+import SwiftUI
 
 struct AppState: Equatable {
     var rockets: IdentifiedArrayOf<RocketState> = []
@@ -18,7 +18,6 @@ enum AppAction: Equatable {
 }
 
 struct AppEnvironment {
-    
 }
 
 let appReducer = Reducer<AppState, AppAction, SystemEnvironment<AppEnvironment>>.combine(
@@ -27,10 +26,10 @@ let appReducer = Reducer<AppState, AppAction, SystemEnvironment<AppEnvironment>>
         action: /AppAction.rocketAction,
         environment: { _ in .live(environment: RocketEnvironment(getInfoRequest: getDataEffect)) }
     ),
-    Reducer { state, action, env in
+    Reducer { _, action, _ in
         switch action {
 
-        case .rocketAction(id: let id, action: let action):
+        case let .rocketAction(id: id, action: action):
             return .none
         }
     }
