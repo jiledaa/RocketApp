@@ -42,7 +42,7 @@ let package = Package(
       name: "Root",
       dependencies: [
         "RocketList",
-        .product(name: "Networking", package: "Infrastructure")
+        .product(name: "RocketsClient", package: "Infrastructure")
       ]
     ),
     .testTarget(
@@ -53,8 +53,8 @@ let package = Package(
       .target(
         name: "RocketDetail",
         dependencies: [
-          .product(name: "CoreToolkit", package: "Infrastructure"),
-          .product(name: "Networking", package: "Infrastructure"),
+          .product(name: "GeneralToolkit", package: "Infrastructure"),
+          .product(name: "RocketsClient", package: "Infrastructure"),
           .product(name: "TCAExtensions", package: "Infrastructure"),
           .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
         ]
@@ -80,8 +80,8 @@ let package = Package(
         name: "RocketList",
         dependencies: [
           "RocketDetail",
-          .product(name: "CoreToolkit", package: "Infrastructure"),
-          .product(name: "Networking", package: "Infrastructure"),
+          .product(name: "GeneralToolkit", package: "Infrastructure"),
+          .product(name: "RocketsClient", package: "Infrastructure"),
           .product(name: "TCAExtensions", package: "Infrastructure"),
           .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
         ]

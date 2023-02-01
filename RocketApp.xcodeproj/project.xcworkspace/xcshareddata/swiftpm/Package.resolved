@@ -37,6 +37,15 @@
       }
     },
     {
+      "identity" : "swift-core",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Qase/swift-core",
+      "state" : {
+        "branch" : "develop",
+        "revision" : "dded657cd8702c2f931662330a06093650c40fe2"
+      }
+    },
+    {
       "identity" : "swift-custom-dump",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-custom-dump",

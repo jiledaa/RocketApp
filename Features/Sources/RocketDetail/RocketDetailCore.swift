@@ -1,6 +1,6 @@
 import ComposableArchitecture
 import Foundation
-import Networking
+import RocketsClient
 import TCAExtensions
 
 public struct RocketDetailState: Equatable {

@@ -1,5 +1,5 @@
 @testable import UIToolkit
 import XCTest
 
-final class NetworkingTests: XCTestCase {
+final class UIToolkitTests: XCTestCase {
 }

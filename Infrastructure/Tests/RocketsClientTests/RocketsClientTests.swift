@@ -1,7 +1,7 @@
-@testable import Networking
+@testable import RocketsClient
 import XCTest
 
-final class NetworkingTests: XCTestCase {
+final class RocketsClientTests: XCTestCase {
   let testAPIFactory = ApiFactory { _ in
     try await Task.sleep(nanoseconds: NSEC_PER_SEC)
 

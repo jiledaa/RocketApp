@@ -1,5 +1,5 @@
 import ComposableArchitecture
-import Networking
+import RocketsClient
 import RocketDetail
 import TCAExtensions
 

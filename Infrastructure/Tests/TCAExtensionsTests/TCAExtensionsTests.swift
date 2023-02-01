@@ -1,5 +1,5 @@
 @testable import TCAExtensions
 import XCTest
 
-final class NetworkingTests: XCTestCase {
+final class TCAExtensionsTests: XCTestCase {
 }
