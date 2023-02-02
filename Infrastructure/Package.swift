@@ -12,21 +12,18 @@ let package = Package(
       name: "GeneralToolkit",
       targets: ["GeneralToolkit"]
     ),
-
-      .library(
-        name: "RocketsClient",
-        targets: ["RocketsClient"]
-      ),
-
-      .library(
-        name: "TCAExtensions",
-        targets: ["TCAExtensions"]
-      ),
-
-      .library(
-        name: "UIToolkit",
-        targets: ["UIToolkit"]
-      )
+    .library(
+      name: "RocketsClient",
+      targets: ["RocketsClient"]
+    ),
+    .library(
+      name: "TCAExtensions",
+      targets: ["TCAExtensions"]
+    ),
+    .library(
+      name: "UIToolkit",
+      targets: ["UIToolkit"]
+    )
   ],
 
   // Dependencies declare other packages that this package depends on.
@@ -47,36 +44,34 @@ let package = Package(
       name: "GeneralToolkitTests",
       dependencies: ["GeneralToolkit"]
     ),
-
-      .target(
-        name: "RocketsClient",
-        dependencies: [
-          .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
-        ]
-      ),
+    .target(
+      name: "RocketsClient",
+      dependencies: [
+        .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+        .product(name: "Networking", package: "swift-core")
+      ]
+    ),
     .testTarget(
       name: "RocketsClientTests",
       dependencies: ["RocketsClient"]
     ),
-
-      .target(
-        name: "TCAExtensions",
-        dependencies: [
-          "RocketsClient",
-          .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
-        ]
-      ),
+    .target(
+      name: "TCAExtensions",
+      dependencies: [
+        "RocketsClient",
+        .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+      ]
+    ),
     .testTarget(
       name: "TCAExtensionsTests",
       dependencies: ["TCAExtensions"]
     ),
-
-      .target(
-        name: "UIToolkit",
-        dependencies: [
-          "RocketsClient"
-        ]
-      ),
+    .target(
+      name: "UIToolkit",
+      dependencies: [
+        "RocketsClient"
+      ]
+    ),
     .testTarget(
       name: "UIToolkitTests",
       dependencies: ["UIToolkit"]

@@ -1,6 +1,6 @@
 import ComposableArchitecture
-import RocketsClient
 import RocketDetail
+import RocketsClient
 import TCAExtensions
 
 public struct RocketListState: Equatable {
@@ -17,42 +17,11 @@ public enum RocketListAction: Equatable {
 }
 
 public struct RocketListEnvironment {
-  public var getRockets: () async throws -> [RocketDetail]
 
-  public init(getRockets: @escaping () async throws -> [RocketDetail]) {
-    self.getRockets = getRockets
-  }
+  public init() {}
 }
 
-public extension RocketListEnvironment {
-  static func create(from factory: ApiFactory) -> Self {
-    RocketListEnvironment(
-      getRockets: {
-        try await factory.getData(from: URLs.SpaceRockets.allRockets)
-      }
-    )
-  }
-
-  static var live: Self {
-    let apiFactory = ApiFactory(requester: { try await URLSession.shared.data(from: $0) })
-
-    return RocketListEnvironment.create(from: apiFactory)
-  }
-
-  static func debug(isFailing: Bool) -> RocketListEnvironment {
-    let apiFactory = ApiFactory(
-      requester: { _ in
-        if isFailing {
-          throw APIError.badURL
-        }
-
-        return (RocketDetail.rocketsData, URLResponse())
-      }
-    )
-
-    return RocketListEnvironment.create(from: apiFactory)
-  }
-}
+public extension RocketListEnvironment {}
 
 public let rocketListReducer = Reducer<
   RocketListState,
@@ -69,7 +38,7 @@ public let rocketListReducer = Reducer<
     return .none
 
   case .fetchRocketsData:
-    return .task { await .fetchDataResponse(TaskResult { try await env.getRockets() }) }
+    return .none
   }
 }
   .debug()

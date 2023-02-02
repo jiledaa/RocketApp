@@ -12,21 +12,18 @@ let package = Package(
       name: "Root",
       targets: ["Root"]
     ),
-
-      .library(
-        name: "RocketDetail",
-        targets: ["RocketDetail"]
-      ),
-
-      .library(
-        name: "RocketLaunch",
-        targets: ["RocketLaunch"]
-      ),
-
-      .library(
-        name: "RocketList",
-        targets: ["RocketList"]
-      )
+    .library(
+      name: "RocketDetail",
+      targets: ["RocketDetail"]
+    ),
+    .library(
+      name: "RocketLaunch",
+      targets: ["RocketLaunch"]
+    ),
+    .library(
+      name: "RocketList",
+      targets: ["RocketList"]
+    )
   ],
 
   // Dependencies declare other packages that this package depends on.
@@ -49,43 +46,40 @@ let package = Package(
       name: "RootTests",
       dependencies: ["Root"]
     ),
-
-      .target(
-        name: "RocketDetail",
-        dependencies: [
-          .product(name: "GeneralToolkit", package: "Infrastructure"),
-          .product(name: "RocketsClient", package: "Infrastructure"),
-          .product(name: "TCAExtensions", package: "Infrastructure"),
-          .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
-        ]
-      ),
+    .target(
+      name: "RocketDetail",
+      dependencies: [
+        .product(name: "GeneralToolkit", package: "Infrastructure"),
+        .product(name: "RocketsClient", package: "Infrastructure"),
+        .product(name: "TCAExtensions", package: "Infrastructure"),
+        .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+      ]
+    ),
     .testTarget(
       name: "RocketDetailTests",
       dependencies: ["RocketDetail"]
     ),
-
-      .target(
-        name: "RocketLaunch",
-        dependencies: [
-          .product(name: "TCAExtensions", package: "Infrastructure"),
-          .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
-        ]
-      ),
+    .target(
+      name: "RocketLaunch",
+      dependencies: [
+        .product(name: "TCAExtensions", package: "Infrastructure"),
+        .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+      ]
+    ),
     .testTarget(
       name: "RocketLaunchTests",
       dependencies: ["RocketLaunch"]
     ),
-
-      .target(
-        name: "RocketList",
-        dependencies: [
-          "RocketDetail",
-          .product(name: "GeneralToolkit", package: "Infrastructure"),
-          .product(name: "RocketsClient", package: "Infrastructure"),
-          .product(name: "TCAExtensions", package: "Infrastructure"),
-          .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
-        ]
-      ),
+    .target(
+      name: "RocketList",
+      dependencies: [
+        "RocketDetail",
+        .product(name: "GeneralToolkit", package: "Infrastructure"),
+        .product(name: "RocketsClient", package: "Infrastructure"),
+        .product(name: "TCAExtensions", package: "Infrastructure"),
+        .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+      ]
+    ),
     .testTarget(
       name: "RocketListTests",
       dependencies: ["RocketList"]

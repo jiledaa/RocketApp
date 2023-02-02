@@ -1,13 +1,11 @@
 import Foundation
 
-public struct URLs {
-  public enum SpaceRockets {
-    public static let baseURL = "https://api.spacexdata.com"
-    public static let allRockets = baseURL + "/v3/rockets"
+public enum URLs {
+  public static let baseURL = "https://api.spacexdata.com"
+  public static let allRockets = baseURL + "/v3/rockets"
 
-    public static func rocket(id: String) -> String {
-      return baseURL + "/v3/rockets/\(id)"
-    }
+  public static func rocket(id: String) -> String {
+    return baseURL + "/v3/rockets/\(id)"
   }
 }
 

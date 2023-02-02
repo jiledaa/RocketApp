@@ -24,7 +24,7 @@ struct Rocket_Previews: PreviewProvider {
       store: .init(
         initialState: RocketDetailState(),
         reducer: rocketDetailReducer,
-        environment: RocketDetailEnvironment.debug(isFailing: false)
+        environment: .init()
       )
     )
   }
