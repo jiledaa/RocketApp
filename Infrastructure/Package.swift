@@ -47,6 +47,7 @@ let package = Package(
     .target(
       name: "RocketsClient",
       dependencies: [
+        "GeneralToolkit",
         .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
         .product(name: "Networking", package: "swift-core")
       ]

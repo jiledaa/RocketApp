@@ -1,5 +1,6 @@
 import Combine
 import Foundation
+import GeneralToolkit
 import Networking
 
 public struct RocketsClient {
@@ -47,17 +48,4 @@ public extension RocketsClient {
         .eraseToAnyPublisher()
     }
   )
-}
-
-public extension NetworkClient {
-  static func live(
-    networkMonitorQueue queue: DispatchQueue,
-    urlRequester: URLRequester = .live
-  ) -> NetworkClientType {
-    NetworkClient(
-      urlSessionConfiguration: URLSessionConfiguration.default,
-      urlRequester: urlRequester,
-      networkMonitorClient: .live(onQueue: queue)
-    )
-  }
 }
