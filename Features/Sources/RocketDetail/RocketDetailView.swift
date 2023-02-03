@@ -1,6 +1,5 @@
 import ComposableArchitecture
 import SwiftUI
-import TCAExtensions
 
 struct RocketView: View {
   var store: Store<RocketDetailState, RocketDetailAction>

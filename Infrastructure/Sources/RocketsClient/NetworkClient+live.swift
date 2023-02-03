@@ -1,9 +1,3 @@
-//
-//  File.swift
-//  
-//
-//  Created by David Jilek on 02.02.2023.
-//
 import Foundation
 import Networking
 

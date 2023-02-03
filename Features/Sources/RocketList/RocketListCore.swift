@@ -1,7 +1,6 @@
 import ComposableArchitecture
 import RocketDetail
 import RocketsClient
-import TCAExtensions
 
 public struct RocketListState: Equatable {
   var rockets: [RocketDetail]
@@ -27,7 +26,7 @@ public let rocketListReducer = Reducer<
   RocketListState,
   RocketListAction,
   RocketListEnvironment
-> { state, action, env in
+> { state, action, _ in
   switch action {
 
   case .fetchDataResponse(.failure):

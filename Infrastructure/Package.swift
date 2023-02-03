@@ -47,8 +47,6 @@ let package = Package(
     .target(
       name: "RocketsClient",
       dependencies: [
-        "GeneralToolkit",
-        .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
         .product(name: "Networking", package: "swift-core")
       ]
     ),
@@ -59,7 +57,6 @@ let package = Package(
     .target(
       name: "TCAExtensions",
       dependencies: [
-        "RocketsClient",
         .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
       ]
     ),
@@ -70,7 +67,6 @@ let package = Package(
     .target(
       name: "UIToolkit",
       dependencies: [
-        "RocketsClient"
       ]
     ),
     .testTarget(

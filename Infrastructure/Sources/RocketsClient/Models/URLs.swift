@@ -1,12 +1,8 @@
 import Foundation
 
+// TODO: keep only base url
 public enum URLs {
   public static let baseURL = "https://api.spacexdata.com"
-  public static let allRockets = baseURL + "/v3/rockets"
-
-  public static func rocket(id: String) -> String {
-    return baseURL + "/v3/rockets/\(id)"
-  }
 }
 
 /*

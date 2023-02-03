@@ -50,13 +50,6 @@
     {
       "target" : {
         "containerPath" : "container:Infrastructure",
-        "identifier" : "NetworkingTests",
-        "name" : "NetworkingTests"
-      }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:Infrastructure",
         "identifier" : "TCAExtensionsTests",
         "name" : "TCAExtensionsTests"
       }
@@ -66,6 +59,13 @@
         "containerPath" : "container:Infrastructure",
         "identifier" : "UIToolkitTests",
         "name" : "UIToolkitTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "RocketsClientTests",
+        "name" : "RocketsClientTests"
       }
     }
   ],
