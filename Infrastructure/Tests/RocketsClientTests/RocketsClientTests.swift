@@ -1,16 +1,23 @@
 import Combine
+import Networking
 @testable import RocketsClient
 import XCTest
 
 final class RocketsClientTests: XCTestCase {
+// MARK: - Integration tests
   func test_rocket_live_data() {
+    let networkClient = NetworkClient(
+      urlSessionConfiguration: .default,
+      urlRequester: .live,
+      networkMonitorClient: .live(onQueue: .main)
+    )
     var subscriptions = Set<AnyCancellable>()
     var rocketData: RocketDetail?
     var receivedValue: Int = 0
 
     let exp = expectation(description: "")
 
-    RocketsClient.live.getRocket("falcon1")
+    RocketsClient.live(networkClient).getRocket("falcon1")
       .sink(
         receiveCompletion: { _ in
           exp.fulfill()
@@ -35,6 +42,11 @@ final class RocketsClientTests: XCTestCase {
   }
 
   func test_rockets_live_data() {
+    let networkClient = NetworkClient(
+      urlSessionConfiguration: .default,
+      urlRequester: .live,
+      networkMonitorClient: .live(onQueue: .main)
+    )
     var subscriptions = Set<AnyCancellable>()
     var rocketData: [RocketDetail] = []
     var receivedValue: Int = 0
@@ -42,7 +54,7 @@ final class RocketsClientTests: XCTestCase {
     let exp = expectation(description: "")
     exp.expectedFulfillmentCount = 1
 
-    RocketsClient.live.getAllRockets()
+    RocketsClient.live(networkClient).getAllRockets()
       .sink(
         receiveCompletion: { _ in
           exp.fulfill()

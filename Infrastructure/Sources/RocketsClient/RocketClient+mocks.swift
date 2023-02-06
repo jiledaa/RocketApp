@@ -1,18 +1,15 @@
 import Combine
 import Foundation
 import Networking
+import XCTestDynamicOverlay
 
 extension RocketsClient {
-  static let mock: RocketsClient = RocketsClient(
-    getRocket: { _ in
-      Just(RocketDetail.mock)
-        .setFailureType(to: NetworkError.self)
-        .eraseToAnyPublisher()
-    },
-    getAllRockets: {
-      Just([RocketDetail.mock])
-        .setFailureType(to: NetworkError.self)
-        .eraseToAnyPublisher()
+  #if DEBUG
+    func mock(
+      getRocket: @escaping (String) -> AnyPublisher<RocketDetail, NetworkError> = XCTUnimplemented(),
+      getRockets: @escaping () -> AnyPublisher<[RocketDetail], NetworkError> = XCTUnimplemented()
+    ) -> RocketsClient {
+      RocketsClient(getRocket: getRocket, getAllRockets: getRockets)
     }
-  )
+  #endif
 }

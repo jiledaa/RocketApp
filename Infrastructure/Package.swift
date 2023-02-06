@@ -29,6 +29,7 @@ let package = Package(
   // Dependencies declare other packages that this package depends on.
   dependencies: [
     .package(url: "https://github.com/pointfreeco/swift-composable-architecture", .upToNextMajor(from: "0.0.0")),
+    .package(url: "https://github.com/pointfreeco/xctest-dynamic-overlay", from: "0.3.2"),
     .package(url: "https://github.com/Qase/swift-core", branch: "develop")
   ],
 
@@ -47,6 +48,7 @@ let package = Package(
     .target(
       name: "RocketsClient",
       dependencies: [
+        .product(name: "XCTestDynamicOverlay", package: "xctest-dynamic-overlay"),
         .product(name: "Networking", package: "swift-core")
       ]
     ),
