@@ -1,6 +1,6 @@
 import Foundation
 
-public struct RocketDetail: Decodable, Identifiable, Equatable {
+public struct RocketDetail: Codable, Identifiable, Equatable {
   public let id: String
   public let name: String
   public let overview: String
@@ -36,7 +36,7 @@ public struct RocketDetail: Decodable, Identifiable, Equatable {
     self.photos = photos
   }
 
-  public struct LineMeasure: Decodable {
+  public struct LineMeasure: Codable {
     public let meters: Float
     public let feets: Float
 
@@ -46,7 +46,7 @@ public struct RocketDetail: Decodable, Identifiable, Equatable {
     }
   }
 
-  public struct WeightScale: Decodable {
+  public struct WeightScale: Codable {
     public let kilograms: Float
     public let pounds: Float
 
@@ -56,7 +56,7 @@ public struct RocketDetail: Decodable, Identifiable, Equatable {
     }
   }
 
-  public struct Stage: Decodable, Equatable {
+  public struct Stage: Codable, Equatable {
     public let reusable: Bool
     public let engines: Int
     public let fuelMass: Float

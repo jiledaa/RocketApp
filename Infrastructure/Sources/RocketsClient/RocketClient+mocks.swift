@@ -1,15 +1,13 @@
-import Combine
+#if DEBUG
 import Foundation
-import Networking
 import XCTestDynamicOverlay
 
 extension RocketsClient {
-  #if DEBUG
-    func mock(
-      getRocket: @escaping (String) -> AnyPublisher<RocketDetail, NetworkError> = XCTUnimplemented(),
-      getRockets: @escaping () -> AnyPublisher<[RocketDetail], NetworkError> = XCTUnimplemented()
-    ) -> RocketsClient {
-      RocketsClient(getRocket: getRocket, getAllRockets: getRockets)
+    static func mock(
+      getRocket: @escaping GetRocketFunction = XCTUnimplemented("\(Self.self).getRocket"),
+      getAllRockets: @escaping GetAllRocketsFunction = XCTUnimplemented("\(Self.self).getAllRockets")
+    ) -> Self {
+      .init(getRocket: getRocket, getAllRockets: getAllRockets)
     }
-  #endif
 }
+#endif

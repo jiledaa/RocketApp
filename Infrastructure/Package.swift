@@ -48,13 +48,17 @@ let package = Package(
     .target(
       name: "RocketsClient",
       dependencies: [
-        .product(name: "XCTestDynamicOverlay", package: "xctest-dynamic-overlay"),
-        .product(name: "Networking", package: "swift-core")
+        .product(name: "Networking", package: "swift-core"),
+        .product(name: "RequestBuilder", package: "swift-core"),
+        .product(name: "XCTestDynamicOverlay", package: "xctest-dynamic-overlay")
       ]
     ),
     .testTarget(
       name: "RocketsClientTests",
-      dependencies: ["RocketsClient"]
+      dependencies: [
+        "RocketsClient",
+        .product(name: "Networking", package: "swift-core")
+      ]
     ),
     .target(
       name: "TCAExtensions",
