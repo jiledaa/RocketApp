@@ -6,15 +6,11 @@ import PackageDescription
 let package = Package(
   name: "Infrastructure",
   platforms: [.iOS(.v15), .macOS(.v12)],
-  // Products define the executables and libraries a package produces, and make them visible to other packages.
+
   products: [
     .library(
       name: "GeneralToolkit",
       targets: ["GeneralToolkit"]
-    ),
-    .library(
-      name: "RocketsClient",
-      targets: ["RocketsClient"]
     ),
     .library(
       name: "TCAExtensions",
@@ -26,16 +22,10 @@ let package = Package(
     )
   ],
 
-  // Dependencies declare other packages that this package depends on.
   dependencies: [
-    .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "0.1.4"),
-    .package(url: "https://github.com/pointfreeco/swift-composable-architecture", .upToNextMajor(from: "0.0.0")),
-    .package(url: "https://github.com/pointfreeco/xctest-dynamic-overlay", from: "0.3.2"),
-    .package(url: "https://github.com/Qase/swift-core", branch: "develop")
+    .package(url: "https://github.com/pointfreeco/swift-composable-architecture", .upToNextMajor(from: "0.0.0"))
   ],
 
-  // Targets are the basic building blocks of a package. A target can define a module or a test suite.
-  // Targets can depend on other targets in this package, and on products in packages this package depends on.
   targets: [
     .target(
       name: "GeneralToolkit",
@@ -45,23 +35,6 @@ let package = Package(
     .testTarget(
       name: "GeneralToolkitTests",
       dependencies: ["GeneralToolkit"]
-    ),
-    .target(
-      name: "RocketsClient",
-      dependencies: [
-        .product(name: "Networking", package: "swift-core"),
-        .product(name: "RequestBuilder", package: "swift-core"),
-        .product(name: "Dependencies", package: "swift-dependencies"),
-        .product(name: "XCTestDynamicOverlay", package: "xctest-dynamic-overlay"),
-        .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
-      ]
-    ),
-    .testTarget(
-      name: "RocketsClientTests",
-      dependencies: [
-        "RocketsClient",
-        .product(name: "Networking", package: "swift-core")
-      ]
     ),
     .target(
       name: "TCAExtensions",

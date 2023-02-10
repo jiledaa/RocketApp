@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
   name: "Features",
   platforms: [.iOS(.v15), .macOS(.v12)],
-  // Products define the executables and libraries a package produces, and make them visible to other packages.
+
   products: [
     .library(
       name: "Root",
@@ -26,20 +26,18 @@ let package = Package(
     )
   ],
 
-  // Dependencies declare other packages that this package depends on.
   dependencies: [
+    .package(path: "../Domain"),
     .package(path: "../Infrastructure"),
     .package(url: "https://github.com/pointfreeco/swift-composable-architecture", .upToNextMajor(from: "0.0.0"))
   ],
 
-  // Targets are the basic building blocks of a package. A target can define a module or a test suite.
-  // Targets can depend on other targets in this package, and on products in packages this package depends on.
   targets: [
     .target(
       name: "Root",
       dependencies: [
         "RocketList",
-        .product(name: "RocketsClient", package: "Infrastructure")
+        .product(name: "RocketsClient", package: "Domain")
       ]
     ),
     .testTarget(
@@ -50,7 +48,7 @@ let package = Package(
       name: "RocketDetail",
       dependencies: [
         .product(name: "GeneralToolkit", package: "Infrastructure"),
-        .product(name: "RocketsClient", package: "Infrastructure"),
+        .product(name: "RocketsClient", package: "Domain"),
         .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
       ]
     ),
@@ -74,7 +72,7 @@ let package = Package(
       dependencies: [
         "RocketDetail",
         .product(name: "GeneralToolkit", package: "Infrastructure"),
-        .product(name: "RocketsClient", package: "Infrastructure"),
+        .product(name: "RocketsClient", package: "Domain"),
         .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
       ]
     ),
