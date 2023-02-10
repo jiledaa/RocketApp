@@ -1,10 +1,11 @@
 import Combine
+import Dependencies
 import Networking
 @testable import RocketsClient
 import XCTest
 
 final class IntegrationTests: XCTestCase {
-  var networkClient: NetworkClientType!
+  // swiftlint:disable:next implicitly_unwrapped_optional
   var rocketsClient: RocketsClient!
 
   var subscriptions = Set<AnyCancellable>()
@@ -12,20 +13,22 @@ final class IntegrationTests: XCTestCase {
   override func setUp() {
     super.setUp()
 
-    networkClient = NetworkClient(
-      urlSessionConfiguration: .default,
-      urlRequester: .live,
-      networkMonitorClient: .live(onQueue: .main)
-    )
-
-    rocketsClient = RocketsClient.live(networkClient)
+    withDependencies {
+      $0.networkClientType = NetworkClient(
+        urlSessionConfiguration: .default,
+        urlRequester: .live,
+        networkMonitorClient: .live(onQueue: .main)
+      )
+    } operation: {
+      rocketsClient = RocketsClient.liveValue
+    }
   }
 
   override func tearDown() {
     super.tearDown()
 
+    rocketsClient = nil
     subscriptions = []
-    networkClient = nil
   }
 
   func test_rocket_live_bad_ID() {
@@ -35,7 +38,7 @@ final class IntegrationTests: XCTestCase {
       .sink(
         receiveCompletion: {
           switch $0 {
-          case .failure(_):
+          case .failure:
             exp.fulfill()
           case .finished:
             XCTFail("Unexpected event - finished.")
@@ -54,7 +57,7 @@ final class IntegrationTests: XCTestCase {
     let exp = expectation(description: "")
 
     var rocketData: RocketDetail?
-    var receivedValue: Int = 0
+    var receivedValueCount: Int = 0
 
     rocketsClient.getRocket("falcon1")
       .sink(
@@ -63,13 +66,13 @@ final class IntegrationTests: XCTestCase {
         },
         receiveValue: {
           rocketData = $0
-          receivedValue += 1
+          receivedValueCount += 1
         }
       )
       .store(in: &subscriptions)
 
     wait(for: [exp], timeout: 5)
-    XCTAssertEqual(receivedValue, 1)
+    XCTAssertEqual(receivedValueCount, 1)
     XCTAssertEqual(rocketData?.id, "falcon1")
     XCTAssertEqual(rocketData?.name, "Falcon 1")
     XCTAssertEqual(rocketData?.height.meters, 22.25)
@@ -84,7 +87,7 @@ final class IntegrationTests: XCTestCase {
     let exp = expectation(description: "")
 
     var rocketData: [RocketDetail] = []
-    var receivedValue: Int = 0
+    var receivedValueCount: Int = 0
 
     rocketsClient.getAllRockets()
       .sink(
@@ -93,13 +96,13 @@ final class IntegrationTests: XCTestCase {
         },
         receiveValue: {
           rocketData = $0
-          receivedValue += 1
+          receivedValueCount += 1
         }
       )
       .store(in: &subscriptions)
 
     wait(for: [exp], timeout: 5)
-    XCTAssertEqual(receivedValue, 1)
+    XCTAssertEqual(receivedValueCount, 1)
     XCTAssertEqual(rocketData.count, 4)
     XCTAssertEqual(rocketData[0].name, "Falcon 1")
     XCTAssertEqual(rocketData[1].name, "Falcon 9")

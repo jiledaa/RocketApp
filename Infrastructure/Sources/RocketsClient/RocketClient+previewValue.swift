@@ -2,8 +2,8 @@ import Combine
 import Foundation
 import Networking
 
-extension RocketsClient {
-  static var dev: RocketsClient = RocketsClient(
+public extension RocketsClient {
+  static let previewValue = Self(
     getRocket: { _ in
       Just(RocketDetail.mock)
         .setFailureType(to: NetworkError.self)

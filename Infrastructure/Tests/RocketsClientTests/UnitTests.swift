@@ -1,4 +1,5 @@
 import Combine
+import Dependencies
 @testable import Networking
 @testable import RocketsClient
 import XCTest
@@ -13,13 +14,15 @@ final class UnitTests: XCTestCase {
   }
 
   func rocketsClient(requester: URLRequester) -> RocketsClient {
-    let networkClient = NetworkClient(
-      urlSessionConfiguration: .default,
-      urlRequester: requester,
-      networkMonitorClient: .live(onQueue: .main)
-    )
-
-    return RocketsClient.live(networkClient)
+    withDependencies {
+      $0.networkClientType = NetworkClient(
+        urlSessionConfiguration: .default,
+        urlRequester: requester,
+        networkMonitorClient: .live(onQueue: .main)
+      )
+    } operation: {
+      return RocketsClient.liveValue
+    }
   }
 
   func test_rocket_request_success() {
@@ -39,7 +42,7 @@ final class UnitTests: XCTestCase {
       Just((dataMock, responseMock))
         .setFailureType(to: URLError.self)
         .eraseToAnyPublisher()
-      }
+    }
     }
 
     rocketsClient(requester: requesterMock).getRocket("")
@@ -59,7 +62,7 @@ final class UnitTests: XCTestCase {
       )
       .store(in: &subscriptions)
 
-      wait(for: [exp], timeout: 0.1)
+    wait(for: [exp], timeout: 0.1)
     XCTAssertEqual(rocketData?.id, "apollo13")
     XCTAssertEqual(receivedValueCount, 1)
   }
@@ -70,7 +73,7 @@ final class UnitTests: XCTestCase {
     let requesterMock = URLRequester { _ in { _ in
       Fail(error: URLError(.badServerResponse))
         .eraseToAnyPublisher()
-      }
+    }
     }
 
     rocketsClient(requester: requesterMock).getRocket("")
