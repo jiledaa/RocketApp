@@ -9,8 +9,9 @@ let package = Package(
 
   products: [
     .library(
-      name: "GeneralToolkit",
-      targets: ["GeneralToolkit"]
+      name: "CoreToolkit",
+      type: .static,
+      targets: ["CoreToolkit"]
     ),
     .library(
       name: "TCAExtensions",
@@ -28,13 +29,13 @@ let package = Package(
 
   targets: [
     .target(
-      name: "GeneralToolkit",
+      name: "CoreToolkit",
       dependencies: [
       ]
     ),
     .testTarget(
-      name: "GeneralToolkitTests",
-      dependencies: ["GeneralToolkit"]
+      name: "CoreToolkitTests",
+      dependencies: ["CoreToolkit"]
     ),
     .target(
       name: "TCAExtensions",
