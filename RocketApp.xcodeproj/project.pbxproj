@@ -17,10 +17,10 @@
 		1607AECC28D21C240030F1DF /* AllTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = AllTests.xctestplan; sourceTree = "<group>"; };
 		1607AECD28D21D040030F1DF /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		160CA40D28A506E4004A274A /* RocketApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RocketApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		161076CD2996696700599091 /* Domain */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Domain; path = ../../TestApps/Domain; sourceTree = "<group>"; };
 		163E0EF428C79B6500CECFD8 /* RocketApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketApp.swift; sourceTree = "<group>"; };
 		163E0F8B28D0E66600CECFD8 /* Features */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Features; sourceTree = SOURCE_ROOT; };
 		163E0F8D28D0E67D00CECFD8 /* Infrastructure */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Infrastructure; sourceTree = SOURCE_ROOT; };
+		165B203A299930FB0047F70A /* Domain */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Domain; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,8 +64,8 @@
 		163E0EBC28C7988100CECFD8 /* RocketApp */ = {
 			isa = PBXGroup;
 			children = (
-				161076CD2996696700599091 /* Domain */,
 				163E0EF428C79B6500CECFD8 /* RocketApp.swift */,
+				165B203A299930FB0047F70A /* Domain */,
 				163E0F8B28D0E66600CECFD8 /* Features */,
 				163E0F8D28D0E67D00CECFD8 /* Infrastructure */,
 				1607AEC728D21B1F0030F1DF /* Recources */,
