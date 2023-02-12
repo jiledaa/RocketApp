@@ -14,58 +14,58 @@
   "testTargets" : [
     {
       "target" : {
-        "containerPath" : "container:Features",
+        "containerPath" : "container:",
+        "identifier" : "RocketsClientTests",
+        "name" : "RocketsClientTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:..\/Features",
         "identifier" : "RocketDetailTests",
         "name" : "RocketDetailTests"
       }
     },
     {
       "target" : {
-        "containerPath" : "container:Features",
+        "containerPath" : "container:..\/Features",
         "identifier" : "RocketLaunchTests",
         "name" : "RocketLaunchTests"
       }
     },
     {
       "target" : {
-        "containerPath" : "container:Features",
+        "containerPath" : "container:..\/Features",
         "identifier" : "RocketListTests",
         "name" : "RocketListTests"
       }
     },
     {
       "target" : {
-        "containerPath" : "container:Features",
+        "containerPath" : "container:..\/Features",
         "identifier" : "RootTests",
         "name" : "RootTests"
       }
     },
     {
       "target" : {
-        "containerPath" : "container:Infrastructure",
+        "containerPath" : "container:..\/Infrastructure",
         "identifier" : "CoreToolkitTests",
         "name" : "CoreToolkitTests"
       }
     },
     {
       "target" : {
-        "containerPath" : "container:Infrastructure",
+        "containerPath" : "container:..\/Infrastructure",
         "identifier" : "TCAExtensionsTests",
         "name" : "TCAExtensionsTests"
       }
     },
     {
       "target" : {
-        "containerPath" : "container:Infrastructure",
+        "containerPath" : "container:..\/Infrastructure",
         "identifier" : "UIToolkitTests",
         "name" : "UIToolkitTests"
-      }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:",
-        "identifier" : "RocketsClientTests",
-        "name" : "RocketsClientTests"
       }
     }
   ],
