@@ -13,7 +13,7 @@ final class UnitTests: XCTestCase {
     subscriptions = []
   }
 
-  func rocketsClient(requester: URLRequester) -> RocketsClient {
+  private func rocketsClient(requester: URLRequester) -> RocketsClient {
     withDependencies {
       $0.networkClientType = NetworkClient(
         urlSessionConfiguration: .default,

@@ -1,5 +1,5 @@
-@testable import GeneralToolkit
+@testable import CoreToolkit
 import XCTest
 
-final class GeneralToolkitTests: XCTestCase {
+final class CoreToolkitTests: XCTestCase {
 }
