@@ -1,6 +1,6 @@
 import ComposableArchitecture
-import Networking
 import RocketList
+import RocketsClient
 import SwiftUI
 
 @main
@@ -10,7 +10,7 @@ struct RocketApp: App {
       RocketListView(store: Store(
         initialState: RocketListState(rocketsData: []),
         reducer: rocketListReducer.debug(),
-        environment: .live
+        environment: .init()
       ))
     }
   }

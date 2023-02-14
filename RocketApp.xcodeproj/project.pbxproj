@@ -8,9 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		163E0EF528C79B6500CECFD8 /* RocketApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163E0EF428C79B6500CECFD8 /* RocketApp.swift */; };
-		163E0F8C28D0E66600CECFD8 /* Features in Resources */ = {isa = PBXBuildFile; fileRef = 163E0F8B28D0E66600CECFD8 /* Features */; };
-		163E0F8E28D0E67D00CECFD8 /* Infrastructure in Resources */ = {isa = PBXBuildFile; fileRef = 163E0F8D28D0E67D00CECFD8 /* Infrastructure */; };
 		1646382128D219350069F60E /* Root in Frameworks */ = {isa = PBXBuildFile; productRef = 1646382028D219350069F60E /* Root */; };
+		165B2051299944900047F70A /* Domain in Resources */ = {isa = PBXBuildFile; fileRef = 165B2050299944900047F70A /* Domain */; };
+		165B20542999449B0047F70A /* Features in Resources */ = {isa = PBXBuildFile; fileRef = 165B20522999449B0047F70A /* Features */; };
+		165B20552999449B0047F70A /* Infrastructure in Resources */ = {isa = PBXBuildFile; fileRef = 165B20532999449B0047F70A /* Infrastructure */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -18,8 +19,9 @@
 		1607AECD28D21D040030F1DF /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		160CA40D28A506E4004A274A /* RocketApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RocketApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		163E0EF428C79B6500CECFD8 /* RocketApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketApp.swift; sourceTree = "<group>"; };
-		163E0F8B28D0E66600CECFD8 /* Features */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Features; sourceTree = SOURCE_ROOT; };
-		163E0F8D28D0E67D00CECFD8 /* Infrastructure */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Infrastructure; sourceTree = SOURCE_ROOT; };
+		165B2050299944900047F70A /* Domain */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Domain; sourceTree = "<group>"; };
+		165B20522999449B0047F70A /* Features */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Features; sourceTree = "<group>"; };
+		165B20532999449B0047F70A /* Infrastructure */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Infrastructure; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,9 +65,10 @@
 		163E0EBC28C7988100CECFD8 /* RocketApp */ = {
 			isa = PBXGroup;
 			children = (
+				165B20522999449B0047F70A /* Features */,
+				165B20532999449B0047F70A /* Infrastructure */,
+				165B2050299944900047F70A /* Domain */,
 				163E0EF428C79B6500CECFD8 /* RocketApp.swift */,
-				163E0F8B28D0E66600CECFD8 /* Features */,
-				163E0F8D28D0E67D00CECFD8 /* Infrastructure */,
 				1607AEC728D21B1F0030F1DF /* Recources */,
 			);
 			path = RocketApp;
@@ -143,8 +146,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				163E0F8E28D0E67D00CECFD8 /* Infrastructure in Resources */,
-				163E0F8C28D0E66600CECFD8 /* Features in Resources */,
+				165B2051299944900047F70A /* Domain in Resources */,
+				165B20552999449B0047F70A /* Infrastructure in Resources */,
+				165B20542999449B0047F70A /* Features in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -14,63 +14,56 @@
   "testTargets" : [
     {
       "target" : {
-        "containerPath" : "container:Features",
+        "containerPath" : "container:RocketApp\/Domain",
+        "identifier" : "RocketsClientTests",
+        "name" : "RocketsClientTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:RocketApp\/Features",
         "identifier" : "RocketDetailTests",
         "name" : "RocketDetailTests"
       }
     },
     {
       "target" : {
-        "containerPath" : "container:Features",
+        "containerPath" : "container:RocketApp\/Features",
         "identifier" : "RocketLaunchTests",
         "name" : "RocketLaunchTests"
       }
     },
     {
       "target" : {
-        "containerPath" : "container:Features",
+        "containerPath" : "container:RocketApp\/Features",
         "identifier" : "RocketListTests",
         "name" : "RocketListTests"
       }
     },
     {
       "target" : {
-        "containerPath" : "container:Features",
+        "containerPath" : "container:RocketApp\/Features",
         "identifier" : "RootTests",
         "name" : "RootTests"
       }
     },
     {
       "target" : {
-        "containerPath" : "container:Infrastructure",
+        "containerPath" : "container:RocketApp\/Infrastructure",
         "identifier" : "CoreToolkitTests",
         "name" : "CoreToolkitTests"
       }
     },
     {
       "target" : {
-        "containerPath" : "container:Infrastructure",
-        "identifier" : "NetworkingTests",
-        "name" : "NetworkingTests"
-      }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:Infrastructure",
-        "identifier" : "ObjectModelTests",
-        "name" : "ObjectModelTests"
-      }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:Infrastructure",
+        "containerPath" : "container:RocketApp\/Infrastructure",
         "identifier" : "TCAExtensionsTests",
         "name" : "TCAExtensionsTests"
       }
     },
     {
       "target" : {
-        "containerPath" : "container:Infrastructure",
+        "containerPath" : "container:RocketApp\/Infrastructure",
         "identifier" : "UIToolkitTests",
         "name" : "UIToolkitTests"
       }
