@@ -29,7 +29,7 @@ let package = Package(
   dependencies: [
     .package(path: "../Domain"),
     .package(path: "../Infrastructure"),
-    .package(url: "https://github.com/pointfreeco/swift-composable-architecture", .upToNextMajor(from: "0.0.0"))
+    .package(url: "https://github.com/pointfreeco/swift-composable-architecture", .upToNextMajor(from: "0.5.0"))
   ],
 
   targets: [
