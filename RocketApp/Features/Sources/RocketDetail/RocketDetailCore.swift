@@ -2,40 +2,40 @@ import ComposableArchitecture
 import Foundation
 import RocketsClient
 
-public struct RocketDetailState: Equatable {
-  public var rocket: RocketDetail?
+public struct RocketDetailCore: ReducerProtocol {
+  public struct State: Equatable {
+    public var rocket: RocketDetail?
 
-  public init(rocket: RocketDetail? = nil) {
-    self.rocket = rocket
+    public init(rocket: RocketDetail? = nil) {
+      self.rocket = rocket
+    }
   }
-}
 
-public enum RocketDetailAction: Equatable {
-  case fetchDataResponse(TaskResult<RocketDetail>)
-  case fetchRocketData(RocketDetail)
-}
+  public enum Action: Equatable {
+    case fetchDataResponse(TaskResult<RocketDetail>)
+    case fetchRocketData(RocketDetail)
+  }
 
-public struct RocketDetailEnvironment {}
+  public init() {}
 
-public extension RocketDetailEnvironment {}
+  @Dependency(\.rocketsClient) var rocketsClient
 
-public let rocketDetailReducer = Reducer<
-  RocketDetailState,
-  RocketDetailAction,
-  RocketDetailEnvironment
-> { state, action, _ in
-  switch action {
-  case .fetchDataResponse(.failure):
-    state.rocket = nil
-    return .none
+  public var body: some ReducerProtocol<State, Action> {
+    Reduce { state, action in
+      switch action {
+      case .fetchDataResponse(.failure):
+        state.rocket = nil
+        return .none
 
-  case let .fetchDataResponse(.success(response)):
-    state.rocket = response
-    return .none
+      case let .fetchDataResponse(.success(response)):
+        state.rocket = response
+        return .none
 
-  case let .fetchRocketData(rocket):
-    enum RocketDetailID {}
+      case .fetchRocketData:
+        enum RocketDetailID {}
 
-    return .none
+        return .none
+      }
+    }
   }
 }

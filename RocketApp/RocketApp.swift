@@ -7,11 +7,12 @@ import SwiftUI
 struct RocketApp: App {
   var body: some Scene {
     WindowGroup {
-      RocketListView(store: Store(
-        initialState: RocketListState(rocketsData: []),
-        reducer: rocketListReducer.debug(),
-        environment: .init()
-      ))
+      RocketListView(
+        store: Store(
+          initialState: RocketListCore.State(rocketsData: []),
+          reducer: RocketListCore()
+        )
+      )
     }
   }
 }

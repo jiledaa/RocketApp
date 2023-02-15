@@ -1,29 +1,29 @@
 import ComposableArchitecture
+import RocketsClient
 import SwiftUI
 
-struct RocketView: View {
-  var store: Store<RocketDetailState, RocketDetailAction>
-  @ObservedObject var viewStore: ViewStore<RocketDetailState, RocketDetailAction>
+struct RocketDetailView: View {
+  var store: StoreOf<RocketDetailCore>
 
-  init(store: Store<RocketDetailState, RocketDetailAction>) {
+  init(store: StoreOf<RocketDetailCore>) {
     self.store = store
-    viewStore = ViewStore(store)
   }
 
   var body: some View {
-    VStack {
-
+    WithViewStore(self.store) { viewStore in
+      VStack {
+        Text(viewStore.rocket?.id ?? "")
+      }
     }
   }
 }
 
 struct Rocket_Previews: PreviewProvider {
   static var previews: some View {
-    RocketView(
+    RocketDetailView(
       store: .init(
-        initialState: RocketDetailState(),
-        reducer: rocketDetailReducer,
-        environment: .init()
+        initialState: RocketDetailCore.State(rocket: RocketDetail.mock),
+        reducer: RocketDetailCore()
       )
     )
   }

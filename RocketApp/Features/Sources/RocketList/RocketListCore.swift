@@ -1,43 +1,37 @@
 import ComposableArchitecture
-import RocketDetail
 import RocketsClient
 
-public struct RocketListState: Equatable {
-  var rockets: [RocketDetail]
+public struct RocketListCore: ReducerProtocol {
+  public struct State: Equatable {
+    var rockets: [RocketDetail]
 
-  public init(rocketsData: [RocketDetail]) {
-    self.rockets = rocketsData
+    public init(rocketsData: [RocketDetail]) {
+      self.rockets = rocketsData
+    }
   }
-}
 
-public enum RocketListAction: Equatable {
-  case fetchDataResponse(TaskResult<[RocketDetail]>)
-  case fetchRocketsData
-}
-
-public struct RocketListEnvironment {
+  public enum Action: Equatable {
+    case fetchDataResponse(TaskResult<[RocketDetail]>)
+    case fetchRocketsData
+  }
 
   public init() {}
-}
 
-public extension RocketListEnvironment {}
+  @Dependency(\.rocketsClient) var rocketsClient
 
-public let rocketListReducer = Reducer<
-  RocketListState,
-  RocketListAction,
-  RocketListEnvironment
-> { state, action, _ in
-  switch action {
+  public var body: some ReducerProtocol<State, Action> {
+    Reduce { state, action in
+      switch action {
+      case .fetchDataResponse(.failure):
+        return .none
 
-  case .fetchDataResponse(.failure):
-    return .none
+      case let .fetchDataResponse(.success(response)):
+        state.rockets = response
+        return .none
 
-  case let .fetchDataResponse(.success(response)):
-    state.rockets = response
-    return .none
-
-  case .fetchRocketsData:
-    return .none
+      case .fetchRocketsData:
+        return .none
+      }
+    }
   }
 }
-  .debug()

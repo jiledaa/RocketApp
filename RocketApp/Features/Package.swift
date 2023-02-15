@@ -23,6 +23,10 @@ let package = Package(
     .library(
       name: "RocketList",
       targets: ["RocketList"]
+    ),
+    .library(
+      name: "RocketListCell",
+      targets: ["RocketListCell"]
     )
   ],
 
@@ -59,7 +63,6 @@ let package = Package(
     .target(
       name: "RocketLaunch",
       dependencies: [
-        .product(name: "TCAExtensions", package: "Infrastructure"),
         .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
       ]
     ),
@@ -70,8 +73,6 @@ let package = Package(
     .target(
       name: "RocketList",
       dependencies: [
-        "RocketDetail",
-        .product(name: "CoreToolkit", package: "Infrastructure"),
         .product(name: "RocketsClient", package: "Domain"),
         .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
       ]
@@ -79,6 +80,17 @@ let package = Package(
     .testTarget(
       name: "RocketListTests",
       dependencies: ["RocketList"]
+    ),
+    .target(
+      name: "RocketListCell",
+      dependencies: [
+        .product(name: "RocketsClient", package: "Domain"),
+        .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+      ]
+    ),
+    .testTarget(
+      name: "RocketListCellTests",
+      dependencies: ["RocketListCell"]
     )
   ]
 )
