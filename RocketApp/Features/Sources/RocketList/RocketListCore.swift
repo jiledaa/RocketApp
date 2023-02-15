@@ -3,10 +3,10 @@ import RocketsClient
 
 public struct RocketListCore: ReducerProtocol {
   public struct State: Equatable {
-    var rockets: [RocketDetail]
+    var rocketsData: [RocketDetail]
 
     public init(rocketsData: [RocketDetail]) {
-      self.rockets = rocketsData
+      self.rocketsData = rocketsData
     }
   }
 
@@ -26,7 +26,7 @@ public struct RocketListCore: ReducerProtocol {
         return .none
 
       case let .fetchDataResponse(.success(response)):
-        state.rockets = response
+        state.rocketsData = response
         return .none
 
       case .fetchRocketsData:

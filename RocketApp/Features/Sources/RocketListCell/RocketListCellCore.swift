@@ -2,12 +2,14 @@ import Foundation
 import RocketsClient
 import ComposableArchitecture
 
-struct RocketListCellCore: ReducerProtocol {
-  public struct State: Equatable {
-    var rocketDetail: RocketDetail
+public struct RocketListCellCore: ReducerProtocol {
+  public struct State: Equatable, Identifiable {
+    public var rocketData: RocketDetail
+    public var id: String
 
-    public init(rocketDetail: RocketDetail) {
-      self.rocketDetail = rocketDetail
+    public init(rocketData: RocketDetail) {
+      self.rocketData = rocketData
+      self.id = rocketData.id
     }
   }
 

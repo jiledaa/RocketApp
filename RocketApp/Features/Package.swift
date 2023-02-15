@@ -73,6 +73,7 @@ let package = Package(
     .target(
       name: "RocketList",
       dependencies: [
+        "RocketListCell",
         .product(name: "RocketsClient", package: "Domain"),
         .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
       ]
