@@ -1,11 +1,11 @@
-// swift-tools-version: 5.6
+// swift-tools-version: 5.7.1
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 
 let package = Package(
   name: "Features",
-  platforms: [.iOS(.v15), .macOS(.v12)],
+  platforms: [.iOS(.v16), .macOS(.v12)],
 
   products: [
     .library(
@@ -74,6 +74,7 @@ let package = Package(
       name: "RocketList",
       dependencies: [
         "RocketListCell",
+        "RocketDetail",
         .product(name: "RocketsClient", package: "Domain"),
         .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
       ]

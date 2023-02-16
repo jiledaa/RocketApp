@@ -4,16 +4,15 @@ import RocketsClient
 
 public struct RocketDetailCore: ReducerProtocol {
   public struct State: Equatable {
-    public var rocket: RocketDetail?
+    public var rocketData: RocketDetail
 
-    public init(rocket: RocketDetail? = nil) {
-      self.rocket = rocket
+    public init(rocketData: RocketDetail) {
+      self.rocketData = rocketData
     }
   }
 
   public enum Action: Equatable {
-    case fetchDataResponse(TaskResult<RocketDetail>)
-    case fetchRocketData(RocketDetail)
+
   }
 
   public init() {}
@@ -23,18 +22,7 @@ public struct RocketDetailCore: ReducerProtocol {
   public var body: some ReducerProtocol<State, Action> {
     Reduce { state, action in
       switch action {
-      case .fetchDataResponse(.failure):
-        state.rocket = nil
-        return .none
 
-      case let .fetchDataResponse(.success(response)):
-        state.rocket = response
-        return .none
-
-      case .fetchRocketData:
-        enum RocketDetailID {}
-
-        return .none
       }
     }
   }

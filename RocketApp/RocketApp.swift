@@ -9,7 +9,7 @@ struct RocketApp: App {
     WindowGroup {
       RocketListView(
         store: Store(
-          initialState: RocketListCore.State(rocketsData: []),
+          initialState: RocketListCore.State(),
           reducer: RocketListCore()
         )
       )
