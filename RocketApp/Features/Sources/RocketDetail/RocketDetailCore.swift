@@ -12,7 +12,7 @@ public struct RocketDetailCore: ReducerProtocol {
   }
 
   public enum Action: Equatable {
-
+    case rocketLaunchTapped
   }
 
   public init() {}
@@ -20,9 +20,10 @@ public struct RocketDetailCore: ReducerProtocol {
   @Dependency(\.rocketsClient) var rocketsClient
 
   public var body: some ReducerProtocol<State, Action> {
-    Reduce { state, action in
+    Reduce { _, action in
       switch action {
-
+      case .rocketLaunchTapped:
+        return .none
       }
     }
   }

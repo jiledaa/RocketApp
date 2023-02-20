@@ -33,6 +33,7 @@ let package = Package(
   dependencies: [
     .package(path: "../Domain"),
     .package(path: "../Infrastructure"),
+    .package(url: "https://github.com/Qase/swift-core", branch: "develop"),
     .package(url: "https://github.com/pointfreeco/swift-composable-architecture", .upToNextMajor(from: "0.5.0"))
   ],
 
@@ -76,6 +77,13 @@ let package = Package(
         "RocketListCell",
         "RocketDetail",
         .product(name: "RocketsClient", package: "Domain"),
+        .product(name: "DispatchQueueExtensions", package: "Infrastructure"),
+        .product(
+          name: "Networking",
+          package: "swift-core",
+          moduleAliases: ["CoreToolkit": "NetworkingCoreToolkit"],
+          condition: .none
+        ),
         .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
       ]
     ),

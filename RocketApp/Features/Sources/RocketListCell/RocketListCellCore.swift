@@ -5,11 +5,10 @@ import ComposableArchitecture
 public struct RocketListCellCore: ReducerProtocol {
   public struct State: Equatable, Identifiable {
     public var rocketData: RocketDetail
-    public var id: String
+    public var id: String { rocketData.id }
 
     public init(rocketData: RocketDetail) {
       self.rocketData = rocketData
-      self.id = rocketData.id
     }
   }
 
@@ -18,8 +17,6 @@ public struct RocketListCellCore: ReducerProtocol {
   }
 
   public init() {}
-
-  @Dependency(\.rocketsClient) var rocketsClient
 
   public var body: some ReducerProtocol<State, Action> {
     Reduce { _, action in
