@@ -17,8 +17,6 @@ public struct RocketDetailCore: ReducerProtocol {
 
   public init() {}
 
-  @Dependency(\.rocketsClient) var rocketsClient
-
   public var body: some ReducerProtocol<State, Action> {
     Reduce { _, action in
       switch action {

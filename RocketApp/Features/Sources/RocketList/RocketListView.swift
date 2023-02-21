@@ -34,10 +34,9 @@ public struct RocketListView: View {
   @ViewBuilder
   private var rocketsList: some View {
     List {
-      ForEachStore(
-        store.scope(state: \.rocketsData, action: RocketListCore.Action.rocketListCell(id:action:)),
-        content: RocketListCellView.init(store:)
-      )
+      ForEachStore(store.scope(state: \.rocketsData, action: RocketListCore.Action.rocketListCell(id:action:))) {
+        RocketListCellView(store: $0)
+      }
     }
     .listStyle(.plain)
     .navigationDestination(
@@ -51,12 +50,7 @@ public struct RocketListView: View {
 
   @ViewBuilder
   private var destinaion: some View {
-    IfLetStore(
-      store.scope(
-        state: \.rocketDetailState,
-        action: RocketListCore.Action.rocketDetail
-      )
-    ) {
+    IfLetStore(store.scope(state: \.rocketDetailState, action: RocketListCore.Action.rocketDetail)) {
       RocketDetailView(store: $0)
     }
   }

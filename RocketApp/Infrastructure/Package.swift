@@ -59,7 +59,12 @@ let package = Package(
     .target(
       name: "NetworkClientExtensions",
       dependencies: [
-        .product(name: "Networking", package: "swift-core"),
+        .productItem(
+          name: "Networking",
+          package: "swift-core",
+          moduleAliases: ["CoreToolkit": "NetworkingCoreToolkit"],
+          condition: .none
+        ),
         .product(name: "Dependencies", package: "swift-dependencies"),
         .product(name: "XCTestDynamicOverlay", package: "xctest-dynamic-overlay")
       ]

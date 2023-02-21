@@ -95,6 +95,7 @@ let package = Package(
       name: "RocketListCell",
       dependencies: [
         .product(name: "RocketsClient", package: "Domain"),
+        .product(name: "CoreToolkit", package: "Infrastructure"),
         .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
       ]
     ),
