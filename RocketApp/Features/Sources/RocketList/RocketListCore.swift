@@ -4,6 +4,7 @@ import Networking
 import RocketsClient
 import DispatchQueueExtensions
 import ComposableArchitecture
+import Foundation
 
 public struct RocketListCore: ReducerProtocol {
   public struct State: Equatable {
@@ -53,15 +54,11 @@ public struct RocketListCore: ReducerProtocol {
         state.route = .rocketDetail(.init(rocketData: rocketsData.rocketData))
         return .none
 
-      case .setNavigation(isActive: let isActive):
-        switch isActive {
-        case true:
-          return .none
+      case .setNavigation(isActive: true):
+        return .none
 
-        case false:
-          state.route = nil
-        }
-
+      case .setNavigation(isActive: false):
+        state.route = nil
         return .none
 
       case .rocketDetail:

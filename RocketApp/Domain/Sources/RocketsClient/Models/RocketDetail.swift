@@ -36,7 +36,7 @@ public struct RocketDetail: Codable, Identifiable, Equatable {
     self.photos = photos
   }
 
-  public struct LineMeasure: Codable {
+  public struct LineMeasure: Codable, Equatable {
     public let meters: Float
     public let feets: Float
 
@@ -46,7 +46,7 @@ public struct RocketDetail: Codable, Identifiable, Equatable {
     }
   }
 
-  public struct WeightScale: Codable {
+  public struct WeightScale: Codable, Equatable {
     public let kilograms: Float
     public let pounds: Float
 
@@ -68,10 +68,6 @@ public struct RocketDetail: Codable, Identifiable, Equatable {
       self.fuelMass = fuelMass
       self.burnTime = burnTime
     }
-  }
-
-  public static func == (lhs: RocketDetail, rhs: RocketDetail) -> Bool {
-    lhs.name < rhs.name
   }
 }
 

@@ -78,12 +78,7 @@ let package = Package(
         "RocketDetail",
         .product(name: "RocketsClient", package: "Domain"),
         .product(name: "DispatchQueueExtensions", package: "Infrastructure"),
-        .product(
-          name: "Networking",
-          package: "swift-core",
-          moduleAliases: ["CoreToolkit": "NetworkingCoreToolkit"],
-          condition: .none
-        ),
+        .product(name: "Networking", package: "swift-core"),
         .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
       ]
     ),

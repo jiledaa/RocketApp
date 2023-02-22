@@ -1,6 +1,5 @@
 import SwiftUI
 import RocketsClient
-import CoreToolkit
 import ComposableArchitecture
 
 public struct RocketListCellView: View {

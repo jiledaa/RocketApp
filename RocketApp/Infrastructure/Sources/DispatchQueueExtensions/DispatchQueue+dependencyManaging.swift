@@ -3,7 +3,9 @@ import Foundation
 
 enum DispatchQueueKey: DependencyKey {
   public static var liveValue: AnySchedulerOf<DispatchQueue> = DispatchQueue.liveValue
+  #if DEBUG
   public static var testValue: AnySchedulerOf<DispatchQueue> = DispatchQueue.testValue
+  #endif
 }
 
 public extension DependencyValues {
