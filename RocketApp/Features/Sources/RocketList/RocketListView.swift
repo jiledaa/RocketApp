@@ -1,7 +1,7 @@
+import SwiftUI
 import RocketListCell
 import RocketDetail
-import SwiftUI
-import Networking
+import NetworkClientExtensions
 import ComposableArchitecture
 
 public struct RocketListView: View {
@@ -56,7 +56,7 @@ public struct RocketListView: View {
   }
 
   @ViewBuilder
-  private func errorView(error: NetworkError) -> some View {
+  private func errorView(error: RocketNetworkError) -> some View {
     Group {
       Spacer()
 
@@ -68,7 +68,7 @@ public struct RocketListView: View {
       Text("Cannot load data, cause:")
         .font(.headline)
 
-      Text("\(error.cause.description)")
+      Text("\(error.description)")
 
       Spacer()
     }

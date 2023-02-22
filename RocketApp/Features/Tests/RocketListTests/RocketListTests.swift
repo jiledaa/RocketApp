@@ -1,9 +1,9 @@
 @testable import RocketList
+import Combine
 import XCTest
 import RocketsClient
 import ComposableArchitecture
-import Combine
-import Networking
+import NetworkClientExtensions
 
 final class RocketListTests: XCTestCase {
   var store = TestStore(initialState: RocketListCore.State(), reducer: RocketListCore())
@@ -28,7 +28,7 @@ final class RocketListTests: XCTestCase {
   func testFlow_dataFetched_success() throws {
     store.dependencies.rocketsClient.getAllRockets = {
       Just([RocketDetail.mock])
-        .setFailureType(to: NetworkError.self)
+        .setFailureType(to: RocketNetworkError.self)
         .eraseToAnyPublisher()
     }
 
@@ -41,14 +41,14 @@ final class RocketListTests: XCTestCase {
 
   func testFlow_dataFetched_failure() throws {
     store.dependencies.rocketsClient.getAllRockets = {
-      Fail(error: NetworkError.noConnection)
+      Fail(error: RocketNetworkError.noConnection)
         .eraseToAnyPublisher()
     }
 
     store.send(.fetchData)
 
-    store.receive(.dataFetched(.failure(NetworkError.noConnection))) {
-      $0.rocketsError = NetworkError.noConnection
+    store.receive(.dataFetched(.failure(RocketNetworkError.noConnection))) {
+      $0.rocketsError = RocketNetworkError.noConnection
     }
   }
 }

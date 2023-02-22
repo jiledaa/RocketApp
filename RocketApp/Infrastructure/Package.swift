@@ -35,15 +35,13 @@ let package = Package(
     .package(url: "https://github.com/Qase/swift-core", branch: "develop"),
     .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "0.1.4"),
     .package(url: "https://github.com/pointfreeco/swift-composable-architecture", .upToNextMajor(from: "0.5.0")),
-    .package(url: "https://github.com/pointfreeco/xctest-dynamic-overlay", from: "0.3.2"),
-    .package(url: "https://github.com/pointfreeco/combine-schedulers", from: "0.9.1")
+    .package(url: "https://github.com/pointfreeco/xctest-dynamic-overlay", from: "0.3.2")
   ],
 
   targets: [
     .target(
       name: "CoreToolkit",
-      dependencies: [
-      ]
+      dependencies: []
     ),
     .testTarget(
       name: "CoreToolkitTests",
@@ -52,7 +50,6 @@ let package = Package(
     .target(
       name: "DispatchQueueExtensions",
       dependencies: [
-        .product(name: "CombineSchedulers", package: "combine-schedulers"),
         .product(name: "Dependencies", package: "swift-dependencies")
       ]
     ),
@@ -81,8 +78,7 @@ let package = Package(
     ),
     .target(
       name: "UIToolkit",
-      dependencies: [
-      ]
+      dependencies: []
     ),
     .testTarget(
       name: "UIToolkitTests",

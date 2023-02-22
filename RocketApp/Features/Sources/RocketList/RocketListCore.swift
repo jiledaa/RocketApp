@@ -1,6 +1,6 @@
 import RocketListCell
 import RocketDetail
-import Networking
+import NetworkClientExtensions
 import RocketsClient
 import DispatchQueueExtensions
 import ComposableArchitecture
@@ -9,7 +9,7 @@ import Foundation
 public struct RocketListCore: ReducerProtocol {
   public struct State: Equatable {
     var rocketsData = IdentifiedArrayOf<RocketListCellCore.State>()
-    var rocketsError: NetworkError?
+    var rocketsError: RocketNetworkError?
 
     var route: Route?
 
@@ -33,7 +33,7 @@ public struct RocketListCore: ReducerProtocol {
     case setNavigation(isActive: Bool)
     case rocketDetail(RocketDetailCore.Action)
     case fetchData
-    case dataFetched(Result<[RocketDetail], NetworkError>)
+    case dataFetched(Result<[RocketDetail], RocketNetworkError>)
   }
 
   public init() {}

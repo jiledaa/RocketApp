@@ -1,3 +1,4 @@
+#if DEBUG
 import Foundation
 import Networking
 import XCTestDynamicOverlay
@@ -9,3 +10,4 @@ public extension NetworkClient {
     networkMonitorClient: unimplemented("\(Self.self).networkMonitorClient")
   )
 }
+#endif
