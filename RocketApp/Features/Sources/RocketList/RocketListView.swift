@@ -15,26 +15,23 @@ public struct RocketListView: View {
 
   public var body: some View {
     NavigationStack {
-      VStack(spacing: 0) {
-        Text("Rockets")
-          .font(.title.bold())
-          .padding()
-
+      VStack {
         switch viewStore.rocketsError {
-        case let .some(error):
-          errorView(error: error)
         case .none:
           rocketsList
+        case let .some(error):
+          errorView(error: error)
         }
       }
+      .navigationTitle("Rockets")
     }
-    .onAppear { viewStore.send(.fetchData) }
+    .task { viewStore.send(.fetchData) }
   }
 
   @ViewBuilder
   private var rocketsList: some View {
     List {
-      ForEachStore(store.scope(state: \.rocketsData, action: RocketListCore.Action.rocketListCell(id:action:))) {
+      ForEachStore(store.scope(state: \.rocketsData, action: RocketListCore.Action.rocketListCell)) {
         RocketListCellView(store: $0)
       }
     }
@@ -44,12 +41,12 @@ public struct RocketListView: View {
         get: { $0.route != nil },
         send: RocketListCore.Action.setNavigation(isActive:)
       ),
-      destination: { destinaion }
+      destination: { destination }
     )
   }
 
   @ViewBuilder
-  private var destinaion: some View {
+  private var destination: some View {
     IfLetStore(store.scope(state: \.rocketDetailState, action: RocketListCore.Action.rocketDetail)) {
       RocketDetailView(store: $0)
     }

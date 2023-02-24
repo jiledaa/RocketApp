@@ -1,11 +1,14 @@
 import Foundation
 import RocketsClient
+import Tagged
 import ComposableArchitecture
 
 public struct RocketListCellCore: ReducerProtocol {
   public struct State: Equatable, Identifiable {
     public var rocketData: RocketDetail
-    public var id: String { rocketData.id }
+    public var id: RocketID { RocketID(rawValue: rocketData.id) }
+
+    public typealias RocketID = Tagged<State, String>
 
     public init(rocketData: RocketDetail) {
       self.rocketData = rocketData

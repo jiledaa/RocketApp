@@ -14,10 +14,6 @@ let package = Package(
       targets: ["CoreToolkit"]
     ),
     .library(
-      name: "DispatchQueueExtensions",
-      targets: ["DispatchQueueExtensions"]
-    ),
-    .library(
       name: "NetworkClientExtensions",
       targets: ["NetworkClientExtensions"]
     ),
@@ -46,12 +42,6 @@ let package = Package(
     .testTarget(
       name: "CoreToolkitTests",
       dependencies: ["CoreToolkit"]
-    ),
-    .target(
-      name: "DispatchQueueExtensions",
-      dependencies: [
-        .product(name: "Dependencies", package: "swift-dependencies")
-      ]
     ),
     .target(
       name: "NetworkClientExtensions",

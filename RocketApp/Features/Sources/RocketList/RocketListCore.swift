@@ -2,7 +2,6 @@ import RocketListCell
 import RocketDetail
 import NetworkClientExtensions
 import RocketsClient
-import DispatchQueueExtensions
 import ComposableArchitecture
 import Foundation
 
@@ -29,7 +28,7 @@ public struct RocketListCore: ReducerProtocol {
   }
 
   public enum Action: Equatable {
-    case rocketListCell(id: String, action: RocketListCellCore.Action)
+    case rocketListCell(id: RocketListCellCore.State.RocketID, action: RocketListCellCore.Action)
     case setNavigation(isActive: Bool)
     case rocketDetail(RocketDetailCore.Action)
     case fetchData
@@ -39,12 +38,10 @@ public struct RocketListCore: ReducerProtocol {
   public init() {}
 
   @Dependency(\.rocketsClient) var rocketsClient
-  @Dependency(\.dispatchQueue) var dispatchQueue
+  @Dependency(\.mainQueue) var mainQueue
 
   public var body: some ReducerProtocol<State, Action> {
     Reduce { state, action in
-      enum RocketDataFetching: Hashable {}
-
       switch action {
       case .rocketListCell(id: let id, action: .cellTapped):
         guard let rocketsData = state.rocketsData[id: id] else {
@@ -65,17 +62,19 @@ public struct RocketListCore: ReducerProtocol {
         return .none
 
       case .fetchData:
+        enum RocketDataFetching: Hashable {}
+
         return rocketsClient.getAllRockets()
-          .receive(on: dispatchQueue)
+          .receive(on: mainQueue)
           .catchToEffect(RocketListCore.Action.dataFetched)
           .cancellable(id: RocketDataFetching.self)
 
       case let .dataFetched(.success(rocketsData)):
-        rocketsData.forEach {
-          state.rocketsData.append(
-            contentsOf: IdentifiedArrayOf(arrayLiteral: RocketListCellCore.State(rocketData: $0))
-          )
-        }
+        state.rocketsData = IdentifiedArrayOf(
+          uniqueElements: rocketsData.map {
+            RocketListCellCore.State(rocketData: $0)
+          }
+        )
 
         return .none
 
@@ -84,5 +83,6 @@ public struct RocketListCore: ReducerProtocol {
         return .none
       }
     }
+    .forEach(\.rocketsData, action: /Action.rocketListCell, element: { RocketListCellCore() })
   }
 }

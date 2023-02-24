@@ -8,7 +8,7 @@ import NetworkClientExtensions
 final class RocketListTests: XCTestCase {
   var store = TestStore(initialState: RocketListCore.State(), reducer: RocketListCore())
 
-  func testFlow_rocketListCell_cellTapped_to_navigate() throws {
+  func test_flow_rocketListCell_cellTapped_to_navigate() throws {
     var state = RocketListCore.State()
     state.rocketsData = .init(arrayLiteral: .init(rocketData: RocketDetail.mock))
 
@@ -25,12 +25,14 @@ final class RocketListTests: XCTestCase {
     }
   }
 
-  func testFlow_dataFetched_success() throws {
+  func test_flow_dataFetched_success() throws {
     store.dependencies.rocketsClient.getAllRockets = {
       Just([RocketDetail.mock])
         .setFailureType(to: RocketNetworkError.self)
         .eraseToAnyPublisher()
     }
+
+    store.dependencies.mainQueue = DispatchQueue.immediate.eraseToAnyScheduler()
 
     store.send(.fetchData)
 
@@ -39,11 +41,13 @@ final class RocketListTests: XCTestCase {
     }
   }
 
-  func testFlow_dataFetched_failure() throws {
+  func test_flow_dataFetched_failure() throws {
     store.dependencies.rocketsClient.getAllRockets = {
       Fail(error: RocketNetworkError.noConnection)
         .eraseToAnyPublisher()
     }
+
+    store.dependencies.mainQueue = DispatchQueue.immediate.eraseToAnyScheduler()
 
     store.send(.fetchData)
 
