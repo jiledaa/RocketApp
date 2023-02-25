@@ -9,6 +9,7 @@ public struct RocketListCore: ReducerProtocol {
   public struct State: Equatable {
     var rocketsData = IdentifiedArrayOf<RocketListCellCore.State>()
     var rocketsError: RocketNetworkError?
+    var isLoading = false
 
     var route: Route?
 
@@ -64,10 +65,12 @@ public struct RocketListCore: ReducerProtocol {
       case .fetchData:
         enum RocketDataFetching: Hashable {}
 
+        state.isLoading = true
+
         return rocketsClient.getAllRockets()
           .receive(on: mainQueue)
           .catchToEffect(RocketListCore.Action.dataFetched)
-          .cancellable(id: RocketDataFetching.self)
+          .cancellable(id: RocketDataFetching.self, cancelInFlight: true)
 
       case let .dataFetched(.success(rocketsData)):
         state.rocketsData = IdentifiedArrayOf(
@@ -76,10 +79,12 @@ public struct RocketListCore: ReducerProtocol {
           }
         )
 
+        state.isLoading = false
         return .none
 
       case let .dataFetched(.failure(networkError)):
         state.rocketsError = networkError
+        state.isLoading = false
         return .none
       }
     }

@@ -1,5 +1,6 @@
 import SwiftUI
 import RocketsClient
+import UIToolkit
 import ComposableArchitecture
 
 public struct RocketListCellView: View {
@@ -15,7 +16,7 @@ public struct RocketListCellView: View {
         viewStore.send(.cellTapped)
       } label: {
         HStack {
-          Image(systemName: "paperplane.fill")
+          Image.rocket
             .resizable()
             .frame(width: 36, height: 36)
             .padding(.trailing)

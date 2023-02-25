@@ -91,6 +91,7 @@ let package = Package(
       dependencies: [
         .product(name: "RocketsClient", package: "Domain"),
         .product(name: "CoreToolkit", package: "Infrastructure"),
+        .product(name: "UIToolkit", package: "Infrastructure"),
         .product(name: "Tagged", package: "swift-tagged"),
         .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
       ]

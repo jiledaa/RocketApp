@@ -18,18 +18,23 @@ public struct RocketListView: View {
       VStack {
         switch viewStore.rocketsError {
         case .none:
-          rocketsList
+          rocketsListView
         case let .some(error):
           errorView(error: error)
         }
       }
       .navigationTitle("Rockets")
     }
+    .overlay {
+      if viewStore.isLoading {
+        loadingView
+      }
+    }
     .task { viewStore.send(.fetchData) }
   }
 
   @ViewBuilder
-  private var rocketsList: some View {
+  private var rocketsListView: some View {
     List {
       ForEachStore(store.scope(state: \.rocketsData, action: RocketListCore.Action.rocketListCell)) {
         RocketListCellView(store: $0)
@@ -70,6 +75,12 @@ public struct RocketListView: View {
       Spacer()
     }
     .foregroundColor(.red)
+  }
+
+  private var loadingView: some View {
+    ProgressView()
+      .frame(maxWidth: .infinity, maxHeight: .infinity)
+      .background(Color.gray.opacity(0.4))
   }
 }
 
