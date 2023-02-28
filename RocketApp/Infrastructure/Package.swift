@@ -52,6 +52,7 @@ let package = Package(
           moduleAliases: ["CoreToolkit": "NetworkingCoreToolkit"],
           condition: .none
         ),
+        .product(name: "ErrorReporting", package: "swift-core"),
         .product(name: "Dependencies", package: "swift-dependencies"),
         .product(name: "XCTestDynamicOverlay", package: "xctest-dynamic-overlay")
       ]

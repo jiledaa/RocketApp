@@ -7,9 +7,12 @@ import Foundation
 
 public struct RocketListCore: ReducerProtocol {
   public struct State: Equatable {
-    var rocketsData = IdentifiedArrayOf<RocketListCellCore.State>()
-    var rocketsError: RocketNetworkError?
-    var isLoading = false
+    var rocketsData: IdentifiedArrayOf<RocketListCellCore.State> {
+      get { loadingStatus.data ?? [] }
+      set { loadingStatus.loadingSucceeded ? loadingStatus = .success(newValue) : () }
+    }
+
+    var loadingStatus: Loadable<IdentifiedArrayOf<RocketListCellCore.State>, RocketNetworkError> = .notRequested
 
     var route: Route?
 
@@ -65,7 +68,7 @@ public struct RocketListCore: ReducerProtocol {
       case .fetchData:
         enum RocketDataFetching: Hashable {}
 
-        state.isLoading = true
+        state.loadingStatus = .loading
 
         return rocketsClient.getAllRockets()
           .receive(on: mainQueue)
@@ -73,18 +76,18 @@ public struct RocketListCore: ReducerProtocol {
           .cancellable(id: RocketDataFetching.self, cancelInFlight: true)
 
       case let .dataFetched(.success(rocketsData)):
-        state.rocketsData = IdentifiedArrayOf(
-          uniqueElements: rocketsData.map {
-            RocketListCellCore.State(rocketData: $0)
-          }
+        state.loadingStatus = .success(
+          IdentifiedArrayOf(
+            uniqueElements: rocketsData.map {
+              RocketListCellCore.State(rocketData: $0)
+            }
+          )
         )
 
-        state.isLoading = false
         return .none
 
       case let .dataFetched(.failure(networkError)):
-        state.rocketsError = networkError
-        state.isLoading = false
+        state.loadingStatus = .failure(networkError)
         return .none
       }
     }

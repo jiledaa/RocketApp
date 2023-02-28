@@ -16,31 +16,28 @@ public struct RocketListView: View {
   public var body: some View {
     NavigationStack {
       VStack {
-        switch viewStore.rocketsError {
-        case .none:
-          rocketsListView
-        case let .some(error):
+        switch viewStore.loadingStatus {
+        case let .success(data):
+          rocketsListView(rocketData: data)
+        case let .failure(error):
           errorView(error: error)
+        default:
+          loadingView
         }
       }
       .navigationTitle("Rockets")
-    }
-    .overlay {
-      if viewStore.isLoading {
-        loadingView
-      }
     }
     .task { viewStore.send(.fetchData) }
   }
 
   @ViewBuilder
-  private var rocketsListView: some View {
+  private func rocketsListView(rocketData: IdentifiedArrayOf<RocketListCellCore.State>) -> some View {
     List {
       ForEachStore(store.scope(state: \.rocketsData, action: RocketListCore.Action.rocketListCell)) {
         RocketListCellView(store: $0)
       }
     }
-    .listStyle(.plain)
+    .listStyle(.sidebar)
     .navigationDestination(
       isPresented: viewStore.binding(
         get: { $0.route != nil },

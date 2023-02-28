@@ -19,7 +19,6 @@ public struct RocketListCellView: View {
           Image.rocket
             .resizable()
             .frame(width: 36, height: 36)
-            .padding(.trailing)
 
           VStack(alignment: .leading, spacing: 4) {
             Text(viewStore.rocketData.name)
@@ -32,11 +31,10 @@ public struct RocketListCellView: View {
 
           Spacer()
 
-          Image(systemName: "arrow.forward.circle.fill")
+          Image.linkArrow
             .resizable()
-            .frame(width: 36, height: 36)
+            .frame(width: 32, height: 32)
         }
-        .padding(.horizontal)
       }
     }
   }

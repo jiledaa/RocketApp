@@ -1,7 +1,7 @@
 import Foundation
 import Networking
 
-public enum RocketNetworkError: Equatable, Error, CustomStringConvertible {
+public enum RocketNetworkError: Error, CustomStringConvertible, Equatable {
   case urlError(String)
   case invalidResponse
   case unauthorized

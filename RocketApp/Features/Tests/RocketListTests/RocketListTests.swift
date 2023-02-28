@@ -10,7 +10,7 @@ final class RocketListTests: XCTestCase {
 
   func test_flow_rocketListCell_cellTapped_to_navigate() throws {
     var state = RocketListCore.State()
-    state.rocketsData = .init(arrayLiteral: .init(rocketData: RocketDetail.mock))
+    state.loadingStatus = .success(.init(arrayLiteral: .init(rocketData: RocketDetail.mock)))
 
     store = TestStore(initialState: state, reducer: RocketListCore())
 
@@ -34,9 +34,12 @@ final class RocketListTests: XCTestCase {
 
     store.dependencies.mainQueue = DispatchQueue.immediate.eraseToAnyScheduler()
 
-    store.send(.fetchData)
+    store.send(.fetchData) {
+      $0.loadingStatus = .loading
+    }
 
     store.receive(.dataFetched(.success([RocketDetail.mock]))) {
+      $0.loadingStatus = .success(.init(arrayLiteral: .init(rocketData: RocketDetail.mock)))
       $0.rocketsData = .init(arrayLiteral: .init(rocketData: RocketDetail.mock))
     }
   }
@@ -49,10 +52,12 @@ final class RocketListTests: XCTestCase {
 
     store.dependencies.mainQueue = DispatchQueue.immediate.eraseToAnyScheduler()
 
-    store.send(.fetchData)
+    store.send(.fetchData) {
+      $0.loadingStatus = .loading
+    }
 
     store.receive(.dataFetched(.failure(RocketNetworkError.noConnection))) {
-      $0.rocketsError = RocketNetworkError.noConnection
+      $0.loadingStatus = .failure(RocketNetworkError.noConnection)
     }
   }
 }
