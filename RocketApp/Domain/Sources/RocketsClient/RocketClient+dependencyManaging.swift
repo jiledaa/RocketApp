@@ -6,9 +6,10 @@ enum RocketsClientKey: DependencyKey {
   #if DEBUG
   public static var testValue: RocketsClient = .testValue
   #endif
+  public static var previewValue: RocketsClient = .previewValue
 }
 
-extension DependencyValues {
+public extension DependencyValues {
   var rocketsClient: RocketsClient {
     get { self[RocketsClientKey.self] }
     set { self[RocketsClientKey.self] = newValue }

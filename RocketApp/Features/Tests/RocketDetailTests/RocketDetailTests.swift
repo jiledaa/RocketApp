@@ -1,7 +1,7 @@
 @testable import RocketDetail
 import XCTest
 
-final class FeaturesTests: XCTestCase {
+final class RocketDetailTests: XCTestCase {
   func testExample() throws {
     XCTAssertTrue(true)
   }

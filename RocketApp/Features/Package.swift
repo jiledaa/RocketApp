@@ -1,11 +1,11 @@
-// swift-tools-version: 5.6
+// swift-tools-version: 5.7.1
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 
 let package = Package(
   name: "Features",
-  platforms: [.iOS(.v15), .macOS(.v12)],
+  platforms: [.iOS(.v16), .macOS(.v12)],
 
   products: [
     .library(
@@ -23,13 +23,18 @@ let package = Package(
     .library(
       name: "RocketList",
       targets: ["RocketList"]
+    ),
+    .library(
+      name: "RocketListCell",
+      targets: ["RocketListCell"]
     )
   ],
 
   dependencies: [
     .package(path: "../Domain"),
     .package(path: "../Infrastructure"),
-    .package(url: "https://github.com/pointfreeco/swift-composable-architecture", .upToNextMajor(from: "0.0.0"))
+    .package(url: "https://github.com/pointfreeco/swift-tagged", .upToNextMajor(from: "0.1.0")),
+    .package(url: "https://github.com/pointfreeco/swift-composable-architecture", .upToNextMajor(from: "0.5.0"))
   ],
 
   targets: [
@@ -47,8 +52,8 @@ let package = Package(
     .target(
       name: "RocketDetail",
       dependencies: [
-        .product(name: "CoreToolkit", package: "Infrastructure"),
         .product(name: "RocketsClient", package: "Domain"),
+        .product(name: "CoreToolkit", package: "Infrastructure"),
         .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
       ]
     ),
@@ -59,7 +64,6 @@ let package = Package(
     .target(
       name: "RocketLaunch",
       dependencies: [
-        .product(name: "TCAExtensions", package: "Infrastructure"),
         .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
       ]
     ),
@@ -70,15 +74,31 @@ let package = Package(
     .target(
       name: "RocketList",
       dependencies: [
+        "RocketListCell",
         "RocketDetail",
-        .product(name: "CoreToolkit", package: "Infrastructure"),
         .product(name: "RocketsClient", package: "Domain"),
+        .product(name: "CoreToolkit", package: "Infrastructure"),
+        .product(name: "NetworkClientExtensions", package: "Infrastructure"),
         .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
       ]
     ),
     .testTarget(
       name: "RocketListTests",
       dependencies: ["RocketList"]
+    ),
+    .target(
+      name: "RocketListCell",
+      dependencies: [
+        .product(name: "RocketsClient", package: "Domain"),
+        .product(name: "CoreToolkit", package: "Infrastructure"),
+        .product(name: "UIToolkit", package: "Infrastructure"),
+        .product(name: "Tagged", package: "swift-tagged"),
+        .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+      ]
+    ),
+    .testTarget(
+      name: "RocketListCellTests",
+      dependencies: ["RocketListCell"]
     )
   ]
 )

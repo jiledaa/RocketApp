@@ -1,7 +1,6 @@
 import Dependencies
 import Foundation
 import NetworkClientExtensions
-import Networking
 import RequestBuilder
 
 extension RocketsClient: DependencyKey {
@@ -11,9 +10,13 @@ extension RocketsClient: DependencyKey {
     return Self(
       getRocket: { id in
         Request(endpoint: URLs.baseURL + "/v3/rockets/\(id)").execute(using: networkClientType)
+          // TODO: Avoid ignoring the error by using ErrorReporting.
+          .ignoreFailure(setFailureType: RocketNetworkError.self)
       },
       getAllRockets: {
         Request(endpoint: URLs.baseURL + "/v3/rockets").execute(using: networkClientType)
+          // TODO: Avoid ignoring the error by using ErrorReporting.
+          .ignoreFailure(setFailureType: RocketNetworkError.self)
       }
     )
   }

@@ -8,8 +8,8 @@ enum NetworkClientKey: DependencyKey {
 }
 
 public extension DependencyValues {
-    var networkClientType: NetworkClientType {
-      get { self[NetworkClientKey.self] }
-      set { self[NetworkClientKey.self] = newValue }
-    }
+  var networkClientType: NetworkClientType {
+    get { self[NetworkClientKey.self] }
+    set { self[NetworkClientKey.self] = newValue }
+  }
 }
