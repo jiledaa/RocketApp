@@ -16,7 +16,6 @@ final class UnitTests: XCTestCase {
   private func rocketsClient(requester: URLRequester) -> RocketsClient {
     withDependencies {
       $0.networkClientType = NetworkClient(
-        urlSessionConfiguration: .default,
         urlRequester: requester,
         networkMonitorClient: .live(onQueue: .main)
       )
@@ -38,11 +37,10 @@ final class UnitTests: XCTestCase {
       httpVersion: nil,
       headerFields: [:]
     )!
-    let requesterMock = URLRequester { _ in { _ in
+    let requesterMock = URLRequester { _ in
       Just((dataMock, responseMock))
         .setFailureType(to: URLError.self)
         .eraseToAnyPublisher()
-    }
     }
 
     rocketsClient(requester: requesterMock).getRocket("")
@@ -70,10 +68,9 @@ final class UnitTests: XCTestCase {
   func test_rocket_request_failure() {
     let exp = expectation(description: "")
 
-    let requesterMock = URLRequester { _ in { _ in
+    let requesterMock = URLRequester { _ in
       Fail(error: URLError(.badServerResponse))
         .eraseToAnyPublisher()
-    }
     }
 
     rocketsClient(requester: requesterMock).getRocket("")
@@ -108,11 +105,10 @@ final class UnitTests: XCTestCase {
       httpVersion: nil,
       headerFields: [:]
     )!
-    let requesterMock = URLRequester { _ in { _ in
+    let requesterMock = URLRequester { _ in
       Just((dataMock, responseMock))
         .setFailureType(to: URLError.self)
         .eraseToAnyPublisher()
-    }
     }
 
     rocketsClient(requester: requesterMock).getAllRockets()
@@ -140,10 +136,9 @@ final class UnitTests: XCTestCase {
   func test_rockets_request_failure() {
     let exp = expectation(description: "")
 
-    let requesterMock = URLRequester { _ in { _ in
+    let requesterMock = URLRequester { _ in
       Fail(error: URLError(.badServerResponse))
         .eraseToAnyPublisher()
-    }
     }
 
     rocketsClient(requester: requesterMock).getAllRockets()

@@ -1,6 +1,7 @@
 import Foundation
 import Networking
 
+// TODO: Integrate ErrorReporting from swift-core.
 public enum RocketNetworkError: Error, CustomStringConvertible, Equatable {
   case urlError(String)
   case invalidResponse
@@ -9,7 +10,7 @@ public enum RocketNetworkError: Error, CustomStringConvertible, Equatable {
   case serverError(statusCode: Int)
   case noConnection
   case jsonDecodingError(String)
-  case urlRequestError
+  case urlRequestBuilderError
   case timeout
 
   init(networkError: NetworkError.Cause) {
@@ -28,8 +29,8 @@ public enum RocketNetworkError: Error, CustomStringConvertible, Equatable {
       self = .serverError(statusCode: statusCode)
     case let .jsonDecodingError(error):
       self = .jsonDecodingError("\(error)")
-    case .urlRequestError:
-      self = .urlRequestError
+    case .urlRequestBuilderError:
+      self = .urlRequestBuilderError
     case .timeout:
       self = .timeout
     }
@@ -51,8 +52,8 @@ public enum RocketNetworkError: Error, CustomStringConvertible, Equatable {
       return "noConnection"
     case let .jsonDecodingError(error):
       return "jsonDecodingError(error: \(error))"
-    case .urlRequestError:
-      return "urlRequestError"
+    case .urlRequestBuilderError:
+      return "urlRequestBuilderError"
     case .timeout:
       return "timeout"
     }

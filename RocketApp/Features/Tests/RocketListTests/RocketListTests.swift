@@ -1,9 +1,9 @@
-@testable import RocketList
 import Combine
-import XCTest
-import RocketsClient
 import ComposableArchitecture
 import NetworkClientExtensions
+@testable import RocketList
+import RocketsClient
+import XCTest
 
 final class RocketListTests: XCTestCase {
   var store = TestStore(initialState: RocketListCore.State(), reducer: RocketListCore())
@@ -40,7 +40,6 @@ final class RocketListTests: XCTestCase {
 
     store.receive(.dataFetched(.success([RocketDetail.mock]))) {
       $0.loadingStatus = .success(.init(arrayLiteral: .init(rocketData: RocketDetail.mock)))
-      $0.rocketsData = .init(arrayLiteral: .init(rocketData: RocketDetail.mock))
     }
   }
 

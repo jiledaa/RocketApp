@@ -1,7 +1,7 @@
+import ComposableArchitecture
 import Foundation
 import RocketsClient
 import Tagged
-import ComposableArchitecture
 
 public struct RocketListCellCore: ReducerProtocol {
   public struct State: Equatable, Identifiable {

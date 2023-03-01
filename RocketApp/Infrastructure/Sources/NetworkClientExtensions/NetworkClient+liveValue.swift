@@ -4,8 +4,7 @@ import Networking
 
 extension NetworkClient: DependencyKey {
   public static var liveValue = NetworkClient(
-    urlSessionConfiguration: .default,
-    urlRequester: .live,
+    urlRequester: .live(urlSessionConfiguration: .default),
     networkMonitorClient: .live(onQueue: .main)
   )
 }

@@ -1,8 +1,8 @@
-import SwiftUI
-import RocketListCell
-import RocketDetail
-import NetworkClientExtensions
 import ComposableArchitecture
+import NetworkClientExtensions
+import RocketDetail
+import RocketListCell
+import SwiftUI
 
 public struct RocketListView: View {
   let store: StoreOf<RocketListCore>
@@ -33,7 +33,7 @@ public struct RocketListView: View {
   @ViewBuilder
   private func rocketsListView(rocketData: IdentifiedArrayOf<RocketListCellCore.State>) -> some View {
     List {
-      ForEachStore(store.scope(state: \.rocketsData, action: RocketListCore.Action.rocketListCell)) {
+      ForEachStore(store.scope(state: \.loadingStatus.arrayData, action: RocketListCore.Action.rocketListCell)) {
         RocketListCellView(store: $0)
       }
     }

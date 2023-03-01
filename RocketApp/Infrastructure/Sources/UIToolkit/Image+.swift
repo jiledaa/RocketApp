@@ -18,7 +18,6 @@ public extension Image {
   static let reusable = Self("Reusable", bundle: .module)
   static let rocketFlying = Self("RocketFlying", bundle: .module)
   static let rocketIdle = Self("RocketIdle", bundle: .module)
-  static let RocketLaunch = Self("RocketLaunch", bundle: .module)
   static let rocket = Self("Rocket", bundle: .module)
   static let linkArrow = Self("LinkArrow", bundle: .module)
 }

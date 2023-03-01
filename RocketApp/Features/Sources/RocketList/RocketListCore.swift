@@ -1,17 +1,13 @@
-import RocketListCell
-import RocketDetail
-import NetworkClientExtensions
-import RocketsClient
 import ComposableArchitecture
+import CoreToolkit
 import Foundation
+import NetworkClientExtensions
+import RocketDetail
+import RocketListCell
+import RocketsClient
 
 public struct RocketListCore: ReducerProtocol {
   public struct State: Equatable {
-    var rocketsData: IdentifiedArrayOf<RocketListCellCore.State> {
-      get { loadingStatus.data ?? [] }
-      set { loadingStatus.loadingSucceeded ? loadingStatus = .success(newValue) : () }
-    }
-
     var loadingStatus: Loadable<IdentifiedArrayOf<RocketListCellCore.State>, RocketNetworkError> = .notRequested
 
     var route: Route?
@@ -48,11 +44,11 @@ public struct RocketListCore: ReducerProtocol {
     Reduce { state, action in
       switch action {
       case .rocketListCell(id: let id, action: .cellTapped):
-        guard let rocketsData = state.rocketsData[id: id] else {
+        guard let rocketData = state.loadingStatus.data?[id: id] else {
           return .none
         }
 
-        state.route = .rocketDetail(.init(rocketData: rocketsData.rocketData))
+        state.route = .rocketDetail(.init(rocketData: rocketData.rocketData))
         return .none
 
       case .setNavigation(isActive: true):
@@ -91,6 +87,24 @@ public struct RocketListCore: ReducerProtocol {
         return .none
       }
     }
-    .forEach(\.rocketsData, action: /Action.rocketListCell, element: { RocketListCellCore() })
+    .forEach(\.loadingStatus.arrayData, action: /Action.rocketListCell, element: { RocketListCellCore() })
+  }
+}
+
+// TODO: Make it generic and move to Loadable.
+extension Loadable<IdentifiedArrayOf<RocketListCellCore.State>, RocketNetworkError> {
+  var arrayData: IdentifiedArrayOf<RocketListCellCore.State> {
+    get {
+      switch self {
+      case let .success(data):
+        return data
+      default:
+        return []
+      }
+    }
+
+    set {
+      self = .success(newValue)
+    }
   }
 }

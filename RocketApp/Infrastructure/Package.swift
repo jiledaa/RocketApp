@@ -10,7 +10,6 @@ let package = Package(
   products: [
     .library(
       name: "CoreToolkit",
-      type: .static,
       targets: ["CoreToolkit"]
     ),
     .library(
@@ -46,12 +45,7 @@ let package = Package(
     .target(
       name: "NetworkClientExtensions",
       dependencies: [
-        .productItem(
-          name: "Networking",
-          package: "swift-core",
-          moduleAliases: ["CoreToolkit": "NetworkingCoreToolkit"],
-          condition: .none
-        ),
+        .product(name: "Networking", package: "swift-core"),
         .product(name: "ErrorReporting", package: "swift-core"),
         .product(name: "Dependencies", package: "swift-dependencies"),
         .product(name: "XCTestDynamicOverlay", package: "xctest-dynamic-overlay")

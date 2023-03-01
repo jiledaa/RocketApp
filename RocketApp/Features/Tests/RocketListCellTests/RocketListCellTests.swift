@@ -1,6 +1,6 @@
+import ComposableArchitecture
 @testable import RocketListCell
 import XCTest
-import ComposableArchitecture
 
 final class RocketListCellTests: XCTestCase {
   func test_cell_tapped() throws {
