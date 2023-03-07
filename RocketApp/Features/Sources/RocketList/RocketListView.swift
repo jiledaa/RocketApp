@@ -3,6 +3,7 @@ import NetworkClientExtensions
 import RocketDetail
 import RocketListCell
 import SwiftUI
+import UIToolkit
 
 public struct RocketListView: View {
   let store: StoreOf<RocketListCore>
@@ -25,7 +26,7 @@ public struct RocketListView: View {
           loadingView
         }
       }
-      .navigationTitle("Rockets")
+      .navigationTitle(.rockets)
     }
     .task { viewStore.send(.fetchData) }
   }

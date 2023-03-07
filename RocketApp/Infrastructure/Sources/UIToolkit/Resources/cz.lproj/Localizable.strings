@@ -1,0 +1,18 @@
+// Rocket list
+"rockets" = "Rakety";
+"first.flight" = "První let";
+
+// Rocket detail
+"overview" = "Popis";
+"parameters" = "Parametry";
+"height" = "Výška";
+"diameter" = "Průměr";
+"mass" = "Hmotnost";
+"first.stage" = "První fáze";
+"second.stage" = "Dryhá fáze";
+"photos" = "Fotogalerie";
+
+// Rocket launch
+"launch" = "Vypuštění";
+"move.up" = "Pro start rakety, zvedněte telefon nahoru.";
+"launch.successful" = "Start úspěšně zahájen!";

@@ -1,0 +1,18 @@
+// Rocket list
+"rockets" = "Rockets";
+"first.flight" = "First flight %@";
+
+// Rocket detail
+"overview" = "Overview";
+"parameters" = "Parameters";
+"height" = "Height";
+"diameter" = "Diameter";
+"mass" = "Mass";
+"first.stage" = "First stage";
+"second.stage" = "Second stage";
+"photos" = "Photos";
+
+// Rocket launch
+"launch" = "Launch";
+"move.up" = "Move your phone up to launch the rocket.";
+"launch.successful" = "Launch successful!";

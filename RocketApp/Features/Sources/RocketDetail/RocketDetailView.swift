@@ -1,6 +1,7 @@
 import ComposableArchitecture
 import RocketsClient
 import SwiftUI
+import UIToolkit
 
 public struct RocketDetailView: View {
   var store: StoreOf<RocketDetailCore>
@@ -13,7 +14,7 @@ public struct RocketDetailView: View {
     WithViewStore(self.store) { viewStore in
       VStack {
         Text(viewStore.rocketData.id)
-
+        Text(.diameter)
         Text(viewStore.rocketData.name)
       }
     }

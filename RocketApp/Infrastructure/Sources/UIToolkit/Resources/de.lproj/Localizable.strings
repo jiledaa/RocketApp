@@ -1,0 +1,18 @@
+// Rocket list
+"rockets" = "Die Raketen!";
+"first.flight" = "Der erste Flug!";
+
+// Rocket detail
+"overview" = "Der Überblick!";
+"parameters" = "Die Parameter!";
+"height" = "Die Höhe!";
+"diameter" = "Der DurchMesser!";
+"mass" = "Die Masse!";
+"first.stage" = "Die erste Stuffe!";
+"second.stage" = "Die zweite Stuffe!";
+"photos" = "Die Fotogalerie!";
+
+// Rocket launch
+"launch" = "Der Start!";
+"move.up" = "Bewegen Sie Ihr Telefon nach oben, um die Rakete zu starten!";
+"launch.successful" = "Start erfolgreich!";
