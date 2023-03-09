@@ -52,6 +52,7 @@ let package = Package(
     .target(
       name: "RocketDetail",
       dependencies: [
+        "RocketLaunch",
         .product(name: "RocketsClient", package: "Domain"),
         .product(name: "CoreToolkit", package: "Infrastructure"),
         .product(name: "UIToolkit", package: "Infrastructure"),
@@ -65,6 +66,8 @@ let package = Package(
     .target(
       name: "RocketLaunch",
       dependencies: [
+        .product(name: "RocketsClient", package: "Domain"),
+        .product(name: "UIToolkit", package: "Infrastructure"),
         .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
       ]
     ),
