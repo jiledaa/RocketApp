@@ -25,6 +25,7 @@ let package = Package(
     .target(
       name: "RocketsClient",
       dependencies: [
+        .product(name: "UIToolkit", package: "Infrastructure"),
         .product(name: "NetworkClientExtensions", package: "Infrastructure"),
         .product(name: "RequestBuilder", package: "swift-core"),
         .product(name: "Dependencies", package: "swift-dependencies"),

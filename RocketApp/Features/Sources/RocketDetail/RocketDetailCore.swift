@@ -6,6 +6,7 @@ import RocketsClient
 public struct RocketDetailCore: ReducerProtocol {
   public struct State: Equatable {
     public var rocketData: RocketDetail
+
     var route: Route?
 
     enum Route: Equatable {
@@ -28,6 +29,8 @@ public struct RocketDetailCore: ReducerProtocol {
       }
     }
 
+    var isUsMetrics = false
+
     public init(rocketData: RocketDetail) {
       self.rocketData = rocketData
     }
@@ -36,6 +39,7 @@ public struct RocketDetailCore: ReducerProtocol {
   public enum Action: Equatable {
     case rocketLaunchTapped
     case setNavigation(isActive: Bool)
+    case setToUSMetrics
   }
 
   public init() {}
@@ -52,6 +56,10 @@ public struct RocketDetailCore: ReducerProtocol {
 
       case .setNavigation(false):
         state.route = nil
+        return .none
+
+      case .setToUSMetrics:
+        state.isUsMetrics.toggle()
         return .none
       }
     }

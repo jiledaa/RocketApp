@@ -1,6 +1,6 @@
 // Rocket list
 "rockets" = "Rakety";
-"first.flight" = "První let";
+"first_flight" = "První let";
 
 // Rocket detail
 "overview" = "Popis";
@@ -8,11 +8,18 @@
 "height" = "Výška";
 "diameter" = "Průměr";
 "mass" = "Hmotnost";
-"first.stage" = "První fáze";
-"second.stage" = "Dryhá fáze";
+"us_metrics" = "US metrika";
+"eu_metrics" = "EU metrika";
+"first_stage" = "První fáze";
+"second_stage" = "Druhá fáze";
+"reusable" = "Obnovitelný";
+"not_reusable" = "Neobnovitelný";
+"engines" = "Motorů";
+"tons_of_fuel" = "Tun paliva";
+"seconds_burn_time" = "Vteřin hoření";
 "photos" = "Fotogalerie";
 
 // Rocket launch
 "launch" = "Vypuštění";
-"move.up" = "Pro start rakety, zvedněte telefon nahoru.";
-"launch.successful" = "Start úspěšně zahájen!";
+"move_up" = "Pro start rakety, zvedněte telefon nahoru.";
+"launch_successful" = "Start úspěšně zahájen!";
