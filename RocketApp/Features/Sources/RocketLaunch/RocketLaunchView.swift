@@ -37,6 +37,9 @@ public struct RocketLaunchView: View {
     .onAppear {
       viewStore.send(.onAppear)
     }
+    .onDisappear {
+      viewStore.send(.onDisappear)
+    }
   }
 
   @ViewBuilder

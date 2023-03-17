@@ -10,9 +10,8 @@ public struct RocketLaunchCore: ReducerProtocol {
 
     var rocketHasLaunched: Bool = false
     var rocketPosition = CGPoint(x: 0, y: 0)
-    var motionManager: CMMotionManager?
     var width: Double = 0
-    var height: Double = 0
+    var height: Double = 800
 
     public init(rocketData: RocketDetail) {
       self.rocketData = rocketData
@@ -23,14 +22,19 @@ public struct RocketLaunchCore: ReducerProtocol {
     case launch
     case drop
     case onAppear
+    case updateMotionData(Result<CMAccelerometerData, MotionManagerError>)
+    case onDisappear
   }
 
   public init() {}
 
   @Dependency(\.motionManager) var motionManager
+  @Dependency(\.mainQueue) var mainQueue
 
   public var body: some ReducerProtocol<State, Action> {
     Reduce { state, action in
+      enum MotionDataKey: Hashable {}
+
       switch action {
       case .launch:
         return .none
@@ -39,27 +43,24 @@ public struct RocketLaunchCore: ReducerProtocol {
         return .none
 
       case .onAppear:
-        state.motionManager = CMMotionManager()
-        state.motionManager?.gyroUpdateInterval = 1
-        state.motionManager?.accelerometerUpdateInterval = 1
-        state.motionManager?.startAccelerometerUpdates(
-          to: .main,
-          withHandler: { value, _ in
-            if let value = value {
-              print("cojee epir \(value.acceleration.x)")
-            }
-          }
-        )
+        return motionManager.getMotionData()
+          .receive(on: mainQueue)
+          .catchToEffect(RocketLaunchCore.Action.updateMotionData)
+          .cancellable(id: MotionDataKey.self, cancelInFlight: true)
+
+      case let .updateMotionData(.success(motionData)):
+        state.width = CGVector(dx: 0 + motionData.acceleration.x * 50, dy: 0).dx
+        state.height = CGVector(dx: 0, dy: 800 - motionData.acceleration.y * 50).dy
+        print("cojee \(state.height)")
 
         return .none
 
-//      case let .onChange(value):
-//        if let value = value {
-//          state.height = CGVector(dx: 0, dy: 800 - value.rotationRate.y).dy
-//          state.width = CGVector(dx: 0 + value.rotationRate.x * 10000, dy: 0).dx
-//        }
-//
-//        return .none
+      case let .updateMotionData(.failure(motionError)):
+
+        return .none
+
+      case .onDisappear:
+        return Effect.cancel(id: MotionDataKey.self)
       }
     }
   }
