@@ -26,8 +26,8 @@ public struct RocketListCore: ReducerProtocol {
       }
 
       set {
-        if case let .rocketDetail(value) = route {
-          route = .rocketDetail(newValue ?? value)
+        if case let .rocketDetail(state) = route {
+          route = .rocketDetail(newValue ?? state)
         }
       }
     }
@@ -95,8 +95,8 @@ public struct RocketListCore: ReducerProtocol {
         return .none
       }
     }
-    .forEach(\.loadingStatus.arrayData, action: /Action.rocketListCell, element: { RocketListCellCore() })
-    .ifLet(\.rocketDetailState, action: /Action.rocketDetail, then: { RocketDetailCore() })
+    .forEach(\.loadingStatus.arrayData, action: /Action.rocketListCell) { RocketListCellCore() }
+    .ifLet(\.rocketDetailState, action: /Action.rocketDetail) { RocketDetailCore() }
   }
 }
 

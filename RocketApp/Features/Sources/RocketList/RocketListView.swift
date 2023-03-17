@@ -43,9 +43,8 @@ public struct RocketListView: View {
       isPresented: viewStore.binding(
         get: { $0.route != nil },
         send: RocketListCore.Action.setNavigation(isActive:)
-      ),
-      destination: { destination }
-    )
+      )
+    ) { destination }
   }
 
   @ViewBuilder

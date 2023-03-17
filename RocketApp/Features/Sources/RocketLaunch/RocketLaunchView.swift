@@ -13,11 +13,54 @@ public struct RocketLaunchView: View {
   }
 
   public var body: some View {
-    Image.rocketIdle
+    GeometryReader { _ in
+      VStack(spacing: 0) {
+
+        Spacer()
+          .frame(maxHeight: viewStore.height)
+
+        HStack {
+          Spacer()
+            .frame(maxWidth: -viewStore.width)
+
+          viewStore.rocketHasLaunched ? Image.rocketFlying : Image.rocketIdle
+
+          Spacer()
+            .frame(maxWidth: abs(viewStore.width))
+        }
+        // .position(x: proxy.frame(in: .named("platform")).origin.x, y: proxy.frame(in: .named("platform")).midY)
+        Spacer()
+
+        platform
+      }
+    }
+    .onAppear {
+      viewStore.send(.onAppear)
+    }
+  }
+
+  @ViewBuilder
+  private var platform: some View {
+    if viewStore.rocketHasLaunched {
+      EmptyView()
+    } else {
+      ZStack {
+        Rectangle()
+          .fill(.black.opacity(0.7))
+          .edgesIgnoringSafeArea(.bottom)
+          .frame(height: 100)
+          .coordinateSpace(name: "platform")
+
+        Text(.moveUp)
+          .bold()
+          .padding(.horizontal)
+          .foregroundColor(.white)
+      }
+    }
   }
 }
 
-struct RocketLaunchView_Previews: PreviewProvider {
+struct RocketLaunch_Previews: PreviewProvider {
   static var previews: some View {
     RocketLaunchView(
       store: .init(

@@ -2,7 +2,7 @@ import ComposableArchitecture
 import RocketLaunch
 import RocketsClient
 import SwiftUI
-//import UIToolkit
+import UIToolkit
 
 public struct RocketDetailView: View {
   var store: StoreOf<RocketDetailCore>
@@ -72,17 +72,15 @@ public struct RocketDetailView: View {
       isPresented: viewStore.binding(
         get: { $0.route != nil },
         send: RocketDetailCore.Action.setNavigation(isActive:)
-      ),
-      destination: { destination }
-    )
+      )
+    ) { destination }
   }
 
   @ViewBuilder
   private var destination: some View {
-    IfLetStore(
-      store.scope(state: \.rocketLaunchState, action: { _ in  RocketDetailCore.Action.rocketLaunchTapped }),
-      then: RocketLaunchView.init
-    )
+    IfLetStore(store.scope(state: \.rocketLaunchState, action: RocketDetailCore.Action.rocketLaunch)) {
+      RocketLaunchView(store: $0)
+    }
   }
 
   @ViewBuilder
@@ -174,7 +172,7 @@ public struct RocketDetailView: View {
   }
 }
 
-struct Rocket_Previews: PreviewProvider {
+struct RocketDetail_Previews: PreviewProvider {
   static var previews: some View {
     RocketDetailView(
       store: .init(

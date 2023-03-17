@@ -14,6 +14,10 @@ let package = Package(
       targets: ["CoreToolkit"]
     ),
     .library(
+      name: "MotionManager",
+      targets: ["MotionManager"]
+    ),
+    .library(
       name: "NetworkClientExtensions",
       targets: ["NetworkClientExtensions"]
     ),
@@ -42,6 +46,17 @@ let package = Package(
     .testTarget(
       name: "CoreToolkitTests",
       dependencies: ["CoreToolkit"]
+    ),
+    .target(
+      name: "MotionManager",
+      dependencies: [
+        .product(name: "Dependencies", package: "swift-dependencies"),
+        .product(name: "XCTestDynamicOverlay", package: "xctest-dynamic-overlay")
+      ]
+    ),
+    .testTarget(
+      name: "MotionManagerTests",
+      dependencies: ["MotionManager"]
     ),
     .target(
       name: "NetworkClientExtensions",

@@ -38,6 +38,7 @@ public struct RocketDetailCore: ReducerProtocol {
 
   public enum Action: Equatable {
     case rocketLaunchTapped
+    case rocketLaunch(RocketLaunchCore.Action)
     case setNavigation(isActive: Bool)
     case setToUSMetrics
   }
@@ -61,8 +62,11 @@ public struct RocketDetailCore: ReducerProtocol {
       case .setToUSMetrics:
         state.isUsMetrics.toggle()
         return .none
+
+      case .rocketLaunch:
+        return .none
       }
     }
-//    .ifLet(\.rocketLaunchState, action: /Action.rocketLaunchTapped, then: { RocketLaunchCore() })
+    .ifLet(\.rocketLaunchState, action: /Action.rocketLaunch) { RocketLaunchCore() }
   }
 }
