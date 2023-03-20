@@ -1,6 +1,7 @@
 // Rocket list
 "rockets" = "Rockets";
 "first_flight %@" = "First flight: %@";
+"error" = "Kann nicht das Data einladen, die Ursache:";
 
 // Rocket detail
 "overview" = "Overview";
@@ -21,5 +22,5 @@
 
 // Rocket launch
 "launch" = "Launch";
-"move_up" = "Move your phone up to launch the rocket.";
+"tilt %@" = "Tilt your phone to launch %@.";
 "launch_successful" = "Launch successful!";

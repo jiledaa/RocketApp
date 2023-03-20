@@ -7,7 +7,6 @@ import UIToolkit
 public struct RocketDetailView: View {
   var store: StoreOf<RocketDetailCore>
   @ObservedObject var viewStore: ViewStoreOf<RocketDetailCore>
-  @BindingState var isUsMetrics = false
 
   public init(store: StoreOf<RocketDetailCore>) {
     self.store = store
@@ -15,7 +14,7 @@ public struct RocketDetailView: View {
   }
 
   public var body: some View {
-    ScrollView {
+    ScrollView(showsIndicators: false) {
       VStack(alignment: .leading) {
         section(.overview) {
           Text(viewStore.rocketData.overview)
@@ -63,11 +62,7 @@ public struct RocketDetailView: View {
     }
     .padding()
     .navigationTitle(viewStore.rocketData.name)
-    .navigationBarItems(
-      trailing: Button(.launch) {
-        viewStore.send(.rocketLaunchTapped)
-      }
-    )
+    .navigationBarItems(trailing: Button(.launch) { viewStore.send(.rocketLaunchTapped) })
     .navigationDestination(
       isPresented: viewStore.binding(
         get: { $0.route != nil },

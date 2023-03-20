@@ -59,12 +59,12 @@ public struct RocketListView: View {
     Group {
       Spacer()
 
-      Image(systemName: "xmark.octagon.fill")
+      Image.error
         .resizable()
         .frame(width: 32, height: 32)
         .padding()
 
-      Text("Cannot load data, cause:")
+      Text(.listError)
         .font(.headline)
 
       Text("\(error.description)")

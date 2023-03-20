@@ -6,6 +6,7 @@ import RocketsClient
 public struct RocketDetailCore: ReducerProtocol {
   public struct State: Equatable {
     public var rocketData: RocketDetail
+    public var idUSMetrics: Bool = false
 
     var route: Route?
 
@@ -56,6 +57,9 @@ public struct RocketDetailCore: ReducerProtocol {
         return .none
 
       case .setNavigation(false):
+        return EffectTask.task { .rocketLaunch(.onDisappear) }
+
+      case .rocketLaunch(.onDisappear):
         state.route = nil
         return .none
 

@@ -1,6 +1,7 @@
 // Rocket list
 "rockets" = "Rakety";
 "first_flight" = "První let";
+"error" = "Nelze načíst data, přičina:";
 
 // Rocket detail
 "overview" = "Popis";

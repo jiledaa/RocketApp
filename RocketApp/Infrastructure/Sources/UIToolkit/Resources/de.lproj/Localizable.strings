@@ -1,6 +1,7 @@
 // Rocket list
 "rockets" = "Die Raketen!";
 "first_flight" = "Der erste Flug!";
+"error" = "Cannot load data, cause:";
 
 // Rocket detail
 "overview" = "Der Überblick!";

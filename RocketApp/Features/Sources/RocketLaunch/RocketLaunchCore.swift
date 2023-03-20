@@ -1,7 +1,7 @@
 import ComposableArchitecture
-import CoreMotion
+import ComposableCoreMotion
 import Foundation
-import MotionManager
+import MotionClient
 import RocketsClient
 
 public struct RocketLaunchCore: ReducerProtocol {
@@ -9,58 +9,81 @@ public struct RocketLaunchCore: ReducerProtocol {
     public var rocketData: RocketDetail
 
     var rocketHasLaunched: Bool = false
-    var rocketPosition = CGPoint(x: 0, y: 0)
-    var width: Double = 0
-    var height: Double = 800
+    var potentialHeight: Double?
+    var initialHeight: Double {
+      potentialHeight ?? 0
+    }
+    var rWidth: Double = 0
+    var lWidth: Double = 0
+    var height: Double = 0
+    var roll: Double = 0
+    var pitch: Double = 0
+    var motionError: NSError?
 
-    public init(rocketData: RocketDetail) {
+    public init(rocketData: RocketDetail, rocketHasLaunched: Bool = false) {
       self.rocketData = rocketData
+      self.rocketHasLaunched = rocketHasLaunched
     }
   }
 
   public enum Action: Equatable {
-    case launch
-    case drop
     case onAppear
-    case updateMotionData(Result<CMAccelerometerData, MotionManagerError>)
+    case updateMotionData(Result<DeviceMotion, NSError>)
     case onDisappear
   }
 
   public init() {}
 
-  @Dependency(\.motionManager) var motionManager
-  @Dependency(\.mainQueue) var mainQueue
+  @Dependency(\.motionClient) var motionManager
 
   public var body: some ReducerProtocol<State, Action> {
     Reduce { state, action in
-      enum MotionDataKey: Hashable {}
+      struct MotionManagerId: Hashable {}
 
       switch action {
-      case .launch:
-        return .none
-
-      case .drop:
-        return .none
-
       case .onAppear:
-        return motionManager.getMotionData()
-          .receive(on: mainQueue)
-          .catchToEffect(RocketLaunchCore.Action.updateMotionData)
-          .cancellable(id: MotionDataKey.self, cancelInFlight: true)
+        return .concatenate(
+          motionManager.motionClient
+            .create(id: MotionManagerId())
+            .fireAndForget(),
+
+          motionManager.motionClient
+            .startDeviceMotionUpdates(id: MotionManagerId(), using: .xArbitraryZVertical, to: .main)
+            .mapError { $0 as NSError }
+            .catchToEffect(RocketLaunchCore.Action.updateMotionData)
+        )
 
       case let .updateMotionData(.success(motionData)):
-        state.width = CGVector(dx: 0 + motionData.acceleration.x * 50, dy: 0).dx
-        state.height = CGVector(dx: 0, dy: 800 - motionData.acceleration.y * 50).dy
-        print("cojee \(state.height)")
+        if state.potentialHeight == nil {
+          state.potentialHeight = motionData.attitude.quaternion.x
+        }
+        let magnitude: Double = 800
+        let width = motionData.attitude.quaternion.y * magnitude
+        let height = (abs(state.initialHeight) - abs(motionData.attitude.quaternion.x)) * magnitude
 
+        state.lWidth = width < 0 && state.rocketHasLaunched ? abs(width) : 0
+        state.rWidth = width > 0 && state.rocketHasLaunched ? width : 0
+        state.height = height > 50 ? height : 0
+        state.rocketHasLaunched = state.height != 0
+
+        state.pitch = motionData.attitude.pitch
+        state.roll = motionData.attitude.roll
         return .none
 
       case let .updateMotionData(.failure(motionError)):
-
+        state.motionError = motionError
         return .none
 
       case .onDisappear:
-        return Effect.cancel(id: MotionDataKey.self)
+        return .concatenate(
+          motionManager.motionClient
+            .stopDeviceMotionUpdates(id: MotionManagerId())
+            .fireAndForget(),
+
+          motionManager.motionClient
+            .destroy(id: MotionManagerId())
+            .fireAndForget()
+        )
       }
     }
   }
