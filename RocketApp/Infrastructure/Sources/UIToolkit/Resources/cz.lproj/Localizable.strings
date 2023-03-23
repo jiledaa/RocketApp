@@ -22,5 +22,5 @@
 
 // Rocket launch
 "launch" = "Vypuštění";
-"move_up" = "Pro start rakety, zvedněte telefon nahoru.";
+"tilt" = "Pro vypuštění %@ zbývá metrů:";
 "launch_successful" = "Start úspěšně zahájen!";

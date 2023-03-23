@@ -22,5 +22,5 @@
 
 // Rocket launch
 "launch" = "Launch";
-"tilt %@" = "Tilt your phone to launch %@.";
+"tilt %@" = "Meters remaining to launch %@:";
 "launch_successful" = "Launch successful!";

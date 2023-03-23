@@ -10,14 +10,17 @@ public struct RocketLaunchCore: ReducerProtocol {
 
     var rocketHasLaunched: Bool = false
     var potentialHeight: Double?
-    var initialHeight: Double {
-      potentialHeight ?? 0
-    }
+    var initialHeight: Double { potentialHeight ?? 0 }
+
+    var neededTiltToLaunch: Double = 100
     var rWidth: Double = 0
     var lWidth: Double = 0
-    var height: Double = 0
+    var height: Double { calculatedHeight > neededTiltToLaunch ? calculatedHeight : 0 }
+    var calculatedHeight: Double = 0
+
     var roll: Double = 0
     var pitch: Double = 0
+
     var motionError: NSError?
 
     public init(rocketData: RocketDetail, rocketHasLaunched: Bool = false) {
@@ -57,13 +60,21 @@ public struct RocketLaunchCore: ReducerProtocol {
         if state.potentialHeight == nil {
           state.potentialHeight = motionData.attitude.quaternion.x
         }
-        let magnitude: Double = 800
-        let width = motionData.attitude.quaternion.y * magnitude
-        let height = (abs(state.initialHeight) - abs(motionData.attitude.quaternion.x)) * magnitude
 
-        state.lWidth = width < 0 && state.rocketHasLaunched ? abs(width) : 0
-        state.rWidth = width > 0 && state.rocketHasLaunched ? width : 0
-        state.height = height > 50 ? height : 0
+        let totalRocketMass = state.rocketData.mass.kilograms / 1000 + state.rocketData.firstStage.fuelMass
+        let magnitude: Double = Double(2 * pow(10, 6) / (totalRocketMass + 2000))
+        let actualTilt = motionData.attitude.quaternion.x
+        let isUnnaturalTilt: Bool = state.initialHeight < 0 && state.initialHeight * magnitude > -400
+        let gravityKeeper = (state.initialHeight > 0 && actualTilt < 0 ? abs(actualTilt) * magnitude : 0)
+
+        let width = motionData.attitude.quaternion.y * magnitude
+
+        state.calculatedHeight = isUnnaturalTilt
+          ? (state.initialHeight + abs(actualTilt)) * magnitude
+          : (abs(state.initialHeight) - abs(actualTilt)) * magnitude + gravityKeeper
+
+        state.rWidth = width < 0 && state.rocketHasLaunched ? abs(width) : 0
+        state.lWidth = width > 0 && state.rocketHasLaunched ? width : 0
         state.rocketHasLaunched = state.height != 0
 
         state.pitch = motionData.attitude.pitch

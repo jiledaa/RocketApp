@@ -23,7 +23,7 @@ public struct RocketLaunchView: View {
 
       HStack {
         Spacer()
-          .frame(maxWidth: viewStore.initialHeight > 0 ? viewStore.rWidth : viewStore.lWidth)
+          .frame(maxWidth: viewStore.lWidth)
 
         if viewStore.rocketHasLaunched {
           flyingRocket
@@ -32,7 +32,7 @@ public struct RocketLaunchView: View {
         }
 
         Spacer()
-          .frame(maxWidth: viewStore.initialHeight > 0 ? viewStore.lWidth : viewStore.rWidth)
+          .frame(maxWidth: viewStore.rWidth)
       }
 
       Spacer()
@@ -108,13 +108,34 @@ public struct RocketLaunchView: View {
         .frame(height: 100)
         .opacity(viewStore.rocketHasLaunched ? 0 : 1)
 
-      Text(viewStore.rocketHasLaunched ? .launchSuccessful : .tiltToLaunch(viewStore.rocketData.name))
-        .font(.headline)
-        .multilineTextAlignment(.center)
-        .bold()
-        .padding(.horizontal)
-        .foregroundColor(viewStore.rocketHasLaunched ? .indigo : .white)
-        .opacity(1 - backgroundOpacity)
+      HStack {
+        Text(viewStore.rocketHasLaunched ? .launchSuccessful : .tiltToLaunch(viewStore.rocketData.name))
+          .font(.headline)
+          .multilineTextAlignment(.center)
+          .bold()
+          .foregroundColor(viewStore.rocketHasLaunched ? .indigo : .white)
+          .opacity(1 - backgroundOpacity)
+
+        if !viewStore.rocketHasLaunched {
+          launchCounter
+        }
+      }
+    }
+  }
+
+  private var launchCounter: some View {
+    ZStack {
+      Rectangle()
+        .fill(AngularGradient(gradient: Gradient(colors: [.black, .gray]), center: .bottom))
+        .frame(width: 40, height: 40)
+        .cornerRadius(12)
+
+      Rectangle()
+        .fill(.white)
+        .frame(width: 28, height: 28)
+        .cornerRadius(4)
+
+      Text("\(Int(viewStore.neededTiltToLaunch - viewStore.calculatedHeight))")
     }
   }
 
@@ -175,7 +196,7 @@ struct RocketLaunch_Previews: PreviewProvider {
   static var previews: some View {
     RocketLaunchView(
       store: .init(
-        initialState: RocketLaunchCore.State(rocketData: RocketDetail.mock, rocketHasLaunched: true),
+        initialState: RocketLaunchCore.State(rocketData: RocketDetail.mock, rocketHasLaunched: false),
         reducer: RocketLaunchCore()
       )
     )

@@ -22,5 +22,5 @@
 
 // Rocket launch
 "launch" = "Der Start!";
-"move_up" = "Bewegen Sie Ihr Telefon nach oben, um die Rakete zu starten!";
+"tilt %@" = "Verbleibende Meter bis zum Start %@";
 "launch_successful" = "Start erfolgreich!";
