@@ -16,6 +16,7 @@ public extension LocalizedStringKey {
 
   static let launch: Self = "launch".localizedStringKey
   static let launchSuccessful: Self = "launch_successful".localizedStringKey
+  static let resetLaunch: Self = "reset_launch".localizedStringKey
 
   static func reusable(_ param: Bool) -> Self {
     param ? "reusable".localizedStringKey : "not_reusable".localizedStringKey

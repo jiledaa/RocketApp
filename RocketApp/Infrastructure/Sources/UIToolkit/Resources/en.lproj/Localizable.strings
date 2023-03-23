@@ -24,3 +24,4 @@
 "launch" = "Launch";
 "tilt %@" = "Meters remaining to launch %@:";
 "launch_successful" = "Launch successful!";
+"reset_launch" = "Reset rocket launch";

@@ -24,3 +24,4 @@
 "launch" = "Vypuštění";
 "tilt" = "Pro vypuštění %@ zbývá metrů:";
 "launch_successful" = "Start úspěšně zahájen!";
+"reset_launch" = "Restartujte let rakety";

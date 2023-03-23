@@ -24,3 +24,4 @@
 "launch" = "Der Start!";
 "tilt %@" = "Verbleibende Meter bis zum Start %@";
 "launch_successful" = "Start erfolgreich!";
+"reset_launch" = "Raketenstart zurücksetzen";

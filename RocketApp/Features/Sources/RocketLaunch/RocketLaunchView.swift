@@ -36,10 +36,12 @@ public struct RocketLaunchView: View {
       }
 
       Spacer()
-        .frame(maxHeight: viewStore.height)
+        .frame(maxHeight: max(viewStore.height, 0))
 
       platform
     }
+    .frame(height: UIScreen.main.bounds.height)
+    .ignoresSafeArea()
     .background {
       ZStack {
         space
@@ -100,7 +102,7 @@ public struct RocketLaunchView: View {
 
   @ViewBuilder
   private var platform: some View {
-    ZStack {
+    ZStack(alignment: .top) {
       Rectangle()
         .fill(.indigo)
         .frame(maxWidth: .infinity)
@@ -108,16 +110,30 @@ public struct RocketLaunchView: View {
         .frame(height: 100)
         .opacity(viewStore.rocketHasLaunched ? 0 : 1)
 
-      HStack {
-        Text(viewStore.rocketHasLaunched ? .launchSuccessful : .tiltToLaunch(viewStore.rocketData.name))
-          .font(.headline)
-          .multilineTextAlignment(.center)
-          .bold()
-          .foregroundColor(viewStore.rocketHasLaunched ? .indigo : .white)
-          .opacity(1 - backgroundOpacity)
+      VStack {
+        HStack {
+          Spacer()
 
-        if !viewStore.rocketHasLaunched {
-          launchCounter
+          Text(viewStore.rocketHasLaunched ? .launchSuccessful : .tiltToLaunch(viewStore.rocketData.name))
+            .font(.headline)
+            .multilineTextAlignment(.center)
+            .bold()
+            .foregroundColor(viewStore.rocketHasLaunched ? .indigo : .white)
+            .opacity(1 - backgroundOpacity)
+
+          Spacer()
+
+          if !viewStore.rocketHasLaunched {
+            launchCounter
+          }
+        }
+        .padding([.top, .trailing, .leading])
+
+        if viewStore.rocketHasLaunched
+            && viewStore.neededTiltToLaunch - viewStore.calculatedHeight > viewStore.neededTiltToLaunch {
+          Button(.resetLaunch) { viewStore.send(.resetLaunch) }
+            .buttonStyle(.borderedProminent)
+            .cornerRadius(12)
         }
       }
     }
@@ -135,7 +151,7 @@ public struct RocketLaunchView: View {
         .frame(width: 28, height: 28)
         .cornerRadius(4)
 
-      Text("\(Int(viewStore.neededTiltToLaunch - viewStore.calculatedHeight))")
+      Text("\(Int(viewStore.neededTiltToLaunch - viewStore.calculatedHeight))").foregroundColor(.black)
     }
   }
 

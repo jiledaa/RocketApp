@@ -15,7 +15,8 @@ public struct RocketLaunchCore: ReducerProtocol {
     var neededTiltToLaunch: Double = 100
     var rWidth: Double = 0
     var lWidth: Double = 0
-    var height: Double { calculatedHeight > neededTiltToLaunch ? calculatedHeight : 0 }
+    var height: Double { calculatedHeight > neededTiltToLaunch || rocketHasLaunched ? calculatedHeight : 0 }
+
     var calculatedHeight: Double = 0
 
     var roll: Double = 0
@@ -32,6 +33,7 @@ public struct RocketLaunchCore: ReducerProtocol {
   public enum Action: Equatable {
     case onAppear
     case updateMotionData(Result<DeviceMotion, NSError>)
+    case resetLaunch
     case onDisappear
   }
 
@@ -62,7 +64,7 @@ public struct RocketLaunchCore: ReducerProtocol {
         }
 
         let totalRocketMass = state.rocketData.mass.kilograms / 1000 + state.rocketData.firstStage.fuelMass
-        let magnitude: Double = Double(2 * pow(10, 6) / (totalRocketMass + 2000))
+        let magnitude: Double = Double(8 * pow(10, 6) / (totalRocketMass + 5000))
         let actualTilt = motionData.attitude.quaternion.x
         let isUnnaturalTilt: Bool = state.initialHeight < 0 && state.initialHeight * magnitude > -400
         let gravityKeeper = (state.initialHeight > 0 && actualTilt < 0 ? abs(actualTilt) * magnitude : 0)
@@ -75,7 +77,7 @@ public struct RocketLaunchCore: ReducerProtocol {
 
         state.rWidth = width < 0 && state.rocketHasLaunched ? abs(width) : 0
         state.lWidth = width > 0 && state.rocketHasLaunched ? width : 0
-        state.rocketHasLaunched = state.height != 0
+        state.rocketHasLaunched = state.rocketHasLaunched ? true : state.height != 0
 
         state.pitch = motionData.attitude.pitch
         state.roll = motionData.attitude.roll
@@ -83,6 +85,10 @@ public struct RocketLaunchCore: ReducerProtocol {
 
       case let .updateMotionData(.failure(motionError)):
         state.motionError = motionError
+        return .none
+
+      case .resetLaunch:
+        state.rocketHasLaunched = false
         return .none
 
       case .onDisappear:
