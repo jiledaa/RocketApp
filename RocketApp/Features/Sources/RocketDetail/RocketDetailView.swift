@@ -25,7 +25,7 @@ public struct RocketDetailView: View {
         section(.parameters) {
           VStack {
             parameters
-
+            // TODO: All view logic move to ViewState.
             Toggle(
               viewStore.isUsMetrics ? .usMetrics : .euMetrics,
               isOn: viewStore.binding(get: \.isUsMetrics, send: RocketDetailCore.Action.setToUSMetrics)
@@ -47,14 +47,11 @@ public struct RocketDetailView: View {
         section(.photos) {
           VStack {
             ForEach(viewStore.rocketData.photos, id: \.self) { path in
-              AsyncImage(url: URL(string: path)) { image in
-                image
-                  .resizable()
-                  .scaledToFit()
-                  .cornerRadius(24)
-              } placeholder: {
-                EmptyView()
-              }
+              AsyncImage(
+                url: URL(string: path),
+                content: { $0.resizable().scaledToFit().cornerRadius(24) },
+                placeholder: { EmptyView() }
+              )
             }
           }
         }
@@ -126,6 +123,7 @@ public struct RocketDetailView: View {
     }
   }
 
+  // TODO: All view logic move to ViewState.
   private var firstStageItems: [StageItem] {
     guard let burnTime = viewStore.rocketData.firstStage.burnTime else {
       return [

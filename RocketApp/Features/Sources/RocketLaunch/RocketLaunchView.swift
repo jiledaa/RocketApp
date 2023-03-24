@@ -25,6 +25,7 @@ public struct RocketLaunchView: View {
         Spacer()
           .frame(maxWidth: viewStore.lWidth)
 
+        // TODO: All view logic move to ViewState.
         if viewStore.rocketHasLaunched {
           flyingRocket
         } else {

@@ -48,11 +48,11 @@ public struct RocketLaunchCore: ReducerProtocol {
       switch action {
       case .onAppear:
         return .concatenate(
-          motionManager.motionClient
+          motionManager
             .create(id: MotionManagerId())
             .fireAndForget(),
 
-          motionManager.motionClient
+          motionManager
             .startDeviceMotionUpdates(id: MotionManagerId(), using: .xArbitraryZVertical, to: .main)
             .mapError { $0 as NSError }
             .catchToEffect(RocketLaunchCore.Action.updateMotionData)
@@ -93,11 +93,11 @@ public struct RocketLaunchCore: ReducerProtocol {
 
       case .onDisappear:
         return .concatenate(
-          motionManager.motionClient
+          motionManager
             .stopDeviceMotionUpdates(id: MotionManagerId())
             .fireAndForget(),
 
-          motionManager.motionClient
+          motionManager
             .destroy(id: MotionManagerId())
             .fireAndForget()
         )
