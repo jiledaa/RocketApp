@@ -56,10 +56,6 @@ let package = Package(
         .product(name: "ComposableCoreMotion", package: "composable-core-motion")
       ]
     ),
-    .testTarget(
-      name: "MotionClientTests",
-      dependencies: ["MotionClient"]
-    ),
     .target(
       name: "NetworkClientExtensions",
       dependencies: [

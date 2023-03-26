@@ -114,8 +114,22 @@ extension RocketDetail.Stage {
 // swiftlint:disable identifier_name
 public extension RocketDetail {
   enum RocketParameters: String {
-    case id, name, overview, height, diameter, mass, fuel_mass, first_stage, second_stage, first_flight, photos,
-      reusable, not_reusable, engines, tons_of_fuel, seconds_burn_time
+    case id
+    case name
+    case overview
+    case height
+    case diameter
+    case mass
+    case fuel_mass
+    case first_stage
+    case second_stage
+    case first_flight
+    case photos
+    case reusable
+    case not_reusable
+    case engines
+    case tons_of_fuel
+    case seconds_burn_time
 
     public var name: LocalizedStringKey {
       switch self {
@@ -152,6 +166,7 @@ public extension RocketDetail {
       }
     }
 
+    // TODO: Make custom formatter for RocketDetail
     public func detail(rocketDetail: RocketDetail, isUSMetrics: Bool) -> String {
       switch self {
       case .height:

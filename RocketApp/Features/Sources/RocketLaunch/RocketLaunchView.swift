@@ -130,8 +130,7 @@ public struct RocketLaunchView: View {
         }
         .padding([.top, .trailing, .leading])
 
-        if viewStore.rocketHasLaunched
-            && viewStore.neededTiltToLaunch - viewStore.calculatedHeight > viewStore.neededTiltToLaunch {
+        if viewStore.rocketHasLaunched && viewStore.calculatedHeight < 0 {
           Button(.resetLaunch) { viewStore.send(.resetLaunch) }
             .buttonStyle(.borderedProminent)
             .cornerRadius(12)

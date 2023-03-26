@@ -11,12 +11,12 @@ extension RocketsClient: DependencyKey {
     return Self(
       getRocket: { id in
         Request(endpoint: URLs.baseURL + "/v3/rockets/\(id)").execute(using: networkClientType)
-          .mapError({ RocketNetworkError(networkError: $0.cause) })
+          .mapError { RocketNetworkError(networkError: $0.cause) }
           .eraseToAnyPublisher()
       },
       getAllRockets: {
         Request(endpoint: URLs.baseURL + "/v3/rockets").execute(using: networkClientType)
-          .mapError({ RocketNetworkError(networkError: $0.cause) })
+          .mapError { RocketNetworkError(networkError: $0.cause) }
           .eraseToAnyPublisher()
       }
     )
