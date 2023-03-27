@@ -8,27 +8,7 @@ public struct RocketDetailCore: ReducerProtocol {
     public var rocketData: RocketDetail
     var isUsMetrics = false
 
-    var route: Route?
-
-    enum Route: Equatable {
-      case rocketLaunch(RocketLaunchCore.State)
-    }
-
-    var rocketLaunchState: RocketLaunchCore.State? {
-      get {
-        if case let .rocketLaunch(state) = route {
-          return state
-        } else {
-          return nil
-        }
-      }
-
-      set {
-        if case let .rocketLaunch(state) = route {
-          route = .rocketLaunch(newValue ?? state)
-        }
-      }
-    }
+    var rocketLaunchState: RocketLaunchCore.State?
 
     public init(rocketData: RocketDetail) {
       self.rocketData = rocketData
@@ -48,7 +28,7 @@ public struct RocketDetailCore: ReducerProtocol {
     Reduce { state, action in
       switch action {
       case .rocketLaunchTapped:
-        state.route = .rocketLaunch(.init(rocketData: state.rocketData))
+        state.rocketLaunchState = .init(rocketData: state.rocketData)
         return .none
 
       case .setNavigation(true):
@@ -58,7 +38,7 @@ public struct RocketDetailCore: ReducerProtocol {
         return EffectTask.task { .rocketLaunch(.onDisappear) }
 
       case .rocketLaunch(.onDisappear):
-        state.route = nil
+        state.rocketLaunchState = nil
         return .none
 
       case .setToUSMetrics:

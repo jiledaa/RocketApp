@@ -41,7 +41,7 @@ public struct RocketListView: View {
     .listStyle(.sidebar)
     .navigationDestination(
       isPresented: viewStore.binding(
-        get: { $0.route != nil },
+        get: { $0.rocketDetailState != nil },
         send: RocketListCore.Action.setNavigation(isActive:)
       )
     ) { destination }

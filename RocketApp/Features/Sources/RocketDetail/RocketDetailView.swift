@@ -62,7 +62,7 @@ public struct RocketDetailView: View {
     .navigationBarItems(trailing: Button(.launch) { viewStore.send(.rocketLaunchTapped) })
     .navigationDestination(
       isPresented: viewStore.binding(
-        get: { $0.route != nil },
+        get: { $0.rocketLaunchState != nil },
         send: RocketDetailCore.Action.setNavigation(isActive:)
       )
     ) { destination }
