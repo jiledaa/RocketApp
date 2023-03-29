@@ -6,11 +6,53 @@ import UIToolkit
 
 public struct RocketDetailView: View {
   var store: StoreOf<RocketDetailCore>
-  @ObservedObject var viewStore: ViewStoreOf<RocketDetailCore>
+  @ObservedObject var viewStore: ViewStore<ViewState, RocketDetailCore.Action>
+
+  struct ViewState: Equatable {
+    var rocketData: RocketDetail
+    var isUsMetrics: Bool
+    var toggleName: LocalizedStringKey
+    var rocketLaunchState: RocketLaunchCore.State?
+    var isRocketLaunchStateActive: Bool
+    var firstStageItems: [StageItem]
+    var secondStageItems: [StageItem]
+
+    struct StageItem: Identifiable, Equatable {
+      let id = UUID()
+      let image: Image
+      let text: LocalizedStringKey
+    }
+
+    init(state: RocketDetailCore.State) {
+      self.rocketData = state.rocketData
+      self.isUsMetrics = state.isUsMetrics
+      self.toggleName = self.isUsMetrics ? .usMetrics : .euMetrics
+      self.rocketLaunchState = state.rocketLaunchState
+      self.isRocketLaunchStateActive = state.rocketLaunchState != nil
+
+      self.firstStageItems =
+      [
+        StageItem(image: .reusable, text: .reusable(rocketData.firstStage.reusable)),
+        StageItem(image: .engine, text: .engines(rocketData.firstStage.engines)),
+        StageItem(image: .fuel, text: .tonsOfFuel(rocketData.firstStage.fuelMass)),
+        rocketData.firstStage.burnTime.map { StageItem(image: .burn, text: .secondsBurnTime($0)) }
+      ]
+        .compactMap { $0 }
+
+      self.secondStageItems =
+      [
+        StageItem(image: .reusable, text: .reusable(rocketData.firstStage.reusable)),
+        StageItem(image: .engine, text: .engines(rocketData.firstStage.engines)),
+        StageItem(image: .fuel, text: .tonsOfFuel(rocketData.firstStage.fuelMass)),
+        rocketData.firstStage.burnTime.map { StageItem(image: .burn, text: .secondsBurnTime($0)) }
+      ]
+        .compactMap { $0 }
+    }
+  }
 
   public init(store: StoreOf<RocketDetailCore>) {
     self.store = store
-    self.viewStore = ViewStore(store)
+    self.viewStore = ViewStore(store, observe: { ViewState(state: $0) })
   }
 
   public var body: some View {
@@ -25,9 +67,9 @@ public struct RocketDetailView: View {
         section(.parameters) {
           VStack {
             parameters
-            // TODO: All view logic move to ViewState.
+
             Toggle(
-              viewStore.isUsMetrics ? .usMetrics : .euMetrics,
+              viewStore.toggleName,
               isOn: viewStore.binding(get: \.isUsMetrics, send: RocketDetailCore.Action.setToUSMetrics)
             )
             .padding(.horizontal)
@@ -35,12 +77,12 @@ public struct RocketDetailView: View {
         }
 
         section(.firstStage) {
-          stageList(items: firstStageItems)
+          stageList(items: viewStore.firstStageItems)
         }
         .padding()
 
         section(.secondStage) {
-          stageList(items: secondStageItems)
+          stageList(items: viewStore.secondStageItems)
         }
         .padding()
 
@@ -57,12 +99,12 @@ public struct RocketDetailView: View {
         }
       }
     }
-    .padding()
+    .padding(.horizontal)
     .navigationTitle(viewStore.rocketData.name)
     .navigationBarItems(trailing: Button(.launch) { viewStore.send(.rocketLaunchTapped) })
     .navigationDestination(
       isPresented: viewStore.binding(
-        get: { $0.rocketLaunchState != nil },
+        get: { $0.isRocketLaunchStateActive },
         send: RocketDetailCore.Action.setNavigation(isActive:)
       )
     ) { destination }
@@ -111,7 +153,7 @@ public struct RocketDetailView: View {
     .background(Rectangle().fill(backgroundColor).cornerRadius(16))
   }
 
-  private func stageList(items: [StageItem]) -> some View {
+  private func stageList(items: [ViewState.StageItem]) -> some View {
     VStack(alignment: .leading) {
       ForEach(items) { item in
         HStack {
@@ -121,47 +163,6 @@ public struct RocketDetailView: View {
         }
       }
     }
-  }
-
-  // TODO: All view logic move to ViewState.
-  private var firstStageItems: [StageItem] {
-    guard let burnTime = viewStore.rocketData.firstStage.burnTime else {
-      return [
-        StageItem(image: .reusable, text: .reusable(viewStore.rocketData.firstStage.reusable)),
-        StageItem(image: .engine, text: .engines(viewStore.rocketData.firstStage.engines)),
-        StageItem(image: .fuel, text: .tonsOfFuel(viewStore.rocketData.firstStage.fuelMass))
-      ]
-    }
-
-    return [
-      StageItem(image: .reusable, text: .reusable(viewStore.rocketData.firstStage.reusable)),
-      StageItem(image: .engine, text: .engines(viewStore.rocketData.firstStage.engines)),
-      StageItem(image: .fuel, text: .tonsOfFuel(viewStore.rocketData.firstStage.fuelMass)),
-      StageItem(image: .burn, text: .secondsBurnTime(burnTime))
-    ]
-  }
-
-  private var secondStageItems: [StageItem] {
-    guard let burnTime = viewStore.rocketData.secondStage.burnTime else {
-      return [
-        StageItem(image: .reusable, text: .reusable(viewStore.rocketData.secondStage.reusable)),
-        StageItem(image: .engine, text: .engines(viewStore.rocketData.secondStage.engines)),
-        StageItem(image: .fuel, text: .tonsOfFuel(viewStore.rocketData.secondStage.fuelMass))
-      ]
-    }
-
-    return [
-      StageItem(image: .reusable, text: .reusable(viewStore.rocketData.secondStage.reusable)),
-      StageItem(image: .engine, text: .engines(viewStore.rocketData.secondStage.engines)),
-      StageItem(image: .fuel, text: .tonsOfFuel(viewStore.rocketData.secondStage.fuelMass)),
-      StageItem(image: .burn, text: .secondsBurnTime(burnTime))
-    ]
-  }
-
-  private struct StageItem: Identifiable {
-    let id = UUID()
-    let image: Image
-    let text: LocalizedStringKey
   }
 }
 

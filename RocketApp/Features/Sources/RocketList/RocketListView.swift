@@ -16,7 +16,7 @@ public struct RocketListView: View {
 
   public var body: some View {
     NavigationStack {
-      VStack {
+      Group {
         switch viewStore.loadingStatus {
         case let .success(data):
           rocketsListView(rocketData: data)
