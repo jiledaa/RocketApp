@@ -15,7 +15,7 @@ public struct RocketLaunchCore: ReducerProtocol {
     var neededTiltToLaunch: Double = 100
     var rWidth: Double = 0
     var lWidth: Double = 0
-    var height: Double { calculatedHeight > neededTiltToLaunch || rocketHasLaunched ? calculatedHeight : 0 }
+    var height: Double = 0
 
     var calculatedHeight: Double = 0
 
@@ -77,6 +77,7 @@ public struct RocketLaunchCore: ReducerProtocol {
 
         state.rWidth = width < 0 && state.rocketHasLaunched ? abs(width) : 0
         state.lWidth = width > 0 && state.rocketHasLaunched ? width : 0
+        state.height = state.calculatedHeight > state.neededTiltToLaunch || state.rocketHasLaunched ? max(state.calculatedHeight, 0) : 0
         state.rocketHasLaunched = state.rocketHasLaunched ? true : state.height != 0
 
         state.pitch = motionData.attitude.pitch

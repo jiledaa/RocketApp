@@ -5,16 +5,44 @@ import UIToolkit
 
 public struct RocketLaunchView: View {
   public let store: StoreOf<RocketLaunchCore>
-  @ObservedObject var viewStore: ViewStoreOf<RocketLaunchCore>
+  @ObservedObject var viewStore: ViewStore<ViewState, RocketLaunchCore.Action>
 
-  @State var backgroundOpacity: CGFloat = 0
-  @State var blinkOpacity: CGFloat = 0
-  @State var rocketScale: CGFloat = 1
-  @State var pollutionScale: CGFloat = 0.5
+  @State var backgroundOpacity: Double = 0
+  @State var blinkOpacity: Double = 0
+  @State var rocketScale: Double = 1
+  @State var pollutionScale: Double = 0.5
+
+  struct ViewState: Equatable {
+    let lWidth: Double
+    let rWidth: Double
+    let height: Double
+    let rocketHasLaunched: Bool
+    let isResetButton: Bool
+    let counter: Int
+    let paralaxOffset: CGRect
+    let motionError: NSError?
+    let platformOpacity: Double
+    let text: LocalizedStringKey
+    let textColor: Color
+
+    init(state: RocketLaunchCore.State) {
+      self.lWidth = state.lWidth
+      self.rWidth = state.rWidth
+      self.height = state.height
+      self.rocketHasLaunched = state.rocketHasLaunched
+      self.isResetButton = state.rocketHasLaunched && state.calculatedHeight < 0
+      self.counter = Int(state.neededTiltToLaunch - state.calculatedHeight)
+      self.paralaxOffset = CGRect(x: CGFloat(state.pitch * -80), y: CGFloat(state.roll * -80), width: 0, height: 0)
+      self.motionError = state.motionError
+      self.platformOpacity = state.rocketHasLaunched ? 0 : 1
+      self.text = state.rocketHasLaunched ? .launchSuccessful : .tiltToLaunch(state.rocketData.name)
+      self.textColor = state.rocketHasLaunched ? .indigo : .white
+    }
+  }
 
   public init(store: StoreOf<RocketLaunchCore>) {
     self.store = store
-    self.viewStore = ViewStore(store)
+    self.viewStore = ViewStore(store, observe: { ViewState(state: $0) })
   }
 
   public var body: some View {
@@ -25,7 +53,6 @@ public struct RocketLaunchView: View {
         Spacer()
           .frame(maxWidth: viewStore.lWidth)
 
-        // TODO: All view logic move to ViewState.
         if viewStore.rocketHasLaunched {
           flyingRocket
         } else {
@@ -37,17 +64,33 @@ public struct RocketLaunchView: View {
       }
 
       Spacer()
-        .frame(maxHeight: max(viewStore.height, 0))
+        .frame(maxHeight: viewStore.height)
 
-      platform
+      if !viewStore.rocketHasLaunched {
+        platform
+      }
     }
-    .frame(height: UIScreen.main.bounds.height)
+    .frame(maxWidth: .infinity, maxHeight: .infinity)
     .ignoresSafeArea()
     .background {
       ZStack {
         space
 
         daySky
+      }
+    }
+    .overlay {
+      if viewStore.rocketHasLaunched {
+        text
+          .opacity(1 - backgroundOpacity)
+          .animation(.easeOut(duration: 5), value: backgroundOpacity)
+      }
+    }
+    .overlay(alignment: .bottom) {
+      if viewStore.isResetButton {
+        Button(.resetLaunch) { viewStore.send(.resetLaunch) }
+          .buttonStyle(.borderedProminent)
+          .cornerRadius(12)
       }
     }
     .overlay { flash }
@@ -60,7 +103,7 @@ public struct RocketLaunchView: View {
   }
 
   private var flyingRocket: some View {
-    Image.rocketFlying.opacity(2)
+    Image.rocketFlying
       .scaleEffect(rocketScale)
       .overlay(alignment: .bottom) {
         Group {
@@ -109,33 +152,18 @@ public struct RocketLaunchView: View {
         .frame(maxWidth: .infinity)
         .ignoresSafeArea()
         .frame(height: 100)
-        .opacity(viewStore.rocketHasLaunched ? 0 : 1)
 
-      VStack {
-        HStack {
-          Spacer()
+      HStack {
+        Spacer()
 
-          Text(viewStore.rocketHasLaunched ? .launchSuccessful : .tiltToLaunch(viewStore.rocketData.name))
-            .font(.headline)
-            .multilineTextAlignment(.center)
-            .bold()
-            .foregroundColor(viewStore.rocketHasLaunched ? .indigo : .white)
-            .opacity(1 - backgroundOpacity)
+        text
+          .multilineTextAlignment(.center)
 
-          Spacer()
+        Spacer()
 
-          if !viewStore.rocketHasLaunched {
-            launchCounter
-          }
-        }
-        .padding([.top, .trailing, .leading])
-
-        if viewStore.rocketHasLaunched && viewStore.calculatedHeight < 0 {
-          Button(.resetLaunch) { viewStore.send(.resetLaunch) }
-            .buttonStyle(.borderedProminent)
-            .cornerRadius(12)
-        }
+        launchCounter
       }
+      .padding([.top, .trailing, .leading])
     }
   }
 
@@ -151,7 +179,8 @@ public struct RocketLaunchView: View {
         .frame(width: 28, height: 28)
         .cornerRadius(4)
 
-      Text("\(Int(viewStore.neededTiltToLaunch - viewStore.calculatedHeight))").foregroundColor(.black)
+      Text("\(viewStore.counter)")
+        .foregroundColor(.black)
     }
   }
 
@@ -159,8 +188,7 @@ public struct RocketLaunchView: View {
     Image.space
       .ignoresSafeArea()
       .opacity(backgroundOpacity)
-      .offset(x: CGFloat(viewStore.pitch * -80), y: CGFloat(viewStore.roll * -80))
-      .transition(.move(edge: .top))
+      .offset(x: viewStore.paralaxOffset.midX, y: viewStore.paralaxOffset.midY)
       .onChange(of: viewStore.rocketHasLaunched) { hasLaunched in
         withAnimation(.easeInOut(duration: 15)) {
           if hasLaunched {
@@ -176,14 +204,18 @@ public struct RocketLaunchView: View {
 
   private var daySky: some View {
     LinearGradient(
-        gradient: Gradient(stops: [
-          .init(color: .blue.opacity(0.5), location: 0),
-          .init(color: .white, location: 0.7)
-        ]),
-        startPoint: .top,
-        endPoint: .bottom
+      gradient: Gradient(stops: [.init(color: .blue.opacity(0.5), location: 0), .init(color: .white, location: 0.7)]),
+      startPoint: .top,
+      endPoint: .bottom
     )
     .opacity(1 - backgroundOpacity)
+  }
+
+  private var text: some View {
+    Text(viewStore.text)
+      .font(.headline)
+      .bold()
+      .foregroundColor(viewStore.textColor)
   }
 
   private var flash: some View {
