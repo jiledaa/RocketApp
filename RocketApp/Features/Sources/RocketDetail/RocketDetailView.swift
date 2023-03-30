@@ -13,7 +13,7 @@ public struct RocketDetailView: View {
     var isUsMetrics: Bool
     var toggleName: LocalizedStringKey
     var rocketLaunchState: RocketLaunchCore.State?
-    var isRocketLaunchStateActive: Bool
+    var isRouteActive: Bool
     var firstStageItems: [StageItem]
     var secondStageItems: [StageItem]
 
@@ -28,7 +28,7 @@ public struct RocketDetailView: View {
       self.isUsMetrics = state.isUsMetrics
       self.toggleName = self.isUsMetrics ? .usMetrics : .euMetrics
       self.rocketLaunchState = state.rocketLaunchState
-      self.isRocketLaunchStateActive = state.rocketLaunchState != nil
+      self.isRouteActive = state.route != nil
 
       self.firstStageItems =
       [
@@ -104,7 +104,7 @@ public struct RocketDetailView: View {
     .navigationBarItems(trailing: Button(.launch) { viewStore.send(.rocketLaunchTapped) })
     .navigationDestination(
       isPresented: viewStore.binding(
-        get: { $0.isRocketLaunchStateActive },
+        get: { $0.isRouteActive },
         send: RocketDetailCore.Action.setNavigation(isActive:)
       )
     ) { destination }

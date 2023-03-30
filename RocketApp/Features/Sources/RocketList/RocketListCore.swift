@@ -10,7 +10,27 @@ public struct RocketListCore: ReducerProtocol {
   public struct State: Equatable {
     var loadingStatus: Loadable<IdentifiedArrayOf<RocketListCellCore.State>, RocketNetworkError> = .notRequested
 
-    var rocketDetailState: RocketDetailCore.State?
+    var route: Route?
+
+    enum Route: Equatable {
+      case rocketDetail(RocketDetailCore.State)
+    }
+
+    var rocketDetailState: RocketDetailCore.State? {
+      get {
+        if case let .rocketDetail(state) = route {
+          return state
+        } else {
+          return nil
+        }
+      }
+
+      set {
+        if case let .rocketDetail(state) = route {
+          route = .rocketDetail(newValue ?? state)
+        }
+      }
+    }
 
     public init() {}
   }
@@ -36,14 +56,14 @@ public struct RocketListCore: ReducerProtocol {
           return .none
         }
 
-        state.rocketDetailState = .init(rocketData: rocketData.rocketData)
+        state.route = .rocketDetail(.init(rocketData: rocketData.rocketData))
         return .none
 
       case .setNavigation(isActive: true):
         return .none
 
       case .setNavigation(isActive: false):
-        state.rocketDetailState = nil
+        state.route = nil
         return .none
 
       case .rocketDetail:

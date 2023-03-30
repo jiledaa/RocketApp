@@ -1,4 +1,5 @@
 import ComposableArchitecture
+import CoreToolkit
 import NetworkClientExtensions
 import RocketDetail
 import RocketListCell
@@ -7,11 +8,21 @@ import UIToolkit
 
 public struct RocketListView: View {
   let store: StoreOf<RocketListCore>
-  @ObservedObject var viewStore: ViewStoreOf<RocketListCore>
+  @ObservedObject var viewStore: ViewStore<ViewState, RocketListCore.Action>
+
+  struct ViewState: Equatable {
+    var loadingStatus: Loadable<IdentifiedArrayOf<RocketListCellCore.State>, RocketNetworkError>
+    var isRouteActive: Bool
+
+    init(state: RocketListCore.State) {
+      self.loadingStatus = state.loadingStatus
+      self.isRouteActive = state.route != nil
+    }
+  }
 
   public init(store: StoreOf<RocketListCore>) {
     self.store = store
-    self.viewStore = ViewStore(store)
+    self.viewStore = ViewStore(store, observe: { ViewState(state: $0) })
   }
 
   public var body: some View {
@@ -41,7 +52,7 @@ public struct RocketListView: View {
     .listStyle(.sidebar)
     .navigationDestination(
       isPresented: viewStore.binding(
-        get: { $0.rocketDetailState != nil },
+        get: { $0.isRouteActive },
         send: RocketListCore.Action.setNavigation(isActive:)
       )
     ) { destination }
