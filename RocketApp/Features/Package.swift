@@ -34,7 +34,8 @@ let package = Package(
     .package(path: "../Domain"),
     .package(path: "../Infrastructure"),
     .package(url: "https://github.com/pointfreeco/swift-tagged", .upToNextMajor(from: "0.1.0")),
-    .package(url: "https://github.com/pointfreeco/swift-composable-architecture", .upToNextMajor(from: "0.5.0"))
+    .package(url: "https://github.com/pointfreeco/swift-composable-architecture", .upToNextMajor(from: "0.5.0")),
+    .package(url: "https://github.com/pointfreeco/composable-core-motion", from: "0.1.0")
   ],
 
   targets: [
@@ -52,8 +53,10 @@ let package = Package(
     .target(
       name: "RocketDetail",
       dependencies: [
+        "RocketLaunch",
         .product(name: "RocketsClient", package: "Domain"),
         .product(name: "CoreToolkit", package: "Infrastructure"),
+        .product(name: "UIToolkit", package: "Infrastructure"),
         .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
       ]
     ),
@@ -64,7 +67,11 @@ let package = Package(
     .target(
       name: "RocketLaunch",
       dependencies: [
-        .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+        .product(name: "RocketsClient", package: "Domain"),
+        .product(name: "MotionClient", package: "Infrastructure"),
+        .product(name: "UIToolkit", package: "Infrastructure"),
+        .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+        .product(name: "ComposableCoreMotion", package: "composable-core-motion")
       ]
     ),
     .testTarget(
@@ -78,6 +85,7 @@ let package = Package(
         "RocketDetail",
         .product(name: "RocketsClient", package: "Domain"),
         .product(name: "CoreToolkit", package: "Infrastructure"),
+        .product(name: "UIToolkit", package: "Infrastructure"),
         .product(name: "NetworkClientExtensions", package: "Infrastructure"),
         .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
       ]

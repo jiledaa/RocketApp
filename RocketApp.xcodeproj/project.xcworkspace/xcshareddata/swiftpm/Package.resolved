@@ -10,6 +10,15 @@
       }
     },
     {
+      "identity" : "composable-core-motion",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pointfreeco/composable-core-motion.git",
+      "state" : {
+        "revision" : "5423720793aae11188455118be8445dde5bdcbac",
+        "version" : "0.1.1"
+      }
+    },
+    {
       "identity" : "swift-case-paths",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-case-paths",

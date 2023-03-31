@@ -40,7 +40,7 @@ public struct RocketListCellView: View {
   }
 }
 
-struct RocketListCellView_Previews: PreviewProvider {
+struct RocketListCell_Previews: PreviewProvider {
   static var previews: some View {
     RocketListCellView(
       store: .init(

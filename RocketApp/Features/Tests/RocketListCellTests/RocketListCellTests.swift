@@ -1,5 +1,6 @@
 import ComposableArchitecture
 @testable import RocketListCell
+import RocketsClient
 import XCTest
 
 final class RocketListCellTests: XCTestCase {

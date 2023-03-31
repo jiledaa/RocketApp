@@ -1,3 +1,4 @@
+import Combine
 import Dependencies
 import Foundation
 import NetworkClientExtensions
@@ -10,13 +11,13 @@ extension RocketsClient: DependencyKey {
     return Self(
       getRocket: { id in
         Request(endpoint: URLs.baseURL + "/v3/rockets/\(id)").execute(using: networkClientType)
-          // TODO: Avoid ignoring the error by using ErrorReporting.
-          .ignoreFailure(setFailureType: RocketNetworkError.self)
+          .mapError { RocketNetworkError(networkError: $0.cause) }
+          .eraseToAnyPublisher()
       },
       getAllRockets: {
         Request(endpoint: URLs.baseURL + "/v3/rockets").execute(using: networkClientType)
-          // TODO: Avoid ignoring the error by using ErrorReporting.
-          .ignoreFailure(setFailureType: RocketNetworkError.self)
+          .mapError { RocketNetworkError(networkError: $0.cause) }
+          .eraseToAnyPublisher()
       }
     )
   }

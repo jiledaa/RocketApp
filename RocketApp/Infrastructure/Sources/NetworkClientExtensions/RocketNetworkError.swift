@@ -13,7 +13,7 @@ public enum RocketNetworkError: Error, CustomStringConvertible, Equatable {
   case urlRequestBuilderError
   case timeout
 
-  init(networkError: NetworkError.Cause) {
+  public init(networkError: NetworkError.Cause) {
     switch networkError {
     case .noConnection:
       self = .noConnection

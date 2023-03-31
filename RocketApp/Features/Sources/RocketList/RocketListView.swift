@@ -1,21 +1,33 @@
 import ComposableArchitecture
+import CoreToolkit
 import NetworkClientExtensions
 import RocketDetail
 import RocketListCell
 import SwiftUI
+import UIToolkit
 
 public struct RocketListView: View {
   let store: StoreOf<RocketListCore>
-  @ObservedObject var viewStore: ViewStoreOf<RocketListCore>
+  @ObservedObject var viewStore: ViewStore<ViewState, RocketListCore.Action>
+
+  struct ViewState: Equatable {
+    var loadingStatus: Loadable<IdentifiedArrayOf<RocketListCellCore.State>, RocketNetworkError>
+    var isRouteActive: Bool
+
+    init(state: RocketListCore.State) {
+      self.loadingStatus = state.loadingStatus
+      self.isRouteActive = state.route != nil
+    }
+  }
 
   public init(store: StoreOf<RocketListCore>) {
     self.store = store
-    self.viewStore = ViewStore(store)
+    self.viewStore = ViewStore(store, observe: { ViewState(state: $0) })
   }
 
   public var body: some View {
     NavigationStack {
-      VStack {
+      Group {
         switch viewStore.loadingStatus {
         case let .success(data):
           rocketsListView(rocketData: data)
@@ -25,7 +37,7 @@ public struct RocketListView: View {
           loadingView
         }
       }
-      .navigationTitle("Rockets")
+      .navigationTitle(.rockets)
     }
     .task { viewStore.send(.fetchData) }
   }
@@ -40,11 +52,10 @@ public struct RocketListView: View {
     .listStyle(.sidebar)
     .navigationDestination(
       isPresented: viewStore.binding(
-        get: { $0.route != nil },
+        get: { $0.isRouteActive },
         send: RocketListCore.Action.setNavigation(isActive:)
-      ),
-      destination: { destination }
-    )
+      )
+    ) { destination }
   }
 
   @ViewBuilder
@@ -59,12 +70,12 @@ public struct RocketListView: View {
     Group {
       Spacer()
 
-      Image(systemName: "xmark.octagon.fill")
+      Image.error
         .resizable()
         .frame(width: 32, height: 32)
         .padding()
 
-      Text("Cannot load data, cause:")
+      Text(.listError)
         .font(.headline)
 
       Text("\(error.description)")

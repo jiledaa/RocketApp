@@ -1,7 +1,5 @@
 import Foundation
 
-struct EquatableVoid: Equatable {}
-
 public enum Loadable<Data: Equatable, Error: Equatable>: Equatable {
   case notRequested
   case loading
