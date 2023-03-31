@@ -82,6 +82,7 @@ public struct RocketLaunchCore: ReducerProtocol {
 
         state.pitch = motionData.attitude.pitch
         state.roll = motionData.attitude.roll
+          
         return .none
 
       case let .updateMotionData(.failure(motionError)):
