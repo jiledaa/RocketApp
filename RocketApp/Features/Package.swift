@@ -9,8 +9,8 @@ let package = Package(
 
   products: [
     .library(
-      name: "Root",
-      targets: ["Root"]
+      name: "Recources",
+      targets: ["Recources"]
     ),
     .library(
       name: "RocketDetail",
@@ -40,15 +40,15 @@ let package = Package(
 
   targets: [
     .target(
-      name: "Root",
+      name: "Recources",
       dependencies: [
         "RocketList",
         .product(name: "RocketsClient", package: "Domain")
       ]
     ),
     .testTarget(
-      name: "RootTests",
-      dependencies: ["Root"]
+      name: "RecourcesTests",
+      dependencies: ["Recources"]
     ),
     .target(
       name: "RocketDetail",

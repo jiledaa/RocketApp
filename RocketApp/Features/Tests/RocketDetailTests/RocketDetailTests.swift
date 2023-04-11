@@ -11,8 +11,6 @@ final class RocketDetailTests: XCTestCase {
   )
 
   func test_flow_rocketLaunchTapped_to_navigate() async {
-    struct MotionManagerId: Hashable {}
-
     store.dependencies.motionClient = .unimplemented(
       create: { _ in .fireAndForget {} },
       destroy: { _ in .fireAndForget {} },
@@ -34,9 +32,9 @@ final class RocketDetailTests: XCTestCase {
   }
 
   func test_setToUSMetrics_tapped() {
-    XCTAssertFalse(store.state.isUsMetrics)
+    XCTAssertFalse(store.state.isUSMetrics)
     store.send(.setToUSMetrics) {
-      $0.isUsMetrics = true
+      $0.isUSMetrics = true
     }
   }
 }

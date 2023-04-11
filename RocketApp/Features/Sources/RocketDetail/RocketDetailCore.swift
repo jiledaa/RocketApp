@@ -6,7 +6,7 @@ import RocketsClient
 public struct RocketDetailCore: ReducerProtocol {
   public struct State: Equatable {
     public var rocketData: RocketDetail
-    var isUsMetrics = false
+    var isUSMetrics = false
 
     var route: Route?
 
@@ -62,7 +62,7 @@ public struct RocketDetailCore: ReducerProtocol {
         return .none
 
       case .setToUSMetrics:
-        state.isUsMetrics.toggle()
+        state.isUSMetrics.toggle()
         return .none
 
       case .rocketLaunch:
