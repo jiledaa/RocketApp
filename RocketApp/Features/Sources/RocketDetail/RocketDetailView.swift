@@ -10,7 +10,7 @@ public struct RocketDetailView: View {
 
   struct ViewState: Equatable {
     var rocketData: RocketDetail
-    var isUsMetrics: Bool
+    var isUSMetrics: Bool
     var toggleName: LocalizedStringKey
     var rocketLaunchState: RocketLaunchCore.State?
     var isRouteActive: Bool
@@ -25,8 +25,8 @@ public struct RocketDetailView: View {
 
     init(state: RocketDetailCore.State) {
       self.rocketData = state.rocketData
-      self.isUsMetrics = state.isUsMetrics
-      self.toggleName = self.isUsMetrics ? .usMetrics : .euMetrics
+      self.isUSMetrics = state.isUSMetrics
+      self.toggleName = self.isUSMetrics ? .usMetrics : .euMetrics
       self.rocketLaunchState = state.rocketLaunchState
       self.isRouteActive = state.route != nil
 
@@ -70,7 +70,7 @@ public struct RocketDetailView: View {
 
             Toggle(
               viewStore.toggleName,
-              isOn: viewStore.binding(get: \.isUsMetrics, send: RocketDetailCore.Action.setToUSMetrics)
+              isOn: viewStore.binding(get: \.isUSMetrics, send: RocketDetailCore.Action.setToUSMetrics)
             )
             .padding(.horizontal)
           }
@@ -140,7 +140,7 @@ public struct RocketDetailView: View {
 
   private func paramWindow(type: RocketDetail.RocketParameters, backgroundColor: Color = .pink) -> some View {
     VStack(spacing: 4) {
-      Text(type.detail(rocketDetail: viewStore.rocketData, isUSMetrics: viewStore.isUsMetrics))
+      Text(type.detail(rocketDetail: viewStore.rocketData, isUSMetrics: viewStore.isUSMetrics))
         .font(.callout)
 
       Text(type.name)

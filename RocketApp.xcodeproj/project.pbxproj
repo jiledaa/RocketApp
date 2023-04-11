@@ -8,10 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		163E0EF528C79B6500CECFD8 /* RocketApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163E0EF428C79B6500CECFD8 /* RocketApp.swift */; };
-		1646382128D219350069F60E /* Root in Frameworks */ = {isa = PBXBuildFile; productRef = 1646382028D219350069F60E /* Root */; };
 		165B2051299944900047F70A /* Domain in Resources */ = {isa = PBXBuildFile; fileRef = 165B2050299944900047F70A /* Domain */; };
 		165B20542999449B0047F70A /* Features in Resources */ = {isa = PBXBuildFile; fileRef = 165B20522999449B0047F70A /* Features */; };
 		165B20552999449B0047F70A /* Infrastructure in Resources */ = {isa = PBXBuildFile; fileRef = 165B20532999449B0047F70A /* Infrastructure */; };
+		1670442129E58F8000D05504 /* Recources in Frameworks */ = {isa = PBXBuildFile; productRef = 1670442029E58F8000D05504 /* Recources */; };
 		16BC7FFC29CC9AE5002AAE15 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 16BC7FFB29CC9AE5002AAE15 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
@@ -31,7 +31,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1646382128D219350069F60E /* Root in Frameworks */,
+				1670442129E58F8000D05504 /* Recources in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,7 +102,7 @@
 			);
 			name = RocketApp;
 			packageProductDependencies = (
-				1646382028D219350069F60E /* Root */,
+				1670442029E58F8000D05504 /* Recources */,
 			);
 			productName = RocketApp;
 			productReference = 160CA40D28A506E4004A274A /* RocketApp.app */;
@@ -402,9 +402,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		1646382028D219350069F60E /* Root */ = {
+		1670442029E58F8000D05504 /* Recources */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = Root;
+			productName = Recources;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
