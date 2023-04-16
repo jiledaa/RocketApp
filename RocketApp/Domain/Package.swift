@@ -28,6 +28,7 @@ let package = Package(
         .product(name: "UIToolkit", package: "Infrastructure"),
         .product(name: "NetworkClientExtensions", package: "Infrastructure"),
         .product(name: "RequestBuilder", package: "swift-core"),
+        .product(name: "ModelConvertible", package: "swift-core"),
         .product(name: "Dependencies", package: "swift-dependencies"),
         .product(name: "XCTestDynamicOverlay", package: "xctest-dynamic-overlay")
       ]

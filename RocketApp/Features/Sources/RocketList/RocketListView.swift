@@ -40,6 +40,9 @@ public struct RocketListView: View {
       .navigationTitle(.rockets)
     }
     .task { viewStore.send(.fetchData) }
+    .onAppear {
+      print("cojee \(viewStore.loadingStatus.data?.first?.id)")
+    }
   }
 
   @ViewBuilder
@@ -72,16 +75,19 @@ public struct RocketListView: View {
 
       Image.error
         .resizable()
-        .frame(width: 32, height: 32)
-        .padding()
+        .frame(width: 88, height: 88)
+        .padding(.bottom)
 
       Text(.listError)
         .font(.headline)
 
       Text("\(error.description)")
+        .multilineTextAlignment(.leading)
+        .padding(.horizontal)
 
       Spacer()
     }
+    .padding(.horizontal)
     .foregroundColor(.red)
   }
 

@@ -3,7 +3,7 @@ import Foundation
 import NetworkClientExtensions
 
 public extension RocketsClient {
-  static let previewValue = Self(
+  static let preview = Self(
     getRocket: { _ in
       Just(RocketDetail.mock)
         .setFailureType(to: RocketNetworkError.self)

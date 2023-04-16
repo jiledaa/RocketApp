@@ -13,9 +13,9 @@ final class IntegrationTests: XCTestCase {
     super.setUp()
 
     withDependencies {
-      $0.networkClientType = NetworkClient.liveValue
+      $0.networkClientType = NetworkClient.live
     } operation: {
-      rocketsClient = RocketsClient.liveValue
+      rocketsClient = RocketsClient.live
     }
   }
 

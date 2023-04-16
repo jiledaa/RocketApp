@@ -3,7 +3,7 @@ import Foundation
 import XCTestDynamicOverlay
 
 public extension RocketsClient {
-   static let testValue = Self(
+   static let test = Self(
     getRocket: unimplemented("\(Self.self).getRocket"),
     getAllRockets: unimplemented("\(Self.self).getAllRockets")
   )

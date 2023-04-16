@@ -20,7 +20,7 @@ final class UnitTests: XCTestCase {
         networkMonitorClient: .live(onQueue: .main)
       )
     } operation: {
-      return RocketsClient.liveValue
+      return RocketsClient.live
     }
   }
 

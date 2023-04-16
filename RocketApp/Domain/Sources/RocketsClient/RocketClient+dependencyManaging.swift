@@ -2,11 +2,11 @@ import Dependencies
 import Foundation
 
 enum RocketsClientKey: DependencyKey {
-  public static var liveValue: RocketsClient = .liveValue
+  public static let liveValue: RocketsClient = .live
   #if DEBUG
-  public static var testValue: RocketsClient = .testValue
+  public static let testValue: RocketsClient = .test
   #endif
-  public static var previewValue: RocketsClient = .previewValue
+  public static let previewValue: RocketsClient = .preview
 }
 
 public extension DependencyValues {

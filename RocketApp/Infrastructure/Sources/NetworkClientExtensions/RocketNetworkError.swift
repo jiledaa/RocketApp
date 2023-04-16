@@ -1,3 +1,4 @@
+import ErrorReporting
 import Foundation
 import Networking
 
@@ -57,5 +58,11 @@ public enum RocketNetworkError: Error, CustomStringConvertible, Equatable {
     case .timeout:
       return "timeout"
     }
+  }
+}
+
+extension NetworkError: ModelConvertibleErrorCapable {
+  public static var modelConvertibleError: Networking.NetworkError {
+    .unauthorized
   }
 }
