@@ -14,6 +14,8 @@ final class IntegrationTests: XCTestCase {
 
     withDependencies {
       $0.networkClientType = NetworkClient.live
+      $0.rocketConverter = .live
+      $0.rocketsConverter = .live
     } operation: {
       rocketsClient = RocketsClient.live
     }

@@ -3,6 +3,7 @@ import CoreToolkit
 import NetworkClientExtensions
 import RocketDetail
 import RocketListCell
+import RocketsClient
 import SwiftUI
 import UIToolkit
 
@@ -40,9 +41,6 @@ public struct RocketListView: View {
       .navigationTitle(.rockets)
     }
     .task { viewStore.send(.fetchData) }
-    .onAppear {
-      print("cojee \(viewStore.loadingStatus.data?.first?.id)")
-    }
   }
 
   @ViewBuilder

@@ -19,6 +19,8 @@ final class UnitTests: XCTestCase {
         urlRequester: requester,
         networkMonitorClient: .live(onQueue: .main)
       )
+      $0.rocketConverter = .live
+      $0.rocketsConverter = .live
     } operation: {
       return RocketsClient.live
     }
@@ -30,7 +32,7 @@ final class UnitTests: XCTestCase {
     let exp = expectation(description: "")
 
     // swiftlint:disable:next force_try
-    let dataMock = try! JSONEncoder().encode(RocketDetail.mock)
+    let dataMock = try! JSONEncoder().encode(RocketDetailDTO.mock)
     let responseMock = HTTPURLResponse(
       url: URL(string: "www.google.com")!,
       statusCode: 200,
@@ -98,7 +100,7 @@ final class UnitTests: XCTestCase {
     let exp = expectation(description: "")
 
     // swiftlint:disable:next force_try
-    let dataMock = try! JSONEncoder().encode([RocketDetail.mock])
+    let dataMock = try! JSONEncoder().encode([RocketDetailDTO.mock])
     let responseMock = HTTPURLResponse(
       url: URL(string: "www.google.com")!,
       statusCode: 200,

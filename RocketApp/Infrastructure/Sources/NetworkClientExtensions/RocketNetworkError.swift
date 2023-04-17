@@ -60,9 +60,3 @@ public enum RocketNetworkError: Error, CustomStringConvertible, Equatable {
     }
   }
 }
-
-extension NetworkError: ModelConvertibleErrorCapable {
-  public static var modelConvertibleError: Networking.NetworkError {
-    .unauthorized
-  }
-}

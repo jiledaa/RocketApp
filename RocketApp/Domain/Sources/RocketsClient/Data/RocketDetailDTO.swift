@@ -21,8 +21,8 @@ public struct RocketDetailDTO: Codable, Identifiable, Equatable {
     height: LineMeasure,
     diameter: LineMeasure,
     mass: WeightScale,
-    firstStage: RocketDetailDTO.Stage,
-    secondStage: RocketDetailDTO.Stage,
+    firstStage: Stage,
+    secondStage: Stage,
     firstFlight: String,
     photos: [String]
   ) {
@@ -73,7 +73,7 @@ public struct RocketDetailDTO: Codable, Identifiable, Equatable {
   }
 }
 
-public extension RocketDetail {
+public extension RocketDetailDTO {
   enum CodingKeys: String, CodingKey {
     case id = "rocket_id"
     case name = "rocket_name"
@@ -88,21 +88,21 @@ public extension RocketDetail {
   }
 }
 
-public extension RocketDetail.LineMeasure {
+public extension RocketDetailDTO.LineMeasure {
   enum CodingKeys: String, CodingKey {
     case meters
     case feet
   }
 }
 
-public extension RocketDetail.WeightScale {
+public extension RocketDetailDTO.WeightScale {
   enum CodingKeys: String, CodingKey {
     case kilograms = "kg"
     case pounds = "lb"
   }
 }
 
-extension RocketDetail.Stage {
+extension RocketDetailDTO.Stage {
   enum CodingKeys: String, CodingKey {
     case reusable
     case engines
