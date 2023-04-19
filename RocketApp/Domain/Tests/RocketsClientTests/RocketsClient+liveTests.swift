@@ -4,8 +4,8 @@ import Dependencies
 @testable import RocketsClient
 import XCTest
 
-final class UnitTests: XCTestCase {
-  var subscriptions = Set<AnyCancellable>()
+final class RocketsClientLiveTests: XCTestCase {
+  private var subscriptions = Set<AnyCancellable>()
 
   override func tearDown() {
     super.tearDown()
@@ -13,17 +13,11 @@ final class UnitTests: XCTestCase {
     subscriptions = []
   }
 
-  private func rocketsClient(requester: URLRequester) -> RocketsClient {
-    withDependencies {
-      $0.networkClientType = NetworkClient(
+  private func setNetworkClient(requester: URLRequester) -> NetworkClient {
+      NetworkClient(
         urlRequester: requester,
         networkMonitorClient: .live(onQueue: .main)
       )
-      $0.rocketConverter = .live
-      $0.rocketsConverter = .live
-    } operation: {
-      return RocketsClient.live
-    }
   }
 
   func test_rocket_request_success() {
@@ -45,26 +39,34 @@ final class UnitTests: XCTestCase {
         .eraseToAnyPublisher()
     }
 
-    rocketsClient(requester: requesterMock).getRocket("")
-      .sink(
-        receiveCompletion: {
-          switch $0 {
-          case .failure:
-            XCTFail("Unexpected failure.")
-          case .finished:
-            exp.fulfill()
+    withDependencies {
+      $0.networkClientType = setNetworkClient(requester: requesterMock)
+      $0.lineMeasureConverter = .live
+      $0.weightScaleConverter = .live
+      $0.stageConverter = .live
+      $0.rocketConverter = .live
+    } operation: {
+      RocketsClient.live.getRocket("")
+        .sink(
+          receiveCompletion: {
+            switch $0 {
+            case .failure:
+              XCTFail("Unexpected failure.")
+            case .finished:
+              exp.fulfill()
+            }
+          },
+          receiveValue: {
+            rocketData = $0
+            receivedValueCount += 1
           }
-        },
-        receiveValue: {
-          rocketData = $0
-          receivedValueCount += 1
-        }
-      )
-      .store(in: &subscriptions)
+        )
+        .store(in: &subscriptions)
 
-    wait(for: [exp], timeout: 0.1)
-    XCTAssertEqual(rocketData?.id, "apollo13")
-    XCTAssertEqual(receivedValueCount, 1)
+      wait(for: [exp], timeout: 0.1)
+      XCTAssertEqual(rocketData?.id, "apollo13")
+      XCTAssertEqual(receivedValueCount, 1)
+    }
   }
 
   func test_rocket_request_failure() {
@@ -75,23 +77,27 @@ final class UnitTests: XCTestCase {
         .eraseToAnyPublisher()
     }
 
-    rocketsClient(requester: requesterMock).getRocket("")
-      .sink(
-        receiveCompletion: {
-          switch $0 {
-          case .failure:
-            exp.fulfill()
-          case .finished:
-            XCTFail("Unexpected event - finished.")
+    withDependencies {
+      $0.networkClientType = setNetworkClient(requester: requesterMock)
+    } operation: {
+      RocketsClient.live.getRocket("")
+        .sink(
+          receiveCompletion: {
+            switch $0 {
+            case .failure:
+              exp.fulfill()
+            case .finished:
+              XCTFail("Unexpected event - finished.")
+            }
+          },
+          receiveValue: {
+            XCTFail("Unexpected value - \($0).")
           }
-        },
-        receiveValue: {
-          XCTFail("Unexpected value - \($0).")
-        }
-      )
-      .store(in: &subscriptions)
+        )
+        .store(in: &subscriptions)
 
-    wait(for: [exp], timeout: 5)
+      wait(for: [exp], timeout: 5)
+    }
   }
 
   func test_rockets_request_success() {
@@ -113,26 +119,35 @@ final class UnitTests: XCTestCase {
         .eraseToAnyPublisher()
     }
 
-    rocketsClient(requester: requesterMock).getAllRockets()
-      .sink(
-        receiveCompletion: {
-          switch $0 {
-          case .failure:
-            XCTFail("Unexpected failure.")
-          case .finished:
-            exp.fulfill()
+    withDependencies {
+      $0.networkClientType = setNetworkClient(requester: requesterMock)
+      $0.lineMeasureConverter = .live
+      $0.weightScaleConverter = .live
+      $0.stageConverter = .live
+      $0.rocketConverter = .live
+      $0.rocketsConverter = .live
+    } operation: {
+      RocketsClient.live.getAllRockets()
+        .sink(
+          receiveCompletion: {
+            switch $0 {
+            case .failure:
+              XCTFail("Unexpected failure.")
+            case .finished:
+              exp.fulfill()
+            }
+          },
+          receiveValue: {
+            rocketData = $0
+            receivedValueCount += 1
           }
-        },
-        receiveValue: {
-          rocketData = $0
-          receivedValueCount += 1
-        }
-      )
-      .store(in: &subscriptions)
+        )
+        .store(in: &subscriptions)
 
-    wait(for: [exp], timeout: 0.1)
-    XCTAssertEqual(rocketData[0].id, "apollo13")
-    XCTAssertEqual(receivedValueCount, 1)
+      wait(for: [exp], timeout: 0.1)
+      XCTAssertEqual(rocketData[0].id, "apollo13")
+      XCTAssertEqual(receivedValueCount, 1)
+    }
   }
 
   func test_rockets_request_failure() {
@@ -143,22 +158,26 @@ final class UnitTests: XCTestCase {
         .eraseToAnyPublisher()
     }
 
-    rocketsClient(requester: requesterMock).getAllRockets()
-      .sink(
-        receiveCompletion: {
-          switch $0 {
-          case .failure:
-            exp.fulfill()
-          case .finished:
-            XCTFail("Unexpected event - finished.")
+    withDependencies {
+      $0.networkClientType = setNetworkClient(requester: requesterMock)
+    } operation: {
+      RocketsClient.live.getAllRockets()
+        .sink(
+          receiveCompletion: {
+            switch $0 {
+            case .failure:
+              exp.fulfill()
+            case .finished:
+              XCTFail("Unexpected event - finished.")
+            }
+          },
+          receiveValue: {
+            XCTFail("Unexpected value - \($0).")
           }
-        },
-        receiveValue: {
-          XCTFail("Unexpected value - \($0).")
-        }
-      )
-      .store(in: &subscriptions)
+        )
+        .store(in: &subscriptions)
 
-    wait(for: [exp], timeout: 5)
+      wait(for: [exp], timeout: 5)
+    }
   }
 }

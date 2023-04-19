@@ -17,7 +17,7 @@ public extension RocketConverter {
           let firstStage = stageConverter.domainModel(fromExternal: rocketDTO.firstStage),
           let secondStage = stageConverter.domainModel(fromExternal: rocketDTO.secondStage)
         else {
-          return RocketDetail.mock
+          return nil
         }
 
         return RocketDetail(
@@ -39,36 +39,34 @@ public extension RocketConverter {
 
 public extension RocketsConverter {
   static var live: Self {
-    @Dependency(\.lineMeasureConverter) var lineMeasureConverter
-    @Dependency(\.weightScaleConverter) var weightScaleConverter
-    @Dependency(\.stageConverter) var stageConverter
+    @Dependency(\.rocketConverter) var rocketConverter
 
     return .init(
       domainModelConverter: { rocketsDTO in
-        rocketsDTO.map {
-          guard
-            let height = lineMeasureConverter.domainModel(fromExternal: $0.height),
-            let diameter = lineMeasureConverter.domainModel(fromExternal: $0.diameter),
-            let mass = weightScaleConverter.domainModel(fromExternal: $0.mass),
-            let firstStage = stageConverter.domainModel(fromExternal: $0.firstStage),
-            let secondStage = stageConverter.domainModel(fromExternal: $0.secondStage)
-          else {
-            return RocketDetail.mock
+        let rockets: [RocketDetail] = rocketsDTO.compactMap {
+          guard let rocket = rocketConverter.domainModel(fromExternal: $0) else {
+            return nil
           }
 
           return RocketDetail(
-            id: $0.id,
-            name: $0.name,
-            overview: $0.overview,
-            height: height,
-            diameter: diameter,
-            mass: mass,
-            firstStage: firstStage,
-            secondStage: secondStage,
-            firstFlight: $0.firstFlight,
-            photos: $0.photos
+            id: rocket.id,
+            name: rocket.name,
+            overview: rocket.overview,
+            height: rocket.height,
+            diameter: rocket.diameter,
+            mass: rocket.mass,
+            firstStage: rocket.firstStage,
+            secondStage: rocket.secondStage,
+            firstFlight: rocket.firstFlight,
+            photos: rocket.photos
           )
         }
+
+        guard rocketsDTO.count == rockets.count else {
+            return nil
+        }
+
+        return rockets
       }
     )
   }
