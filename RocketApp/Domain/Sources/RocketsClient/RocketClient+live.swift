@@ -1,7 +1,8 @@
-import Combine
 import Dependencies
+import ErrorReporting
 import Foundation
 import NetworkClientExtensions
+import Networking
 import RequestBuilder
 
 public extension RocketsClient {
@@ -14,15 +15,16 @@ public extension RocketsClient {
       getRocket: { id in
         Request(endpoint: URLs.baseURL + "/v3/rockets/\(id)")
           .execute(using: networkClientType)
+          .mapErrorReporting { RocketsClientError(cause: .networkError($0)) }
           .convertToDomainModel(using: rocketConverter)
-          .mapError { RocketNetworkError(networkError: $0.cause) }
+          .mapErrorReporting(to: RocketsClientError(cause: .modelConvertError))
           .eraseToAnyPublisher()
       },
       getAllRockets: {
         Request(endpoint: URLs.baseURL + "/v3/rockets")
           .execute(using: networkClientType)
+          .mapErrorReporting { RocketsClientError(cause: .networkError($0)) }
           .convertToDomainModel(using: rocketsConverter)
-          .mapError { RocketNetworkError(networkError: $0.cause) }
           .eraseToAnyPublisher()
       }
     )

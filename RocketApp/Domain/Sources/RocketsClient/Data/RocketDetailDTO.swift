@@ -1,6 +1,4 @@
 import Foundation
-import SwiftUI
-import UIToolkit
 
 public struct RocketDetailDTO: Codable, Identifiable, Equatable {
   public let id: String

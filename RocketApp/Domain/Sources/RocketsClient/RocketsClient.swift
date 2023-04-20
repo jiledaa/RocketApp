@@ -1,10 +1,9 @@
 import Combine
 import Foundation
-import NetworkClientExtensions
 
 public struct RocketsClient {
-  public typealias GetRocketFunction = (String) -> AnyPublisher<RocketDetail, RocketNetworkError>
-  public typealias GetAllRocketsFunction = () -> AnyPublisher<[RocketDetail], RocketNetworkError>
+  public typealias GetRocketFunction = (String) -> AnyPublisher<RocketDetail, RocketsClientError>
+  public typealias GetAllRocketsFunction = () -> AnyPublisher<[RocketDetail], RocketsClientError>
 
   public var getRocket: GetRocketFunction
   public var getAllRockets: GetAllRocketsFunction

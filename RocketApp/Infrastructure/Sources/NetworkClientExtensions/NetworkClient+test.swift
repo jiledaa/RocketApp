@@ -1,7 +1,7 @@
 #if DEBUG
+import Dependencies
 import Foundation
 import Networking
-import XCTestDynamicOverlay
 
 public extension NetworkClient {
   static let test = Self(

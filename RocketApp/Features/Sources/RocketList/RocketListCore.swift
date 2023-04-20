@@ -8,7 +8,7 @@ import RocketsClient
 
 public struct RocketListCore: ReducerProtocol {
   public struct State: Equatable {
-    var loadingStatus: Loadable<IdentifiedArrayOf<RocketListCellCore.State>, RocketNetworkError> = .notRequested
+    var loadingStatus: Loadable<IdentifiedArrayOf<RocketListCellCore.State>, RocketsClientError> = .notRequested
 
     var route: Route?
 
@@ -40,7 +40,7 @@ public struct RocketListCore: ReducerProtocol {
     case setNavigation(isActive: Bool)
     case rocketDetail(RocketDetailCore.Action)
     case fetchData
-    case dataFetched(Result<[RocketDetail], RocketNetworkError>)
+    case dataFetched(Result<[RocketDetail], RocketsClientError>)
   }
 
   public init() {}
@@ -101,7 +101,7 @@ public struct RocketListCore: ReducerProtocol {
 }
 
 // TODO: Make it generic and move to Loadable.
-extension Loadable<IdentifiedArrayOf<RocketListCellCore.State>, RocketNetworkError> {
+extension Loadable<IdentifiedArrayOf<RocketListCellCore.State>, RocketsClientError> {
   var arrayData: IdentifiedArrayOf<RocketListCellCore.State> {
     get {
       switch self {

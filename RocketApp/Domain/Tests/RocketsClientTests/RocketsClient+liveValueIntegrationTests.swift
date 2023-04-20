@@ -86,7 +86,6 @@ final class RocketsClientLiveIntegrationTests: XCTestCase {
     var receivedValueCount: Int = 0
     let exp = expectation(description: "")
 
-
     withDependencies {
       $0.networkClientType = NetworkClient.live
       $0.lineMeasureConverter = .live
