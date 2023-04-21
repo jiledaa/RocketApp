@@ -28,7 +28,7 @@ final class RocketListTests: XCTestCase {
   func test_flow_dataFetched_success() {
     store.dependencies.rocketsClient.getAllRockets = {
       Just([RocketDetail.mock])
-        .setFailureType(to: RocketNetworkError.self)
+        .setFailureType(to: RocketsClientError.self)
         .eraseToAnyPublisher()
     }
 
@@ -45,7 +45,7 @@ final class RocketListTests: XCTestCase {
 
   func test_flow_dataFetched_failure() {
     store.dependencies.rocketsClient.getAllRockets = {
-      Fail(error: RocketNetworkError.noConnection)
+      Fail(error: RocketsClientError.modelConvertibleError)
         .eraseToAnyPublisher()
     }
 
@@ -55,8 +55,8 @@ final class RocketListTests: XCTestCase {
       $0.loadingStatus = .loading
     }
 
-    store.receive(.dataFetched(.failure(RocketNetworkError.noConnection))) {
-      $0.loadingStatus = .failure(RocketNetworkError.noConnection)
+    store.receive(.dataFetched(.failure(RocketsClientError.modelConvertibleError))) {
+      $0.loadingStatus = .failure(RocketsClientError.modelConvertibleError)
     }
   }
 }

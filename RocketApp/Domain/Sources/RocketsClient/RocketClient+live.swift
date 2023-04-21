@@ -17,7 +17,6 @@ public extension RocketsClient {
           .execute(using: networkClientType)
           .mapErrorReporting { RocketsClientError(cause: .networkError($0)) }
           .convertToDomainModel(using: rocketConverter)
-          .mapErrorReporting(to: RocketsClientError(cause: .modelConvertError))
           .eraseToAnyPublisher()
       },
       getAllRockets: {

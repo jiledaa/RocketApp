@@ -10,15 +10,15 @@ public struct RocketsClientError: ErrorReporting {
 
   public var underlyingError: ErrorReporting?
 
-  public enum Cause: Error, CustomStringConvertible {
+  public enum Cause: Error, CustomStringConvertible, Equatable {
     case networkError(NetworkError)
-    case modelConvertError
+    case modelConversionError
 
     public var description: String {
       switch self {
       case let .networkError(error):
         return "\(error.causeDescription)"
-      case .modelConvertError:
+      case .modelConversionError:
         return "modelConversionError"
       }
     }
@@ -32,7 +32,7 @@ public struct RocketsClientError: ErrorReporting {
 }
 
 extension RocketsClientError: ModelConvertibleErrorCapable {
-  public static var modelConvertibleError: RocketsClientError { .init(cause: .modelConvertError) }
+  public static var modelConvertibleError: RocketsClientError { .init(cause: .modelConversionError) }
 }
 
 extension RocketsClientError: Equatable {
