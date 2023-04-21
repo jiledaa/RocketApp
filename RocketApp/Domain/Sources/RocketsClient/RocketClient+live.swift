@@ -15,14 +15,14 @@ public extension RocketsClient {
       getRocket: { id in
         Request(endpoint: URLs.baseURL + "/v3/rockets/\(id)")
           .execute(using: networkClientType)
-          .mapErrorReporting { RocketsClientError(cause: .networkError($0)) }
+          .mapErrorReporting(to: RocketsClientError.networkError)
           .convertToDomainModel(using: rocketConverter)
           .eraseToAnyPublisher()
       },
       getAllRockets: {
         Request(endpoint: URLs.baseURL + "/v3/rockets")
           .execute(using: networkClientType)
-          .mapErrorReporting { RocketsClientError(cause: .networkError($0)) }
+          .mapErrorReporting(to: RocketsClientError.networkError)
           .convertToDomainModel(using: rocketsConverter)
           .eraseToAnyPublisher()
       }

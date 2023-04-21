@@ -5,7 +5,7 @@ import RequestBuilder
 @testable import RocketsClient
 import XCTest
 
-struct NetworkMock: NetworkClientType {
+struct NetworkClientMock: NetworkClientType {
   var request: (_ urlRequest: URLRequest) -> AnyPublisher<(headers: [HTTPHeader], body: Data), NetworkError>
 
   func request(_ urlRequest: URLRequest) -> AnyPublisher<(headers: [HTTPHeader], body: Data), NetworkError> {
@@ -46,7 +46,7 @@ final class RocketsClientErrorTests: XCTestCase {
         .eraseToAnyPublisher()
     }
 
-    let modelConversionError = RocketsClientError(cause: .modelConversionError)
+    let modelConversionError = RocketsClientError.modelConvertibleError
 
     withDependencies {
       $0.networkClientType = setNetworkClient(requester: requesterMock)
@@ -88,7 +88,7 @@ final class RocketsClientErrorTests: XCTestCase {
         .eraseToAnyPublisher()
     }
 
-    let modelConversionError = RocketsClientError(cause: .modelConversionError)
+    let modelConversionError = RocketsClientError.modelConvertibleError
 
     withDependencies {
       $0.networkClientType = setNetworkClient(requester: requesterMock)
@@ -116,19 +116,15 @@ final class RocketsClientErrorTests: XCTestCase {
   func test_rocket_network_failure() {
     let exp = expectation(description: "")
 
-    let networkClient = NetworkMock { _ in
+    let networkClient = NetworkClientMock { _ in
       Fail<(headers: [HTTPHeader], body: Data), NetworkError>(error: NetworkError.noConnection)
         .eraseToAnyPublisher()
     }
 
-    let networkError = RocketsClientError(cause: .networkError(.noConnection))
+    let networkError = RocketsClientError.networkError
 
     withDependencies {
       $0.networkClientType = networkClient
-      $0.lineMeasureConverter = .live
-      $0.weightScaleConverter = .live
-      $0.stageConverter = .live
-      $0.rocketConverter = .live
     } operation: {
       RocketsClient.live.getRocket("")
         .sink(
@@ -152,19 +148,15 @@ final class RocketsClientErrorTests: XCTestCase {
   func test_rockets_network_failure() {
     let exp = expectation(description: "")
 
-    let networkClient = NetworkMock { _ in
+    let networkClient = NetworkClientMock { _ in
       Fail<(headers: [HTTPHeader], body: Data), NetworkError>(error: NetworkError.noConnection)
         .eraseToAnyPublisher()
     }
 
-    let networkError = RocketsClientError(cause: .networkError(.noConnection))
+    let networkError = RocketsClientError.networkError
 
     withDependencies {
       $0.networkClientType = networkClient
-      $0.lineMeasureConverter = .live
-      $0.weightScaleConverter = .live
-      $0.stageConverter = .live
-      $0.rocketConverter = .live
     } operation: {
       RocketsClient.live.getAllRockets()
         .sink(

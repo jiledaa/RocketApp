@@ -81,9 +81,12 @@ public struct RocketListView: View {
         .padding(.bottom, 4)
 
       Text("\(error.causeDescription)")
-        .multilineTextAlignment(.leading)
-        .padding(.horizontal)
 
+      if let networkError = error.underlyingError?.causeDescription {
+        Text("\(networkError)")
+          .multilineTextAlignment(.leading)
+          .padding(.horizontal)
+      }
       Spacer()
     }
     .padding(.horizontal)

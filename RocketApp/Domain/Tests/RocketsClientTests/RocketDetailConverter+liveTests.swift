@@ -2,7 +2,7 @@ import Dependencies
 @testable import RocketsClient
 import XCTest
 
-final class RocketConverter: XCTestCase {
+final class RocketDetailConverterLiveTests: XCTestCase {
   func test_lineMeasureConverter() {
     withDependencies {
       $0.lineMeasureConverter = .live

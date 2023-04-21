@@ -3,28 +3,28 @@ import Foundation
 import ModelConvertible
 
 enum RocketConverterKey: DependencyKey {
-  static let liveValue: RocketConverter = .live
+  static let liveValue: RocketDetailConverter = .live
   #if DEBUG
-  static let testValue: RocketConverter = .test
+  static let testValue: RocketDetailConverter = .test
   #endif
 }
 
 public extension DependencyValues {
-  var rocketConverter: RocketConverter {
+  var rocketConverter: RocketDetailConverter {
     get { self[RocketConverterKey.self] }
     set { self[RocketConverterKey.self] = newValue }
   }
 }
 
 enum RocketsConverterKey: DependencyKey {
-  static let liveValue: RocketsConverter = .live
+  static let liveValue: RocketsDetailConverter = .live
   #if DEBUG
-  static let testValue: RocketsConverter = .test
+  static let testValue: RocketsDetailConverter = .test
   #endif
 }
 
 public extension DependencyValues {
-  var rocketsConverter: RocketsConverter {
+  var rocketsConverter: RocketsDetailConverter {
     get { self[RocketsConverterKey.self] }
     set { self[RocketsConverterKey.self] = newValue }
   }

@@ -1,14 +1,14 @@
 #if DEBUG
 import Dependencies
 
-public extension RocketConverter {
+public extension RocketDetailConverter {
   static let test = Self(
     externalModelConverter: unimplemented("\(Self.self).externalModelConverter"),
     domainModelConverter: unimplemented("\(Self.self).domainModelConverter")
   )
 }
 
-public extension RocketsConverter {
+public extension RocketsDetailConverter {
   static let test = Self(
     externalModelConverter: unimplemented("\(Self.self).externalModelConverter"),
     domainModelConverter: unimplemented("\(Self.self).domainModelConverter")

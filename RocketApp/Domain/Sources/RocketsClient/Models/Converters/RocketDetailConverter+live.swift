@@ -2,7 +2,7 @@ import Dependencies
 import Foundation
 import ModelConvertible
 
-public extension RocketConverter {
+public extension RocketDetailConverter {
   static var live: Self {
     @Dependency(\.lineMeasureConverter) var lineMeasureConverter
     @Dependency(\.weightScaleConverter) var weightScaleConverter
@@ -37,7 +37,7 @@ public extension RocketConverter {
   }
 }
 
-public extension RocketsConverter {
+public extension RocketsDetailConverter {
   static var live: Self {
     @Dependency(\.rocketConverter) var rocketConverter
 

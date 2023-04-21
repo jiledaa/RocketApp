@@ -44,6 +44,7 @@ final class RocketsClientLiveIntegrationTests: XCTestCase {
     }
   }
 
+// TODO: Find out why the nested Rocket detail converters cannot be implemented
 //  func test_rocket_live_data_success() {
 //    var rocketData: RocketDetail?
 //    var receivedValueCount: Int = 0
