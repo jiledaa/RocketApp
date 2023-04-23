@@ -17,9 +17,9 @@ public struct RocketsClientError: ErrorReporting {
     public var description: String {
       switch self {
       case .networkError:
-        return "networkError"
+        return "network error"
       case .modelConversionError:
-        return "modelConversionError"
+        return "model conversion error"
       }
     }
   }
@@ -31,20 +31,18 @@ public struct RocketsClientError: ErrorReporting {
   }
 }
 
-// MARK: Equatable conformance
+// MARK: - Equatable conformance
+
 extension RocketsClientError: Equatable {
   public static func == (lhs: RocketsClientError, rhs: RocketsClientError) -> Bool {
     lhs.isEqual(to: rhs)
   }
 }
 
-// MARK: NetworkErrorCapable conformance
-extension RocketsClientError: NetworkErrorCapable {
-  public static var networkError: RocketsClientError {
-    .init(cause: .networkError)
-  }
-}
-// MARK: ModelConvertibleErrorCapable conformance
-extension RocketsClientError: ModelConvertibleErrorCapable {
+// MARK: - Conformance instances
+
+extension RocketsClientError: NetworkErrorCapable, ModelConvertibleErrorCapable, URLRequestBuilderErrorCapable {
+  public static var networkError: RocketsClientError { .init(cause: .networkError) }
   public static var modelConvertibleError: RocketsClientError { .init(cause: .modelConversionError) }
+  public static var urlRequestBuilderError: RocketsClientError { .init(cause: .networkError) }
 }

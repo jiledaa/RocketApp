@@ -13,7 +13,7 @@ struct NetworkClientMock: NetworkClientType {
   }
 }
 
-final class RocketsClientErrorTests: XCTestCase {
+final class RocketsClientErrorLiveTests: XCTestCase {
   private var subscriptions = Set<AnyCancellable>()
 
   override func tearDown() {
