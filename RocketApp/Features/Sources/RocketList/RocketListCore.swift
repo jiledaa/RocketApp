@@ -40,7 +40,7 @@ public struct RocketListCore: ReducerProtocol {
     case setNavigation(isActive: Bool)
     case rocketDetail(RocketDetailCore.Action)
     case fetchData
-    case dataFetched(Result<[RocketDetail], RocketsClientError>)
+    case dataFetched(TaskResult<[RocketDetail]>)
   }
 
   public init() {}
@@ -70,29 +70,26 @@ public struct RocketListCore: ReducerProtocol {
         return .none
 
       case .fetchData:
-        enum RocketDataFetching: Hashable {}
-
-        state.loadingStatus = .loading
-
-        return rocketsClient.getAllRockets()
-          .receive(on: mainQueue)
-          .catchToEffect(RocketListCore.Action.dataFetched)
-          .cancellable(id: RocketDataFetching.self, cancelInFlight: true)
+        return .task {
+          await .dataFetched(TaskResult { try await rocketsClient.getAllRockets() })
+        }
 
       case let .dataFetched(.success(rocketsData)):
-        state.loadingStatus = .success(
-          IdentifiedArrayOf(
-            uniqueElements: rocketsData.map {
-              RocketListCellCore.State(rocketData: $0)
-            }
+          state.loadingStatus = .success(
+            IdentifiedArrayOf(
+              uniqueElements: rocketsData.map {
+                RocketListCellCore.State(rocketData: $0)
+              }
+            )
           )
-        )
+          return .none
 
-        return .none
-
-      case let .dataFetched(.failure(networkError)):
+      case let .dataFetched(.failure(networkError as RocketsClientError)):
         state.loadingStatus = .failure(networkError)
         return .none
+
+      case .dataFetched(.failure(_)):
+          return .none
       }
     }
     .forEach(\.loadingStatus.arrayData, action: /Action.rocketListCell) { RocketListCellCore() }
