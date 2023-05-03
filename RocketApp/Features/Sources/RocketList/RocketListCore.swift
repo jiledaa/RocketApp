@@ -8,7 +8,7 @@ import RocketsClient
 
 public struct RocketListCore: ReducerProtocol {
   public struct State: Equatable {
-    var loadingStatus: Loadable<IdentifiedArrayOf<RocketListCellCore.State>, RocketsClientError> = .notRequested
+    var loadingStatus: Loadable<IdentifiedArrayOf<RocketListCellCore.State>, RocketsClientAsyncError> = .notRequested
 
     var route: Route?
 
@@ -84,12 +84,12 @@ public struct RocketListCore: ReducerProtocol {
           )
           return .none
 
-      case let .dataFetched(.failure(networkError as RocketsClientError)):
+      case let .dataFetched(.failure(networkError as RocketsClientAsyncError)):
         state.loadingStatus = .failure(networkError)
         return .none
 
-      case .dataFetched(.failure(_)):
-          return .none
+      default:
+        return .none
       }
     }
     .forEach(\.loadingStatus.arrayData, action: /Action.rocketListCell) { RocketListCellCore() }
@@ -98,7 +98,7 @@ public struct RocketListCore: ReducerProtocol {
 }
 
 // TODO: Make it generic and move to Loadable.
-extension Loadable<IdentifiedArrayOf<RocketListCellCore.State>, RocketsClientError> {
+extension Loadable<IdentifiedArrayOf<RocketListCellCore.State>, RocketsClientAsyncError> {
   var arrayData: IdentifiedArrayOf<RocketListCellCore.State> {
     get {
       switch self {

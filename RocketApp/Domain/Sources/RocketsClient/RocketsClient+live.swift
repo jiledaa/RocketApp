@@ -39,12 +39,16 @@ public extension RocketsClient {
     return Self(
       getRocket: { id in
         var data: RocketDetailDTO
-//        do {
+        do {
             data = try await Request(endpoint: URLs.baseURL + "/v3/rockets/\(id)")
               .execute(using: networkClientType)
-//        } catch {
-//            throw RocketsClientError.networkError
-//        }
+        } catch let error {
+          guard let networkError = error as? NetworkError else {
+            throw error
+          }
+
+          throw RocketsClientAsyncError.networkError(networkError)
+        }
 
         guard let result = rocketConverter.domainModel(fromExternal: data) else {
           throw RocketsClientError.modelConvertibleError
@@ -57,12 +61,16 @@ public extension RocketsClient {
         do {
           data = try await Request(endpoint: URLs.baseURL + "/v3/rockets/")
             .execute(using: networkClientType)
-        } catch {
-          throw RocketsClientError.networkError
+        } catch let error {
+          guard let networkError = error as? NetworkError else {
+            throw error
+          }
+
+          throw RocketsClientAsyncError.networkError(networkError)
         }
 
         guard let result = rocketsConverter.domainModel(fromExternal: data) else {
-          throw RocketsClientError.modelConvertibleError
+          throw RocketsClientAsyncError.modelConversionError
         }
 
         return result
