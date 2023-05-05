@@ -80,17 +80,12 @@ public struct RocketListView: View {
         .font(.headline)
         .padding(.bottom, 4)
 
-      Text("\(error.viewDescription)")
+      Text("\(error.userDescription)")
 
       Text("\(error.description)")
         .multilineTextAlignment(.leading)
         .padding()
 
-//      if let networkError = error.underlyingError?.causeDescription {
-//        Text("\(networkError)")
-//          .multilineTextAlignment(.leading)
-//          .padding(.horizontal)
-//      }
       Spacer()
     }
     .padding(.horizontal)

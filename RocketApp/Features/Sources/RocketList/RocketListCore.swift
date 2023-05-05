@@ -84,11 +84,8 @@ public struct RocketListCore: ReducerProtocol {
           )
           return .none
 
-      case let .dataFetched(.failure(networkError as RocketsClientAsyncError)):
-        state.loadingStatus = .failure(networkError)
-        return .none
-
-      default:
+      case let .dataFetched(.failure(error)):
+        state.loadingStatus = .failure(RocketsClientAsyncError(from: error))
         return .none
       }
     }

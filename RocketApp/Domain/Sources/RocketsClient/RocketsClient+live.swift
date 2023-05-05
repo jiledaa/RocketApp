@@ -38,35 +38,21 @@ public extension RocketsClient {
 
     return Self(
       getRocket: { id in
-        var data: RocketDetailDTO
-        do {
-            data = try await Request(endpoint: URLs.baseURL + "/v3/rockets/\(id)")
-              .execute(using: networkClientType)
-        } catch let error {
-          guard let networkError = error as? NetworkError else {
-            throw error
-          }
-
-          throw RocketsClientAsyncError.networkError(networkError)
+        let data: RocketDetailDTO = try await doAsync(mapError: RocketsClientAsyncError.mapNetworkError) {
+          try await Request(endpoint: URLs.baseURL + "/v3/rockets/\(id)")
+            .execute(using: networkClientType)
         }
 
         guard let result = rocketConverter.domainModel(fromExternal: data) else {
-          throw RocketsClientError.modelConvertibleError
+          throw RocketsClientAsyncError.modelConversionError
         }
 
         return result
       },
       getAllRockets: {
-        var data: [RocketDetailDTO]
-        do {
-          data = try await Request(endpoint: URLs.baseURL + "/v3/rockets/")
+        let data: [RocketDetailDTO] = try await doAsync(mapError: RocketsClientAsyncError.mapNetworkError) {
+          try await Request(endpoint: URLs.baseURL + "/v3/rockets/")
             .execute(using: networkClientType)
-        } catch let error {
-          guard let networkError = error as? NetworkError else {
-            throw error
-          }
-
-          throw RocketsClientAsyncError.networkError(networkError)
         }
 
         guard let result = rocketsConverter.domainModel(fromExternal: data) else {
