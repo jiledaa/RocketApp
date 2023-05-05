@@ -2,7 +2,7 @@ import Foundation
 import SwiftUI
 import UIToolkit
 
-public struct RocketDetail: Codable, Identifiable, Equatable {
+public struct RocketDetail: Identifiable, Equatable {
   public let id: String
   public let name: String
   public let overview: String
@@ -38,7 +38,7 @@ public struct RocketDetail: Codable, Identifiable, Equatable {
     self.photos = photos
   }
 
-  public struct LineMeasure: Codable, Equatable {
+  public struct LineMeasure: Equatable {
     public let meters: Float
     public let feet: Float
 
@@ -48,7 +48,7 @@ public struct RocketDetail: Codable, Identifiable, Equatable {
     }
   }
 
-  public struct WeightScale: Codable, Equatable {
+  public struct WeightScale: Equatable {
     public let kilograms: Float
     public let pounds: Float
 
@@ -58,7 +58,7 @@ public struct RocketDetail: Codable, Identifiable, Equatable {
     }
   }
 
-  public struct Stage: Codable, Equatable {
+  public struct Stage: Equatable {
     public let reusable: Bool
     public let engines: Int
     public let fuelMass: Float
@@ -70,44 +70,6 @@ public struct RocketDetail: Codable, Identifiable, Equatable {
       self.fuelMass = fuelMass
       self.burnTime = burnTime
     }
-  }
-}
-
-public extension RocketDetail {
-  enum CodingKeys: String, CodingKey {
-    case id = "rocket_id"
-    case name = "rocket_name"
-    case overview = "description"
-    case height
-    case diameter
-    case mass
-    case firstStage = "first_stage"
-    case secondStage = "second_stage"
-    case firstFlight = "first_flight"
-    case photos = "flickr_images"
-  }
-}
-
-public extension RocketDetail.LineMeasure {
-  enum CodingKeys: String, CodingKey {
-    case meters
-    case feet
-  }
-}
-
-public extension RocketDetail.WeightScale {
-  enum CodingKeys: String, CodingKey {
-    case kilograms = "kg"
-    case pounds = "lb"
-  }
-}
-
-extension RocketDetail.Stage {
-  enum CodingKeys: String, CodingKey {
-    case reusable
-    case engines
-    case fuelMass = "fuel_amount_tons"
-    case burnTime = "burn_time_sec"
   }
 }
 

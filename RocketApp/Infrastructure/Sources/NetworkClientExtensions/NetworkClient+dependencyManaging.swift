@@ -3,8 +3,8 @@ import Foundation
 import Networking
 
 enum NetworkClientKey: DependencyKey {
-  public static var liveValue: NetworkClientType = NetworkClient.liveValue
-  public static var testValue: NetworkClientType = NetworkClient.testValue
+  public static let liveValue: NetworkClientType = NetworkClient.live
+  public static let testValue: NetworkClientType = NetworkClient.test
 }
 
 public extension DependencyValues {

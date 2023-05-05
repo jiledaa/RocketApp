@@ -1,9 +1,8 @@
-import Dependencies
 import Foundation
 import Networking
 
-extension NetworkClient: DependencyKey {
-  public static let liveValue = Self(
+public extension NetworkClient {
+  static let live = Self(
     urlRequester: .live(urlSessionConfiguration: .default),
     networkMonitorClient: .live(onQueue: .main)
   )

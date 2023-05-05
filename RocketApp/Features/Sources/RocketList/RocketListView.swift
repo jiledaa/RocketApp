@@ -3,6 +3,7 @@ import CoreToolkit
 import NetworkClientExtensions
 import RocketDetail
 import RocketListCell
+import RocketsClient
 import SwiftUI
 import UIToolkit
 
@@ -11,7 +12,7 @@ public struct RocketListView: View {
   @ObservedObject var viewStore: ViewStore<ViewState, RocketListCore.Action>
 
   struct ViewState: Equatable {
-    var loadingStatus: Loadable<IdentifiedArrayOf<RocketListCellCore.State>, RocketNetworkError>
+    var loadingStatus: Loadable<IdentifiedArrayOf<RocketListCellCore.State>, RocketsClientError>
     var isRouteActive: Bool
 
     init(state: RocketListCore.State) {
@@ -66,22 +67,29 @@ public struct RocketListView: View {
   }
 
   @ViewBuilder
-  private func errorView(error: RocketNetworkError) -> some View {
+  private func errorView(error: RocketsClientError) -> some View {
     Group {
       Spacer()
 
       Image.error
         .resizable()
-        .frame(width: 32, height: 32)
-        .padding()
+        .frame(width: 88, height: 88)
+        .padding(.bottom)
 
       Text(.listError)
         .font(.headline)
+        .padding(.bottom, 4)
 
-      Text("\(error.description)")
+      Text("\(error.causeDescription)")
 
+      if let networkError = error.underlyingError?.causeDescription {
+        Text("\(networkError)")
+          .multilineTextAlignment(.leading)
+          .padding(.horizontal)
+      }
       Spacer()
     }
+    .padding(.horizontal)
     .foregroundColor(.red)
   }
 
