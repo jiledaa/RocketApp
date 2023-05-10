@@ -32,7 +32,7 @@ public struct RocketDetailView: View {
 
       self.firstStageItems =
       [
-        StageItem(image: .reusable, text: .reusable(rocketData.firstStage.reusable)),
+        StageItem(image: .reusable, text: rocketData.firstStage.reusable ? .reusable : .notReusable),
         StageItem(image: .engine, text: .engines(rocketData.firstStage.engines)),
         StageItem(image: .fuel, text: .tonsOfFuel(rocketData.firstStage.fuelMass)),
         rocketData.firstStage.burnTime.map { StageItem(image: .burn, text: .secondsBurnTime($0)) }
@@ -41,9 +41,9 @@ public struct RocketDetailView: View {
 
       self.secondStageItems =
       [
-        StageItem(image: .reusable, text: .reusable(rocketData.firstStage.reusable)),
-        StageItem(image: .engine, text: .engines(rocketData.firstStage.engines)),
-        StageItem(image: .fuel, text: .tonsOfFuel(rocketData.firstStage.fuelMass)),
+        StageItem(image: .reusable, text: rocketData.secondStage.reusable ? .reusable : .notReusable),
+        StageItem(image: .engine, text: .engines(rocketData.secondStage.engines)),
+        StageItem(image: .fuel, text: .tonsOfFuel(rocketData.secondStage.fuelMass)),
         rocketData.firstStage.burnTime.map { StageItem(image: .burn, text: .secondsBurnTime($0)) }
       ]
         .compactMap { $0 }
@@ -140,7 +140,12 @@ public struct RocketDetailView: View {
 
   private func paramWindow(type: RocketDetail.RocketParameters, backgroundColor: Color = .pink) -> some View {
     VStack(spacing: 4) {
-      Text(type.detail(rocketDetail: viewStore.rocketData, isUSMetrics: viewStore.isUSMetrics))
+      Text(
+        type.detail(
+          rocketDetail: viewStore.rocketData,
+          isUSMetrics: viewStore.isUSMetrics
+        )
+      )
         .font(.callout)
 
       Text(type.name)

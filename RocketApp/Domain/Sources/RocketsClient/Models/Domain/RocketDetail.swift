@@ -75,7 +75,7 @@ public struct RocketDetail: Identifiable, Equatable {
 
 // swiftlint:disable identifier_name
 public extension RocketDetail {
-  enum RocketParameters: String {
+  enum RocketParameters {
     case id
     case name
     case overview
@@ -85,44 +85,42 @@ public extension RocketDetail {
     case fuel_mass
     case first_stage
     case second_stage
-    case first_flight
+    case first_flight(String)
     case photos
     case reusable
     case not_reusable
-    case engines
-    case tons_of_fuel
-    case seconds_burn_time
+    case engines(Int)
+    case tons_of_fuel(Float)
+    case seconds_burn_time(Int)
 
     public var name: LocalizedStringKey {
       switch self {
-      case .name:
-        return self.rawValue.localizedStringKey
       case .overview:
-        return self.rawValue.localizedStringKey
+        return .overview
       case .height:
-        return self.rawValue.localizedStringKey
+        return .height
       case .diameter:
-        return self.rawValue.localizedStringKey
+        return .diameter
       case .mass:
-        return self.rawValue.localizedStringKey
+        return .mass
       case .first_stage:
-        return self.rawValue.localizedStringKey
+        return .firstStage
       case .second_stage:
-        return self.rawValue.localizedStringKey
-      case .first_flight:
-        return self.rawValue.localizedStringKey
+        return .secondStage
+      case let .first_flight(date):
+        return .firstFlight(date)
       case .photos:
-        return self.rawValue.localizedStringKey
+        return .photos
       case .reusable:
-        return self.rawValue.localizedStringKey
+        return .reusable
       case .not_reusable:
-        return self.rawValue.localizedStringKey
-      case .engines:
-        return self.rawValue.localizedStringKey
-      case .tons_of_fuel:
-        return self.rawValue.localizedStringKey
-      case .seconds_burn_time:
-        return self.rawValue.localizedStringKey
+        return .notReusable
+      case let .engines(count):
+        return .engines(count)
+      case let .tons_of_fuel(count):
+        return .tonsOfFuel(count)
+      case let .seconds_burn_time(count):
+        return .secondsBurnTime(count)
       default:
         return "Undefined"
       }

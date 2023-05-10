@@ -76,7 +76,7 @@ public struct RocketListView: View {
         .frame(width: 88, height: 88)
         .padding(.bottom)
 
-      Text(.listError)
+      Text(.error)
         .font(.headline)
         .padding(.bottom, 4)
 
