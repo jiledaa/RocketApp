@@ -38,10 +38,6 @@ final class RocketListTests: XCTestCase {
   }
 
   func test_flow_dataFetched_failure() async {
-//    store.dependencies.rocketsClient.getAllRockets = {
-//      Fail(error: RocketsClientError.modelConvertibleError)
-//        .eraseToAnyPublisher()
-//    }
     store.dependencies.rocketsClient.getAllRockets = { throw RocketsClientAsyncError.modelConversionError }
 
     store.dependencies.mainQueue = DispatchQueue.immediate.eraseToAnyScheduler()
