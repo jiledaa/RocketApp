@@ -7,21 +7,21 @@ import SwiftUI
 // MARK: - Image+
 
 public extension Image {
-    static let burn = Image("burn")
-    static let engine = Image("engine")
-    static let error = Image("error")
-    static let fuel = Image("fuel")
-    static let linkArrow = Image("link_arrow")
-    static let reusable = Image("reusable")
-    static let rocket = Image("rocket")
-    static let rocketFlying = Image("rocket_flying")
-    static let rocketIdle = Image("rocket_idle")
-    static let space = Image("space")
-    static let spaceError = Image("space_error")
+  static let burn = Image("burn")
+  static let engine = Image("engine")
+  static let error = Image("error")
+  static let fuel = Image("fuel")
+  static let linkArrow = Image("link_arrow")
+  static let reusable = Image("reusable")
+  static let rocket = Image("rocket")
+  static let rocketFlying = Image("rocket_flying")
+  static let rocketIdle = Image("rocket_idle")
+  static let space = Image("space")
+  static let spaceError = Image("space_error")
 }
 
 public extension Image {
-    init(_ name: String) {
-        self.init(name, bundle: .module)
-    }
+  init(_ name: String) {
+      self.init(name, bundle: .module)
+  }
 }
