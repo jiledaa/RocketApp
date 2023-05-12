@@ -1,6 +1,6 @@
 import Foundation
 
-func doAsync<Success: Decodable, TypedError: AsyncNetworkErrorMapable>(
+public func doAsync<Success: Decodable, TypedError: AsyncNetworkErrorMapable>(
   mapError: (Error) -> TypedError,
   body: () async throws -> Success
 ) async throws -> Success {

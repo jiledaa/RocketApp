@@ -24,6 +24,7 @@ let package = Package(
     .target(
       name: "RocketsClient",
       dependencies: [
+        .product(name: "CoreToolkit", package: "Infrastructure"),
         .product(name: "UIToolkit", package: "Infrastructure"),
         .product(name: "NetworkClientExtensions", package: "Infrastructure"),
         .product(name: "ErrorReporting", package: "swift-core"),
