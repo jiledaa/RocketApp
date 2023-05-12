@@ -70,6 +70,8 @@ public struct RocketListCore: ReducerProtocol {
         return .none
 
       case .fetchData:
+        state.loadingStatus = .loading
+
         return .task {
           await .dataFetched(TaskResult { try await rocketsClient.getAllRockets() })
         }
