@@ -15,12 +15,14 @@
 {# create variable for public access when parameter "publicAcces" in config file is set to "true" #}
 {% set accessModifier %}{% if param.publicAccess %}public {% endif %}{% endset %}
 {# Macro for removing literals %@ and %lld from strings #}
-{% macro removeLiterals string %}{{ string|replace:' %@',''|replace:' %lld','' }}{% endmacro %}
+{% macro removeLiterals string %}{{ string|replace:' %@',''|replace:' %lld',''|replace:' %f','' }}{% endmacro %}
 {# Macro for printing localization with parameters, so it write each parameters with corensponding type: %@ - String and %lld - Int #}
 {% macro parametersBlock types %}
     {%- for type in types -%}
     {%- if type == "String" -%}
     _ p{{ forloop.counter }}: String
+    {%- elif type == "Float" -%}
+    _ p{{ forloop.counter }}: Float
     {%- else -%}
     _ p{{ forloop.counter }}: {{type}}
     {%- endif -%}
@@ -48,7 +50,7 @@
     {% endif %}
     {% set currentAccessModifier %}{% if shouldHaveAccessModifier %}{{ accessModifier }}{% endif %}{% endset %}
     {% if string.types %}
-    {% set stringName %}{{ string.name|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords|replace:'Lld','' }}{% endset %}
+    {% set stringName %}{{ string.name|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords|replace:'Lld',''|replace:'F(','(' }}{% endset %}
     {# Print static func for localization with parameters #}
     {{ currentAccessModifier }}static func {{ stringName }}({% call parametersBlock string.types %}) -> LocalizedStringKey {
         {% if param.bundleModule %}

@@ -118,7 +118,7 @@ public extension RocketDetail {
       case let .engines(count):
         return .engines(count)
       case let .tons_of_fuel(count):
-        return .tonsOfFuel(count)
+        return .tonsOfFuelF(count)
       case let .seconds_burn_time(count):
         return .secondsBurnTime(count)
       default:

@@ -16,7 +16,7 @@
 "reusable" = "Obnovitelný";
 "not_reusable" = "Neobnovitelný";
 "engines %lld" = "%lld Motorů";
-"tons_of_fuel %llf" = "%.1lf Tun paliva";
+"tons_of_fuel %f" = "%f Tun paliva";
 "seconds_burn_time %lld" = "%lld Vteřin hoření";
 "photos" = "Fotogalerie";
 

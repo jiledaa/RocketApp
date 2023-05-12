@@ -16,7 +16,7 @@
 "reusable" = "Wiederverwenbar!";
 "not_reusable" = "Nicht wiedervervenbar!";
 "engines %lld" = "%lld Motoren!";
-"tons_of_fuel %llf" = "%.1lf Tonnen Kraftstoff!";
+"tons_of_fuel %f" = "%f Tonnen Kraftstoff!";
 "seconds_burn_time %lld" = "%lld Sekunden Brenndauer!";
 "photos" = "Die Fotogalerie!";
 

@@ -16,7 +16,7 @@
 "reusable" = "Reusable";
 "not_reusable" = "Not reusable";
 "engines %lld" = "%lld Engines";
-"tons_of_fuel %llf" = "%.1lf Tons of fuel";
+"tons_of_fuel %f" = "%f Tons of fuel";
 "seconds_burn_time %lld" = "%lld Seconds burn-time";
 "photos" = "Photos";
 

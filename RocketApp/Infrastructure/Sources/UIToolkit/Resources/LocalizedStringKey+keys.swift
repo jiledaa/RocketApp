@@ -55,10 +55,10 @@ public extension LocalizedStringKey {
     static func tiltToLaunch(_ p1: String) -> LocalizedStringKey {
         "tilt_to_launch %@".localizedStringKey(with: [p1])
     }     
-    /// %.1lf Tons of fuel
-    static func tonsOfFuel(_ param: Float) -> Self {
-      "tons_of_fuel %llf".localizedStringKey(with: [param])
-    }
+    /// %f Tons of fuel
+    static func tonsOfFuelF(_ p1: Float) -> LocalizedStringKey {
+        "tons_of_fuel %f".localizedStringKey(with: [p1])
+    }     
     /// US metrics
     static let usMetrics: LocalizedStringKey = "us_metrics".localizedStringKey
 }

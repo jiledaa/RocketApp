@@ -34,7 +34,7 @@ public struct RocketDetailView: View {
       [
         StageItem(image: .reusable, text: rocketData.firstStage.reusable ? .reusable : .notReusable),
         StageItem(image: .engine, text: .engines(rocketData.firstStage.engines)),
-        StageItem(image: .fuel, text: .tonsOfFuel(rocketData.firstStage.fuelMass)),
+        StageItem(image: .fuel, text: .tonsOfFuelF(rocketData.firstStage.fuelMass)),
         rocketData.firstStage.burnTime.map { StageItem(image: .burn, text: .secondsBurnTime($0)) }
       ]
         .compactMap { $0 }
@@ -43,7 +43,7 @@ public struct RocketDetailView: View {
       [
         StageItem(image: .reusable, text: rocketData.secondStage.reusable ? .reusable : .notReusable),
         StageItem(image: .engine, text: .engines(rocketData.secondStage.engines)),
-        StageItem(image: .fuel, text: .tonsOfFuel(rocketData.secondStage.fuelMass)),
+        StageItem(image: .fuel, text: .tonsOfFuelF(rocketData.secondStage.fuelMass)),
         rocketData.firstStage.burnTime.map { StageItem(image: .burn, text: .secondsBurnTime($0)) }
       ]
         .compactMap { $0 }
