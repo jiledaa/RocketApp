@@ -5,7 +5,7 @@ import RequestBuilder
 @testable import RocketsClient
 import XCTest
 
-final class RocketsClientReactErrorLiveTests: XCTestCase {
+final class RocketsClientCombineErrorLiveTests: XCTestCase {
   struct NetworkClientMock: NetworkClientType {
     var request: (_ urlRequest: URLRequest) -> AnyPublisher<(headers: [HTTPHeader], body: Data), NetworkError>
 

@@ -2,7 +2,7 @@ import ErrorReporting
 import Foundation
 import Networking
 
-public struct RocketsClientReactError: CombineErrorReporting {
+public struct RocketsClientCombineError: CombineErrorReporting {
   public var stackID: UUID
 
   public let cause: Cause
@@ -33,16 +33,16 @@ public struct RocketsClientReactError: CombineErrorReporting {
 
 // MARK: - Equatable conformance
 
-extension RocketsClientReactError: Equatable {
-  public static func == (lhs: RocketsClientReactError, rhs: RocketsClientReactError) -> Bool {
+extension RocketsClientCombineError: Equatable {
+  public static func == (lhs: RocketsClientCombineError, rhs: RocketsClientCombineError) -> Bool {
     lhs.isEqual(to: rhs)
   }
 }
 
 // MARK: - Conformance instances
 
-extension RocketsClientReactError: NetworkErrorCapable, ModelConvertibleErrorCapable, URLRequestBuilderErrorCapable {
-  public static var networkError: RocketsClientReactError { .init(cause: .networkError) }
-  public static var modelConvertibleError: RocketsClientReactError { .init(cause: .modelConversionError) }
-  public static var urlRequestBuilderError: RocketsClientReactError { .init(cause: .networkError) }
+extension RocketsClientCombineError: NetworkErrorCapable, ModelConvertibleErrorCapable, URLRequestBuilderErrorCapable {
+  public static var networkError: RocketsClientCombineError { .init(cause: .networkError) }
+  public static var modelConvertibleError: RocketsClientCombineError { .init(cause: .modelConversionError) }
+  public static var urlRequestBuilderError: RocketsClientCombineError { .init(cause: .networkError) }
 }

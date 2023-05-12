@@ -4,7 +4,7 @@ import Dependencies
 @testable import RocketsClient
 import XCTest
 
-final class RocketsClientLiveReactTests: XCTestCase {
+final class RocketsClientLiveCombineTests: XCTestCase {
   private func setNetworkClient(requester: URLRequester) -> NetworkClient {
       NetworkClient(
         urlRequester: requester,
@@ -44,7 +44,7 @@ final class RocketsClientLiveReactTests: XCTestCase {
       $0.networkClientType = setNetworkClient(requester: requesterMock)
     } operation: {
       do {
-        rocketData = try await RocketsClient.liveReact.getRocket("")
+        rocketData = try await RocketsClient.liveCombine.getRocket("")
       } catch let error {
         XCTFail("Unexpected failure. \(error)")
       }
@@ -63,9 +63,9 @@ final class RocketsClientLiveReactTests: XCTestCase {
       $0.networkClientType = setNetworkClient(requester: requesterMock)
     } operation: {
       do {
-        _ = try await RocketsClient.liveReact.getRocket("")
+        _ = try await RocketsClient.liveCombine.getRocket("")
       } catch let error {
-        guard error is RocketsClientReactError else {
+        guard error is RocketsClientCombineError else {
           XCTFail("Unexpected error type - \(error).")
           return
         }
@@ -95,7 +95,7 @@ final class RocketsClientLiveReactTests: XCTestCase {
 //      $0.networkClientType = setNetworkClient(requester: requesterMock)
 //    } operation: {
 //      do {
-//        rocketData = try await RocketsClient.liveReact.getAllRockets()
+//        rocketData = try await RocketsClient.liveCombine.getAllRockets()
 //      } catch let error {
 //        XCTFail("Unexpected failure. \(error)")
 //      }
@@ -116,9 +116,9 @@ final class RocketsClientLiveReactTests: XCTestCase {
       $0.networkClientType = setNetworkClient(requester: requesterMock)
     } operation: {
       do {
-        _ = try await RocketsClient.liveReact.getAllRockets()
+        _ = try await RocketsClient.liveCombine.getAllRockets()
       } catch let error {
-        guard error is RocketsClientReactError else {
+        guard error is RocketsClientCombineError else {
           XCTFail("Unexpected error type - \(error).")
           return
         }
