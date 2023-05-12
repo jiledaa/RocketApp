@@ -92,7 +92,6 @@
 			buildConfigurationList = 160CA43128A506E6004A274A /* Build configuration list for PBXNativeTarget "RocketApp" */;
 			buildPhases = (
 				1633583528D2275300FB316B /* SwiftLint */,
-				1659EF482A0E561F002B3FDE /* ShellScript */,
 				160CA40928A506E4004A274A /* Sources */,
 				160CA40A28A506E4004A274A /* Frameworks */,
 				160CA40B28A506E4004A274A /* Resources */,
@@ -179,23 +178,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
-		};
-		1659EF482A0E561F002B3FDE /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\ncd \"$SRCROOT/swiftgen\"\n/opt/homebrew/bin/swiftgen\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
