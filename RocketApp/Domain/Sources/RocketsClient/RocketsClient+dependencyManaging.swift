@@ -2,7 +2,7 @@ import Dependencies
 import Foundation
 
 enum RocketsClientKey: DependencyKey {
-  public static let liveValue: RocketsClient = .live
+  public static let liveValue: RocketsClient = .liveAsync
   #if DEBUG
   public static let testValue: RocketsClient = .test
   #endif

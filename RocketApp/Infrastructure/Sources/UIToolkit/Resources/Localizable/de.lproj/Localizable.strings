@@ -1,6 +1,6 @@
 // Rocket list
 "rockets" = "Die Raketen!";
-"first_flight" = "Der erste Flug!";
+"first_flight %@" = "Der erste Flug!: %@";
 "error" = "Cannot load data, cause:";
 
 // Rocket detail
@@ -15,13 +15,13 @@
 "second_stage" = "Die zweite Stuffe!";
 "reusable" = "Wiederverwenbar!";
 "not_reusable" = "Nicht wiedervervenbar!";
-"engines" = "Motoren!";
-"tons_of_fuel" = "Tonnen Kraftstoff!";
-"seconds_burn_time" = "Sekunden Brenndauer!";
+"engines %lld" = "%lld Motoren!";
+"tons_of_fuel %f" = "%f Tonnen Kraftstoff!";
+"seconds_burn_time %lld" = "%lld Sekunden Brenndauer!";
 "photos" = "Die Fotogalerie!";
 
 // Rocket launch
 "launch" = "Der Start!";
-"tilt %@" = "Verbleibende Meter bis zum Start %@";
+"tilt_to_launch %@" = "Verbleibende Meter bis zum Start %@";
 "launch_successful" = "Start erfolgreich!";
 "reset_launch" = "Raketenstart zurücksetzen";

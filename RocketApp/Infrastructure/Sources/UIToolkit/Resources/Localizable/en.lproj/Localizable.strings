@@ -16,12 +16,12 @@
 "reusable" = "Reusable";
 "not_reusable" = "Not reusable";
 "engines %lld" = "%lld Engines";
-"tons_of_fuel %lf" = "%.1lf Tons of fuel";
+"tons_of_fuel %f" = "%f Tons of fuel";
 "seconds_burn_time %lld" = "%lld Seconds burn-time";
 "photos" = "Photos";
 
 // Rocket launch
 "launch" = "Launch";
-"tilt %@" = "Meters remaining to launch %@:";
+"tilt_to_launch %@" = "Meters remaining to launch %@:";
 "launch_successful" = "Launch successful!";
 "reset_launch" = "Reset rocket launch";

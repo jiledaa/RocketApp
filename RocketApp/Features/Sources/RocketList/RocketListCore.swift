@@ -8,7 +8,7 @@ import RocketsClient
 
 public struct RocketListCore: ReducerProtocol {
   public struct State: Equatable {
-    var loadingStatus: Loadable<IdentifiedArrayOf<RocketListCellCore.State>, RocketsClientError> = .notRequested
+    var loadingStatus: Loadable<IdentifiedArrayOf<RocketListCellCore.State>, RocketsClientAsyncError> = .notRequested
 
     var route: Route?
 
@@ -40,7 +40,7 @@ public struct RocketListCore: ReducerProtocol {
     case setNavigation(isActive: Bool)
     case rocketDetail(RocketDetailCore.Action)
     case fetchData
-    case dataFetched(Result<[RocketDetail], RocketsClientError>)
+    case dataFetched(TaskResult<[RocketDetail]>)
   }
 
   public init() {}
@@ -70,28 +70,22 @@ public struct RocketListCore: ReducerProtocol {
         return .none
 
       case .fetchData:
-        enum RocketDataFetching: Hashable {}
-
-        state.loadingStatus = .loading
-
-        return rocketsClient.getAllRockets()
-          .receive(on: mainQueue)
-          .catchToEffect(RocketListCore.Action.dataFetched)
-          .cancellable(id: RocketDataFetching.self, cancelInFlight: true)
+        return .task {
+          await .dataFetched(TaskResult { try await rocketsClient.getAllRockets() })
+        }
 
       case let .dataFetched(.success(rocketsData)):
-        state.loadingStatus = .success(
-          IdentifiedArrayOf(
-            uniqueElements: rocketsData.map {
-              RocketListCellCore.State(rocketData: $0)
-            }
+          state.loadingStatus = .success(
+            IdentifiedArrayOf(
+              uniqueElements: rocketsData.map {
+                RocketListCellCore.State(rocketData: $0)
+              }
+            )
           )
-        )
+          return .none
 
-        return .none
-
-      case let .dataFetched(.failure(networkError)):
-        state.loadingStatus = .failure(networkError)
+      case let .dataFetched(.failure(error)):
+        state.loadingStatus = .failure(RocketsClientAsyncError(from: error))
         return .none
       }
     }
@@ -101,7 +95,7 @@ public struct RocketListCore: ReducerProtocol {
 }
 
 // TODO: Make it generic and move to Loadable.
-extension Loadable<IdentifiedArrayOf<RocketListCellCore.State>, RocketsClientError> {
+extension Loadable<IdentifiedArrayOf<RocketListCellCore.State>, RocketsClientAsyncError> {
   var arrayData: IdentifiedArrayOf<RocketListCellCore.State> {
     get {
       switch self {

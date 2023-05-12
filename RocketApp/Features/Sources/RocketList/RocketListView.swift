@@ -12,7 +12,7 @@ public struct RocketListView: View {
   @ObservedObject var viewStore: ViewStore<ViewState, RocketListCore.Action>
 
   struct ViewState: Equatable {
-    var loadingStatus: Loadable<IdentifiedArrayOf<RocketListCellCore.State>, RocketsClientError>
+    var loadingStatus: Loadable<IdentifiedArrayOf<RocketListCellCore.State>, RocketsClientAsyncError>
     var isRouteActive: Bool
 
     init(state: RocketListCore.State) {
@@ -67,7 +67,7 @@ public struct RocketListView: View {
   }
 
   @ViewBuilder
-  private func errorView(error: RocketsClientError) -> some View {
+  private func errorView(error: RocketsClientAsyncError) -> some View {
     Group {
       Spacer()
 
@@ -76,17 +76,16 @@ public struct RocketListView: View {
         .frame(width: 88, height: 88)
         .padding(.bottom)
 
-      Text(.listError)
+      Text(.error)
         .font(.headline)
         .padding(.bottom, 4)
 
-      Text("\(error.causeDescription)")
+      Text("\(error.userDescription)")
 
-      if let networkError = error.underlyingError?.causeDescription {
-        Text("\(networkError)")
-          .multilineTextAlignment(.leading)
-          .padding(.horizontal)
-      }
+      Text("\(error.description)")
+        .multilineTextAlignment(.leading)
+        .padding()
+
       Spacer()
     }
     .padding(.horizontal)
