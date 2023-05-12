@@ -25,38 +25,27 @@ final class RocketListTests: XCTestCase {
     }
   }
 
-  func test_flow_dataFetched_success() {
-    store.dependencies.rocketsClient.getAllRockets = {
-      Just([RocketDetail.mock])
-        .setFailureType(to: RocketsClientError.self)
-        .eraseToAnyPublisher()
-    }
+  func test_flow_dataFetched_success() async {
+    store.dependencies.rocketsClient.getAllRockets = { [RocketDetail.mock] }
 
     store.dependencies.mainQueue = .immediate
 
-    store.send(.fetchData) {
-      $0.loadingStatus = .loading
-    }
+    await store.send(.fetchData) { $0.loadingStatus = .loading }
 
-    store.receive(.dataFetched(.success([RocketDetail.mock]))) {
+    await store.receive(.dataFetched(.success([RocketDetail.mock]))) {
       $0.loadingStatus = .success(.init(arrayLiteral: .init(rocketData: RocketDetail.mock)))
     }
   }
 
-  func test_flow_dataFetched_failure() {
-    store.dependencies.rocketsClient.getAllRockets = {
-      Fail(error: RocketsClientError.modelConvertibleError)
-        .eraseToAnyPublisher()
-    }
+  func test_flow_dataFetched_failure() async {
+    store.dependencies.rocketsClient.getAllRockets = { throw RocketsClientAsyncError.modelConversionError }
 
     store.dependencies.mainQueue = DispatchQueue.immediate.eraseToAnyScheduler()
 
-    store.send(.fetchData) {
-      $0.loadingStatus = .loading
-    }
+    await store.send(.fetchData) { $0.loadingStatus = .loading }
 
-    store.receive(.dataFetched(.failure(RocketsClientError.modelConvertibleError))) {
-      $0.loadingStatus = .failure(RocketsClientError.modelConvertibleError)
+    await store.receive(.dataFetched(.failure(RocketsClientAsyncError.modelConversionError))) {
+      $0.loadingStatus = .failure(RocketsClientAsyncError.modelConversionError)
     }
   }
 }

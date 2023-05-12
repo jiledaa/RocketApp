@@ -3,7 +3,7 @@ import ErrorReporting
 import Foundation
 import Networking
 
-public enum RocketsClientAsyncError: Error, Equatable, CustomDebugStringConvertible {
+public enum RocketsClientAsyncError: ErrorReporting {
   public var debugDescription: String { description }
 
   case networkError(NetworkError)
@@ -13,7 +13,7 @@ public enum RocketsClientAsyncError: Error, Equatable, CustomDebugStringConverti
   public var description: String {
     switch self {
     case let .networkError(error):
-      return "network error \(error)"
+      return "network error \(error.cause.description)"
     case .modelConversionError:
       return "model conversion error"
     case .undefinedError:
